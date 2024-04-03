@@ -18,22 +18,18 @@ public class Interface extends Application {
 
         // Create an enemy object and an image view
         Enemy enemy = new Enemy();
-        ImageView imageView = new ImageView(enemy.characterImage());
+        ImageView imageView1 = new ImageView(enemy.characterImage());
 
-        Image image = new Image("file:src/main/resources/bg.png"); // Replace with your image path
-        BackgroundImage backgroundImage = new BackgroundImage(image,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT);
+        Image background = new Image("file:src/main/resources/bg.png"); // Replace with your image path
+        ImageView imageView2 = new ImageView(background);
 
 // Setting the background image
-        root.setBackground(new Background(backgroundImage));
+        root.getChildren().add(imageView1);
 
-        root.getChildren().add(imageView);
+        root.getChildren().add(imageView2);
 
         // Create a scene with the root pane, specifying its width and height
-        Scene scene = new Scene(root, 1000, 1000); // Width: 1000, Height: 1000
+        Scene scene = new Scene(root, 640, 440); // Width: 1000, Height: 1000
 
         primaryStage.setScene(scene);
         //Empêche de rendimentionner la fenêtre
