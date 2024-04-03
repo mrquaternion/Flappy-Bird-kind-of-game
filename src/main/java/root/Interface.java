@@ -4,11 +4,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.layout.*;
 
 import character.Enemy;
-import character.collision.ImageBounds;
 
 public class Interface extends Application {
     @Override
@@ -18,15 +15,15 @@ public class Interface extends Application {
 
         // Create an enemy object and an image view
         Enemy enemy = new Enemy();
-        ImageView imageView1 = new ImageView(enemy.characterImage());
+        ImageView imageViewEnemy = new ImageView(enemy.characterImage());
 
+        // Add the background image to the root pane
         Image background = new Image("file:src/main/resources/bg.png"); // Replace with your image path
-        ImageView imageView2 = new ImageView(background);
+        ImageView imageViewBackground = new ImageView(background);
 
-// Setting the background image
-        root.getChildren().add(imageView1);
-
-        root.getChildren().add(imageView2);
+        // Setting the background image and the enemy image to the root pane
+        root.getChildren().add(imageViewEnemy);
+        root.getChildren().add(imageViewBackground);
 
         // Create a scene with the root pane, specifying its width and height
         Scene scene = new Scene(root, 640, 440); // Width: 1000, Height: 1000
