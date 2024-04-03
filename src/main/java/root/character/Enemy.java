@@ -15,6 +15,6 @@ public class Enemy implements Character {
 
     @Override
     public Image characterImage() {
-        return new Image("file:src/main/resources/coin.png");
+        return new Image("file:src/main/resources/luffysprite.png");
     }
 }

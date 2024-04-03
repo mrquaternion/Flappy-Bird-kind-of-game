@@ -19,9 +19,6 @@ public class Interface extends Application {
         Enemy enemy = new Enemy();
         ImageView imageView = new ImageView(enemy.characterImage());
 
-        // Create a rectangle object and add to pane
-        Rectangle rectangle = ImageBounds.imageBoundsCalculator(enemy.characterImage());
-        root.getChildren().add(rectangle);
         root.getChildren().add(imageView);
 
         // Create a scene with the root pane, specifying its width and height
