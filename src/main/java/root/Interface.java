@@ -7,9 +7,14 @@ import javafx.stage.Stage;
 
 import character.Enemy;
 import character.physics.Gravity;
+import javafx.animation.AnimationTimer;
+import java.util.Random;
+import java.util.random.RandomGenerator;
 import character.physics.ScrollingBackground;
 
 public class Interface extends Application {
+    private double backgroundWidth;
+    private double backgroundWidth_2 = 640;
     @Override
     public void start(Stage primaryStage) {
         // Créer un root
@@ -17,11 +22,27 @@ public class Interface extends Application {
 
         // Créer un background et ajuster sa taille et sa position
         Image background = new Image("file:src/main/resources/bg.png");
+        ImageView imageViewBackground = new ImageView(background);
+        imageViewBackground.setFitHeight(400);
+
+
+        Image background_2 = new Image("file:src/main/resources/bg.png");
         ImageView imageViewBackground_1 = new ImageView(background);
         ImageView imageViewBackground_2 = new ImageView(background);
+        imageViewBackground_2.setFitHeight(400);
+
+        // Add the coin image to the root pane
+        Image coin = new Image("file:/Users/tomstanic/IdeaProjects/TP2/src/main/resources/coin.png");
+        ImageView imageViewCoin = new ImageView(coin);
+
+
+        //creé un objet random pour afficher les pièces de manière aléatoire
+        Random random = new Random();
 
         // Créer un ennemi et ajuster sa taille et sa position
         Enemy enemy = new Enemy();
+
+        // Add the enemy image to the root pane
         Image imageEnemy = enemy.characterImage();
         ImageView imageViewEnemy = new ImageView(imageEnemy);
         imageViewEnemy.setFitWidth(imageEnemy.getWidth() * 0.45);
@@ -30,9 +51,10 @@ public class Interface extends Application {
         imageViewEnemy.setY(315);
         imageViewEnemy.setX(50);
 
-        // Ajouter les images au root
-        root.getChildren().add(imageViewBackground_1);
+        // Setting the background image and the enemy image to the root pane
+        root.getChildren().add(imageViewBackground);
         root.getChildren().add(imageViewBackground_2);
+        root.getChildren().add(imageViewCoin);
         root.getChildren().add(imageViewEnemy);
 
         // Creér la scène
@@ -53,7 +75,6 @@ public class Interface extends Application {
         ScrollingBackground scrollingBackground = new ScrollingBackground();
         scrollingBackground.scroll(imageViewBackground_1, imageViewBackground_2);
     }
-
     public static void main(String[] args) {
         launch(args);
     }
