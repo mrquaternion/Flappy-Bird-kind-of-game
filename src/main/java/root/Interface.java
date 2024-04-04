@@ -106,6 +106,7 @@ public class Interface extends Application {
 
         // Afficher la fenêtre
         primaryStage.show();
+
     }
     public static void main(String[] args) {
         launch(args);
