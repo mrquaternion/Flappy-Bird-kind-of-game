@@ -3,40 +3,45 @@ package character.physics;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 
 public class Gravity {
-    private static final double GRAVITY = 0.4;
-    private double velocity = 0;
+    private static final double GRAVITY = 500; // Gravity acceleration pixels per second squared
+    private double velocity = 0; // Y velocity of the character
     private boolean jumping = false;
 
-    public void applyGravity(Scene scene, ImageView imageView) {
+    public void applyGravity(Scene scene, ImageView imageViewEnemy) {
         scene.setOnKeyPressed(event -> {
-            switch (event.getCode()) {
-                case SPACE:
-                    if (!jumping) {
-                        velocity = -12;
-                        jumping = true;
-                    }
-                    break;
-                default:
-                    break;
+            if (event.getCode() == KeyCode.SPACE && !jumping) {
+                velocity = -300; // Set velocity to 300 pixels per second upwards
+                jumping = true;
             }
         });
 
-        AnimationTimer timer = new AnimationTimer() {
+        new AnimationTimer() {
+            private long lastUpdateTime = 0;
+
             @Override
             public void handle(long now) {
-                velocity += GRAVITY;
-                imageView.setY(imageView.getY() + velocity);
+                if (lastUpdateTime == 0) {
+                    lastUpdateTime = now;
+                    return;
+                }
 
-                if (imageView.getY() > 315) {
+                double elapsedTimeInSeconds = (now - lastUpdateTime) / 1e9; // Convert nanoseconds to seconds
+                velocity += GRAVITY * elapsedTimeInSeconds; // Apply gravity
+                double newY = imageViewEnemy.getY() + velocity * elapsedTimeInSeconds;
+
+                // Check if the character has landed (assuming 315 is the ground position)
+                if (newY > 315) {
+                    newY = 315;
                     velocity = 0;
-                    imageView.setY(315);
                     jumping = false;
                 }
-            }
-        };
 
-        timer.start();
+                imageViewEnemy.setY(newY);
+                lastUpdateTime = now;
+            }
+        }.start();
     }
 }

@@ -21,20 +21,13 @@ public class Interface extends Application {
         Image background = new Image("file:src/main/resources/bg.png");
         ImageView imageViewBackground = new ImageView(background);
 
-        // Create an enemy object and an image view
-        Enemy enemy = new Enemy();
 
-
-        // Add the background image to the root pane
-        Image background = new Image("file:/Users/tomstanic/IdeaProjects/TP2/src/main/resources/bg.png");
-        ImageView imageViewBackground = new ImageView(background);
-
-
-        Image background_2 = new Image("file:/Users/tomstanic/IdeaProjects/TP2/src/main/resources/bg.png");
+        Image background_2 = new Image("file:src/main/resources/bg.png");
         ImageView imageViewBackground_2 = new ImageView(background);
 
 
-
+        // Create an enemy object and an image view
+        Enemy enemy = new Enemy();
         // Add the enemy image to the root pane
         Image imageEnemy = enemy.characterImage();
         ImageView imageViewEnemy = new ImageView(imageEnemy);
@@ -69,31 +62,20 @@ public class Interface extends Application {
             public void handle(long now) {
                 // Mise à jour de la position de backgroundWidth et imageViewBackgroun
                 backgroundWidth = imageViewBackground.getLayoutX();
-                backgroundWidth -= 1;
+                backgroundWidth -= 2;
                 imageViewBackground.setLayoutX(backgroundWidth);
                 if (backgroundWidth == -640.0) {
                     imageViewBackground.setLayoutX(640);
                 }
 
                 // Mise à jour pour le deuxième background
-                backgroundWidth_2 -= 1;
+                backgroundWidth_2 -= 2;
                 imageViewBackground_2.setLayoutX(backgroundWidth_2);
                 if (backgroundWidth_2 == -640.0) {
                     backgroundWidth_2 = 640;
                 }
             }
         }.start();
-
-
-
-
-
-
-
-
-
-
-
     }
 
     public static void main(String[] args) {
