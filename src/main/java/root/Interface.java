@@ -49,7 +49,7 @@ public class Interface extends Application {
 
         // Ajouter une pièce de monnaie toutes les 3 secondes
         CoinSpawnRate coinSpawnRate = new CoinSpawnRate();
-        coinSpawnRate.spawnCoin(imageViewCoin, scene);
+        coinSpawnRate.spawnCoin(imageViewCoin);
 
         // Appliquer la gravité à l'ennemi
         Gravity gravity = new Gravity();
