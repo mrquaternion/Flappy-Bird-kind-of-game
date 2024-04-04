@@ -7,6 +7,8 @@ import javafx.stage.Stage;
 import javax.swing.Timer;
 import character.Enemy;
 import javafx.animation.AnimationTimer;
+import java.util.Random;
+import java.util.random.RandomGenerator;
 
 public class Interface extends Application {
     private double backgroundWidth;
@@ -23,12 +25,19 @@ public class Interface extends Application {
         // Add the background image to the root pane
         Image background = new Image("file:/Users/tomstanic/IdeaProjects/TP2/src/main/resources/bg.png");
         ImageView imageViewBackground = new ImageView(background);
+        imageViewBackground.setFitHeight(400);
 
 
         Image background_2 = new Image("file:/Users/tomstanic/IdeaProjects/TP2/src/main/resources/bg.png");
         ImageView imageViewBackground_2 = new ImageView(background);
+        imageViewBackground_2.setFitHeight(400);
 
+        // Add the coin image to the root pane
+        Image coin = new Image("file:/Users/tomstanic/IdeaProjects/TP2/src/main/resources/coin.png");
+        ImageView imageViewCoin = new ImageView(coin);
 
+        //creé un objet random pour afficher les pièces de manière aléatoire
+        Random random = new Random();
 
         // Add the enemy image to the root pane
         Image imageEnemy = enemy.characterImage();
@@ -41,7 +50,9 @@ public class Interface extends Application {
         // Setting the background image and the enemy image to the root pane
         root.getChildren().add(imageViewBackground);
         root.getChildren().add(imageViewBackground_2);
+        root.getChildren().add(imageViewCoin);
         root.getChildren().add(imageViewEnemy);
+
 
 
         // Create a scene with the root pane, specifying its width and height
@@ -75,19 +86,7 @@ public class Interface extends Application {
                 }
             }
         }.start();
-
-
-
-
-
-
-
-
-
-
-
     }
-
     public static void main(String[] args) {
         // Launch the JavaFX application
         launch(args);
