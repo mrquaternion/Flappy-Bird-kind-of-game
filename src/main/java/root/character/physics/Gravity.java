@@ -6,14 +6,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 
 public class Gravity {
-    private static final double GRAVITY = 500; // Gravity acceleration pixels per second squared
-    private double velocity = 0; // Y velocity of the character
+    private static final double GRAVITY = 500;
+    private static final double JUMP_VELOCITY = -300;
+    private double velocity = 0;
     private boolean jumping = false;
 
     public void applyGravity(Scene scene, ImageView imageViewEnemy) {
-        scene.setOnKeyPressed(event -> {
+        // Laisser le personnage sauter avec la touche espace
+        scene.setOnKeyPressed((event) -> {
             if (event.getCode() == KeyCode.SPACE && !jumping) {
-                velocity = -300; // Set velocity to 300 pixels per second upwards
+                velocity = JUMP_VELOCITY;
                 jumping = true;
             }
         });
@@ -28,17 +30,21 @@ public class Gravity {
                     return;
                 }
 
-                double elapsedTimeInSeconds = (now - lastUpdateTime) / 1e9; // Convert nanoseconds to seconds
-                velocity += GRAVITY * elapsedTimeInSeconds; // Apply gravity
-                double newY = imageViewEnemy.getY() + velocity * elapsedTimeInSeconds;
+                // Calcul le temps entre le frame actuel et le frame précédent
+                double deltaTime = (now - lastUpdateTime) / 1e9;
 
-                // Check if the character has landed (assuming 315 is the ground position)
+                // Calcul de la nouvelle vitesse et la nouvelle position du personnage
+                velocity += GRAVITY * deltaTime;
+                double newY = imageViewEnemy.getY() + velocity * deltaTime;
+
+                // Regarder si le personnage est au sol (Y = 315)
                 if (newY > 315) {
                     newY = 315;
                     velocity = 0;
                     jumping = false;
                 }
 
+                // Met à jour la position du personnage
                 imageViewEnemy.setY(newY);
                 lastUpdateTime = now;
             }
