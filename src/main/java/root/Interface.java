@@ -13,27 +13,28 @@ public class Interface extends Application {
         // Create the root pane
         Pane root = new Pane();
 
-        // Create an enemy object and an image view
-        Enemy enemy = new Enemy();
-        ImageView imageViewEnemy = new ImageView(enemy.characterImage());
-
-        // Add the background image to the root pane
-        Image background = new Image("file:src/main/resources/bg.png"); // Replace with your image path
+        // Create a background object and an image view
+        Image background = new Image("file:src/main/resources/bg.png");
         ImageView imageViewBackground = new ImageView(background);
 
+        // Create an enemy object and an image view
+        Enemy enemy = new Enemy();
+        Image imageEnemy = enemy.characterImage();
+        ImageView imageViewEnemy = new ImageView(imageEnemy);
+        imageViewEnemy.setFitWidth(imageEnemy.getWidth() * 0.45);
+        imageViewEnemy.setFitHeight(imageEnemy.getHeight() * 0.45);
+        imageViewEnemy.setPreserveRatio(true);
+
         // Setting the background image and the enemy image to the root pane
-        root.getChildren().add(imageViewEnemy);
         root.getChildren().add(imageViewBackground);
+        root.getChildren().add(imageViewEnemy);
 
         // Create a scene with the root pane, specifying its width and height
         Scene scene = new Scene(root, 640, 440); // Width: 1000, Height: 1000
 
+        // Parameters of the primary stage (scene)
         primaryStage.setScene(scene);
-        //Empêche de rendimentionner la fenêtre
         primaryStage.setResizable(false);
-
-        // Set the title of the window (optional)mes
-        primaryStage.setTitle("Simple JavaFX Window");
 
         // Show the primary stage
         primaryStage.show();
