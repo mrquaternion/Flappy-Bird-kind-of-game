@@ -11,7 +11,7 @@ public class Enemy extends Character {
         y = 315;
         width = 394;
         height = 211;
-        characterImage[0] = new Image("file:/Users/tomstanic/IdeaProjects/TP2/src/main/resources/luffysprite.png");
+        characterImage[0] = new Image("file:src/main/resources/luffysprite.png");
     }
     @Override
     public Image characterImage() {

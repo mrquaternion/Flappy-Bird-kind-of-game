@@ -14,7 +14,7 @@ public class Background {
             public void handle(long now) {
                 // Mise à jour de la position de backgroundWidth et imageViewBackground
                 backgroundWidth_1 = imageViewBackground_1.getLayoutX();
-                backgroundWidth_1 -= 4;
+                backgroundWidth_1 -= 2;
                 imageViewBackground_1.setLayoutX(backgroundWidth_1);
                 if (backgroundWidth_1 <= -640.0) {
                     imageViewBackground_1.setLayoutX(640);
@@ -22,7 +22,7 @@ public class Background {
                 }
 
                 // Mise à jour pour le deuxième background
-                backgroundWidth_2 -= 4;
+                backgroundWidth_2 -= 2;
                 imageViewBackground_2.setLayoutX(backgroundWidth_2);
                 if (backgroundWidth_2 <= -640.0) {
                     backgroundWidth_2 = 640;
