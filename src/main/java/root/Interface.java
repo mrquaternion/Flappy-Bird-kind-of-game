@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import character.Enemy;
 import character.physics.Gravity;
 import character.item.*;
-import character.physics.ScrollingBackground;
+import character.physics.Background;
 
 
 public class Interface extends Application {
@@ -31,12 +31,8 @@ public class Interface extends Application {
         // Créer un ennemi et ajuster sa taille et sa position
         Enemy enemy = new Enemy();
         Image imageEnemy = enemy.characterImage();
-        ImageView imageViewEnemy = new ImageView(imageEnemy);
-        imageViewEnemy.setFitWidth(imageEnemy.getWidth() * 0.45);
-        imageViewEnemy.setFitHeight(imageEnemy.getHeight() * 0.45);
-        imageViewEnemy.setPreserveRatio(true);
-        imageViewEnemy.setY(315);
-        imageViewEnemy.setX(50);
+
+        ImageView imageViewEnemy = enemy.setImageView();
 
         // Ajouter les images au root
         root.getChildren().add(imageViewBackground_1);
@@ -63,7 +59,7 @@ public class Interface extends Application {
         primaryStage.show();
 
         // Créer un objet ScrollingBackground
-        ScrollingBackground scrollingBackground = new ScrollingBackground();
+        Background scrollingBackground = new Background();
         scrollingBackground.scroll(imageViewBackground_1, imageViewBackground_2);
     }
     public static void main(String[] args) {

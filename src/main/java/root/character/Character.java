@@ -1,10 +1,23 @@
 package character;
-
 import javafx.scene.image.Image;
+public abstract class Character {
 
-public interface Character {
+    protected int x;
+    protected int y;
+    protected int width;
+    protected int height;
+    protected boolean healthStatus = true;
 
-    void attack(Character target);
+    public void die() {
+        System.out.println("The character dies.");
+    }
 
-    Image characterImage();
+    public abstract Image characterImage();
 }
+
+
+
+
+
+
+

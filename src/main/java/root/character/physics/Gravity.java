@@ -22,6 +22,7 @@ public class Gravity {
 
         new AnimationTimer() {
             private long lastUpdateTime = 0;
+            private int test = 0;
 
             @Override
             public void handle(long now) {
@@ -40,9 +41,17 @@ public class Gravity {
                 // Regarder si le personnage est au sol (Y = 315)
                 if (newY > 315) {
                     newY = 315;
-                    velocity = 0;
-                    jumping = false;
+
                 }
+
+                if (jumping){
+                    test++;
+                }
+                if (test == 20){
+                    jumping = false;
+                    test = 0;
+                }
+
 
                 // Met à jour la position du personnage
                 imageViewEnemy.setY(newY);
