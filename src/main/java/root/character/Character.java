@@ -6,7 +6,7 @@ public abstract class Character {
     protected int y;
     protected int width;
     protected int height;
-    protected boolean healthStatus = true;
+    protected int healthStatus;
 
     public void die() {
         System.out.println("The character dies.");

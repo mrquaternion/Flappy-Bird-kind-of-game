@@ -36,12 +36,15 @@ public class Gravity {
 
                 // Calcul de la nouvelle vitesse et la nouvelle position du personnage
                 velocity += GRAVITY * deltaTime;
+                if (velocity > 300) {
+                    System.out. println(velocity);
+                    velocity = 300;
+                }
                 double newY = imageViewEnemy.getY() + velocity * deltaTime;
 
                 // Regarder si le personnage est au sol (Y = 315)
                 if (newY > 315) {
-                    newY = 315;
-
+                    velocity = JUMP_VELOCITY;
                 }
 
                 if (jumping){
@@ -52,7 +55,9 @@ public class Gravity {
                     test = 0;
                 }
 
-
+                if (newY < 0){
+                    velocity = -JUMP_VELOCITY;
+                }
                 // Met à jour la position du personnage
                 imageViewEnemy.setY(newY);
                 lastUpdateTime = now;
