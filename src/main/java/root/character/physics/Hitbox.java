@@ -1,4 +1,4 @@
-package character.collision;
+package character.physics;
 
 import javafx.scene.shape.Rectangle;
 
