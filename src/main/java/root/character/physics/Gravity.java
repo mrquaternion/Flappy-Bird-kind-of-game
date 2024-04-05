@@ -12,9 +12,9 @@ public class Gravity {
     private boolean jumping = false;
     private boolean isGravity = true;
 
-    public void applyGravity(Scene scene, ImageView imageViewEnemy) {
+    /*public void applyGravity(Scene scene, ImageView imageViewEnemy) {
 
-        // Laisser le personnage sauter avec la touche espace
+        // Laisser le personnage sauter avec la touche W
         scene.setOnKeyPressed((event) -> {
             if (event.getCode() == KeyCode.W && !jumping) {
                 velocity = JUMP_VELOCITY;
@@ -73,7 +73,9 @@ public class Gravity {
             }
         };
         animationTimer.start();
-    }
+    } */
+
+
     public void disableGravity() {
         isGravity = false;
         System.out.println(isGravity);

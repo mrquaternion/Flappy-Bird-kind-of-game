@@ -8,9 +8,15 @@ import character.physics.Hitbox;
 
 public class Enemy extends Character {
     Image[] characterImage = new Image[3];
-    ImageView imageViewEnemy;
+    ImageView imageView;
     Hitbox hitbox = new Hitbox();
     private int pickupCoin = 0;
+    double vy = 0;
+    double newY = 0;
+    public static final double GRAVITY = 500;
+    public static final double JUMP_VELOCITY = 300;
+    public boolean jumpingStatus = false;
+
 
     // -------------- Constructor --------------
     public Enemy(){
@@ -26,7 +32,7 @@ public class Enemy extends Character {
     public int getX() { return x; }
     public int getY() { return y; }
     public ImageView getImageView() {
-        return imageViewEnemy;
+        return imageView;
     }
     public Image getImage() { return characterImage[0]; }
     public int getPickupCoin() { return pickupCoin; }
@@ -38,13 +44,13 @@ public class Enemy extends Character {
 
     // -------------- Setters --------------
     public void setImageView(){
-        ImageView imageViewEnemy = new ImageView(characterImage[0]);
-        imageViewEnemy.setFitWidth(characterImage[0].getWidth() * 0.45);
-        imageViewEnemy.setFitHeight(characterImage[0].getHeight() * 0.45);
-        imageViewEnemy.setPreserveRatio(true);
-        imageViewEnemy.setY(y);
-        imageViewEnemy.setX(x);
-        this.imageViewEnemy = imageViewEnemy;
+        ImageView imageView = new ImageView(characterImage[0]);
+        imageView.setFitWidth(characterImage[0].getWidth() * 0.45);
+        imageView.setFitHeight(characterImage[0].getHeight() * 0.45);
+        imageView.setPreserveRatio(true);
+        imageView.setY(y);
+        imageView.setX(x);
+        this.imageView = imageView;
     }
 
     // -------------- Methods --------------
@@ -58,10 +64,32 @@ public class Enemy extends Character {
     }
 
     public void setHitbox() {
-        hitbox.setX(imageViewEnemy.getX());
-        hitbox.setY(imageViewEnemy.getY());
-        hitbox.setWidth(imageViewEnemy.getFitWidth());
-        hitbox.setHeight(imageViewEnemy.getFitHeight());
+        hitbox.setX(imageView.getX());
+        hitbox.setY(imageView.getY());
+        hitbox.setWidth(imageView.getFitWidth());
+        hitbox.setHeight(imageView.getFitHeight());
+    }
+
+    public void notJumping() {
+        // L'ennemi ne saute pas alors il bounce
+        vy = JUMP_VELOCITY;
+        jumpingStatus = true;
+    }
+
+    public void updatePosition(double dt) {
+        // Calcul de la nouvelle vitesse et la nouvelle position de l'ennemi
+        vy += GRAVITY * dt;
+        newY = imageView.getY() + (vy * dt);
+
+        // On update la position de l'ennemi
+        imageView.setY(newY);
+
+        // On vérifie si l'ennemi est au sol
+        if (imageView.getY() > 315) {
+            vy = JUMP_VELOCITY;
+        } else if (newY < 0) {
+            vy = -JUMP_VELOCITY;
+        }
     }
 }
 
