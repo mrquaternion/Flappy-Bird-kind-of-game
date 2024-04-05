@@ -78,6 +78,7 @@ public class Interface extends Application {
                     lastTime = now;
                     return;
                 }
+                enemy.couldownJump();
                 enemy.updatePosition(deltaTime);
                 lastTime = now;
             }
@@ -107,6 +108,7 @@ public class Interface extends Application {
 
         // ------------------------------------ ESPACE DE GESTION DES ÉVÉNEMENTS ------------------------------------
         // --------- GESTIONNAIRE D'ÉVÉNEMENTS ----------
+        /*
         pauseButton.setOnAction(event -> {
             isPaused = !isPaused; // Inverser l'état de pause
             if (isPaused) {
@@ -117,6 +119,8 @@ public class Interface extends Application {
                 background.startScroll();
             }
         });
+        */
+
 
 
 

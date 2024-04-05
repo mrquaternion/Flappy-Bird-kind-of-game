@@ -22,7 +22,7 @@ public class Coin {
     public Coin() {
         this.x = 640;
         Random random = new Random();
-        this.y = random.nextDouble() * (BACKGROUND_HEIGHT - ((image.getHeight() / 2) * 0.02));
+        this.y = random.nextDouble() * (BACKGROUND_HEIGHT - imageView.getFitHeight());
     }
 
     // -------------- Getters --------------

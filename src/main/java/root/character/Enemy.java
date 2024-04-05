@@ -1,21 +1,24 @@
 package character;
 
 import character.physics.Background;
+import character.physics.Gravity;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import character.physics.Hitbox;
 
 public class Enemy extends Character {
-    Image[] characterImage = new Image[3];
+
     ImageView imageViewEnemy;
-    Hitbox hitbox = new Hitbox();
+
     private int pickupCoin = 0;
     double vy = 0;
     double newY = 0;
     public static final double GRAVITY = 500;
     public static final double JUMP_VELOCITY = 300;
     public boolean jumpingStatus = false;
+
+    public int jumpingInterval = 0;
 
     private double ratio;
 
@@ -45,7 +48,7 @@ public class Enemy extends Character {
         imageViewEnemy.setFitWidth(characterImage.getWidth() * ratio);
         imageViewEnemy.setFitHeight(characterImage.getHeight() * ratio);
         imageViewEnemy.setPreserveRatio(true);
-        imageViewEnemy.setY(400 -  imageViewEnemy.getFitHeight());
+        imageViewEnemy.setY(Background.HEIGHT -  imageViewEnemy.getFitHeight());
         imageViewEnemy.setX(50);
         this.imageViewCharacter = imageViewEnemy;
     }
@@ -63,20 +66,37 @@ public class Enemy extends Character {
         jumpingStatus = true;
     }
 
+
     public void updatePosition(double dt) {
         // Calcul de la nouvelle vitesse et la nouvelle position de l'ennemi
         vy += GRAVITY * dt;
-        newY = imageView.getY() + (vy * dt);
+        newY = imageViewCharacter.getY() + (vy * dt);
 
         // On update la position de l'ennemi
-        imageView.setY(newY);
+        imageViewCharacter.setY(newY);
 
         // On vérifie si l'ennemi est au sol
-        if (imageView.getY() > 315) {
-            vy = JUMP_VELOCITY;
-        } else if (newY < 0) {
-            vy = -JUMP_VELOCITY;
+       borderTouch();
+    }
+
+    private  void borderTouch(){
+        if (imageViewCharacter.getY() > Background.HEIGHT -(imageViewCharacter.getFitHeight())) {
+            vy =  JUMP_VELOCITY;
+
+        } else if (imageViewCharacter.getY() < 0) {
+            vy =  -JUMP_VELOCITY;
+        }
+        }
+
+    public void couldownJump(){
+        if (jumpingStatus) {
+            jumpingInterval++;
+        }
+        if (jumpingInterval == 20) {
+            jumpingStatus = false;
+            jumpingInterval = 0;
         }
     }
-}
+    }
+
 

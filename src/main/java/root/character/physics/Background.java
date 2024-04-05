@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Background {
-    protected static final int HEIGHT = 400;
+    public static final int HEIGHT = 400;
     private ImageView imageViewBackground_1;
     private ImageView imageViewBackground_2;
     private  double speed;

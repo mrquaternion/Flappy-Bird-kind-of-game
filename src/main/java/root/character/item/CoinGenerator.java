@@ -1,5 +1,6 @@
 package character.item;
 
+import character.physics.Background;
 import character.physics.Collision;
 import character.Enemy;
 import javafx.animation.AnimationTimer;
@@ -53,7 +54,7 @@ public class CoinGenerator {
                 coin.setX(640); // Place the coin at the right edge
                 // Randomly place the coin within the vertical bounds of the screen
                 Random random = new Random();
-                coin.setY(random.nextDouble() * (Coin.BACKGROUND_HEIGHT - ((Coin.image.getHeight() / 2) * 0.02)));
+                coin.setY(random.nextDouble() * (Background.HEIGHT - coin.imageView.getFitHeight()));
             }
         }.start();
     }

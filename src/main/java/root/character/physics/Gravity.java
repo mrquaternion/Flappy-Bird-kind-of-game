@@ -79,7 +79,7 @@ public class Gravity {
         isGravity = false;
         System.out.println(isGravity);
     }
-
+/*
 
     public void enableGravity(){
         isGravity = true;
@@ -91,6 +91,7 @@ public class Gravity {
     }
 
 
+    /*
     private void couldownJump(){
         if (jumping) {
             jumpingInterval++;
@@ -107,5 +108,7 @@ public class Gravity {
             imageViewEnemy.setY(newY);
         }
     }
+     */
 
-}
+
+
