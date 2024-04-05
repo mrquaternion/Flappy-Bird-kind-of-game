@@ -14,7 +14,7 @@ public class Gravity {
     public void applyGravity(Scene scene, ImageView imageViewEnemy) {
         // Laisser le personnage sauter avec la touche espace
         scene.setOnKeyPressed((event) -> {
-            if (event.getCode() == KeyCode.SPACE && !jumping) {
+            if (event.getCode() == KeyCode.W && !jumping) {
                 velocity = JUMP_VELOCITY;
                 jumping = true;
             }
@@ -22,7 +22,7 @@ public class Gravity {
 
         new AnimationTimer() {
             private long lastUpdateTime = 0;
-            private int test = 0;
+            private int jumpingInterval = 0;
 
             @Override
             public void handle(long now) {
@@ -37,7 +37,6 @@ public class Gravity {
                 // Calcul de la nouvelle vitesse et la nouvelle position du personnage
                 velocity += GRAVITY * deltaTime;
                 if (velocity > 300) {
-                    System.out. println(velocity);
                     velocity = 300;
                 }
                 double newY = imageViewEnemy.getY() + velocity * deltaTime;
@@ -48,11 +47,11 @@ public class Gravity {
                 }
 
                 if (jumping){
-                    test++;
+                    jumpingInterval++;
                 }
-                if (test == 20){
+                if (jumpingInterval == 20){
                     jumping = false;
-                    test = 0;
+                    jumpingInterval = 0;
                 }
 
                 if (newY < 0){

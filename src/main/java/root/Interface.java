@@ -8,9 +8,7 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import character.Enemy;
@@ -42,56 +40,51 @@ public class Interface extends Application {
         Background background = new Background();
 
         // Créer une pièce de monnaie et ajuster sa taille et sa position
-        Image imageCoin = new Image("file:src/main/resources/coin.png");
-        ImageView imageViewCoin = new ImageView(imageCoin);
-        imageViewCoin.setFitWidth(imageCoin.getWidth() * 0.025);
-        imageViewCoin.setFitHeight(imageCoin.getHeight() * 0.025);
+
+        ImageView imageViewCoin = new ImageView(Coin.getImage());
+        imageViewCoin.setFitWidth(Coin.getImage().getWidth() * 0.025);
+        imageViewCoin.setFitHeight(Coin.getImage().getHeight() * 0.025);
 
         // Créer un ennemi et ajuster sa taille et sa position
         Enemy enemy = new Enemy();
-
-        //Mise en place de l'image de l'ennemi
         enemy.setImageView();
 
-       /* Text vie = new Text("Vie : 3");
-        // Set the position of the Text object
-        vie.setLayoutX(10); // 10 pixels from the left edge of the Pane
-        vie.setLayoutY(20); // 20 pixels from the top edge of the Pane
-        root.getChildren().add(vie);*/
+
 
         // Créer un bouton de pause
         Button pauseButton = new Button("Pause");
-
-        // Créer un texte pour afficher la vie du joueur
-        Text playerLife = new Text("life "+ enemy.getHealthStatus());
-
-        Text coin = new Text("coin "+ enemy.getPickupCoin());
+        // Créer un texte pour afficher la vie du joueur et le nombre de coins
+        Text playerLife = new Text("Life "+ enemy.getHealthStatus());
+        Text nbOfCoin = new Text("Coin "+ enemy.getPickupCoin());
 
         // Créer deux séparateur pour espacer les éléments de la barre de statut
         Separator separator1 = new Separator(Orientation.VERTICAL);
         Separator separator2 = new Separator(Orientation.VERTICAL);
 
-
         // Ajouter les images au root
-        root.getChildren().add(background.getImageViewBackground_1());
-        root.getChildren().add(background.getImageViewBackground_2());
-        root.getChildren().add(imageViewCoin);
-        root.getChildren().add(enemy.getImageView());
-
+        gamePane.getChildren().addAll(background.getImageViewBackground_1(), background.getImageViewBackground_2(), enemy.getImageView());
         // Ajouter les éléments à la barre de statut
-        statusBar.getChildren().addAll(pauseButton, separator1,  playerLife, separator2, coin);
+        statusBar.getChildren().addAll(pauseButton, separator1,  playerLife, separator2, nbOfCoin);
 
+
+
+        // Créer un tableau de pièces
+        Coin[] coins = new Coin[10];
+        for (int i = 0; i < coins.length; i++) {
+            coins[i] = new Coin();
+        }
+        CoinGenerator coinGenerator = new CoinGenerator();
+        coinGenerator.spawnCoin(coins, enemy);
+
+        for (Coin coin : coins) {
+            gamePane.getChildren().add(coin.getImageView());
+        }
 
         // Ajouter la barre de statut au root en bas de la fenêtre
         root.setBottom(statusBar);
 
-
         // Creér la scène
         Scene scene = new Scene(root, 640, 440);
-
-        // Ajouter une pièce de monnaie toutes les 3 secondes
-        CoinSpawnRate coinSpawnRate = new CoinSpawnRate();
-        coinSpawnRate.spawnCoin(imageViewCoin);
 
         // Appliquer la gravité à l'ennemi
         Gravity gravity = new Gravity();
