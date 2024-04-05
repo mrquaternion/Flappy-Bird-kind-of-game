@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 import character.Enemy;
 import character.physics.Gravity;
@@ -18,6 +19,9 @@ import character.physics.Background;
 import javafx.scene.text.Text;
 
 public class Interface extends Application {
+    private boolean isPaused = false;
+
+
     @Override
     public void start(Stage primaryStage) {
         // Créer un root
@@ -49,7 +53,11 @@ public class Interface extends Application {
         Enemy enemy = new Enemy();
         enemy.setImageView();
 
-
+       /* Text vie = new Text("Vie : 3");
+        // Set the position of the Text object
+        vie.setLayoutX(10); // 10 pixels from the left edge of the Pane
+        vie.setLayoutY(20); // 20 pixels from the top edge of the Pane
+        root.getChildren().add(vie);*/
 
         // Créer un bouton de pause
         Button pauseButton = new Button("Pause");
@@ -89,6 +97,17 @@ public class Interface extends Application {
         // Appliquer la gravité à l'ennemi
         Gravity gravity = new Gravity();
         gravity.applyGravity(scene, enemy.getImageView());
+
+        pauseButton.setOnAction(event -> {
+            isPaused = !isPaused; // Basculer l'état de pause
+            if (isPaused) {
+                gravity.disableGravity();
+                background.stopScroll();
+            } else {
+                gravity.enableGravity();
+                background.startScroll();
+            }
+        });
 
         // Paramétrer la scène et la fenêtre
         primaryStage.setScene(scene);
