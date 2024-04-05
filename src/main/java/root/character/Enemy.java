@@ -10,9 +10,9 @@ public class Enemy extends Character {
     Image[] characterImage = new Image[3];
     ImageView imageViewEnemy;
     Hitbox hitbox = new Hitbox();
-
-
     private int pickupCoin = 0;
+
+    // -------------- Constructor --------------
     public Enemy(){
         this.x = 50;
         this.y = 315;
@@ -25,16 +25,16 @@ public class Enemy extends Character {
     // -------------- Getters --------------
     public int getX() { return x; }
     public int getY() { return y; }
-    public ImageView getImageView(){
-        setImageView();
+    public ImageView getImageView() {
         return imageViewEnemy;
     }
-
     public Image getImage() { return characterImage[0]; }
-
     public int getPickupCoin() { return pickupCoin; }
-
     public int getHealthStatus() { return healthStatus; }
+    public Hitbox getHitbox() {
+        setHitbox();
+        return hitbox;
+    }
 
     // -------------- Setters --------------
     public void setImageView(){
@@ -55,17 +55,11 @@ public class Enemy extends Character {
 
     public void increasePickupCoin() {
         this.pickupCoin += 1;
-        Background.speedUpdate(pickupCoin);
-    }
-
-    public Hitbox getHitbox() {
-        setHitbox();
-        return hitbox;
     }
 
     public void setHitbox() {
-        hitbox.setX(x);
-        hitbox.setY(y);
+        hitbox.setX(imageViewEnemy.getX());
+        hitbox.setY(imageViewEnemy.getY());
         hitbox.setWidth(imageViewEnemy.getFitWidth());
         hitbox.setHeight(imageViewEnemy.getFitHeight());
     }
