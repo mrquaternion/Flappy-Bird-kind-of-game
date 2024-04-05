@@ -38,8 +38,8 @@ public class Enemy extends Character {
         return pickupCoin;
     }
 
-    public void increasePickupCoin (int pickupCoin) {
-        this.pickupCoin += pickupCoin;
+    public void increasePickupCoin () {
+        this.pickupCoin += 1;
     }
 
     public int getHealthStatus() {
