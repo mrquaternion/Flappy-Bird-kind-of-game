@@ -1,3 +1,4 @@
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -8,10 +9,9 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 import character.Enemy;
 import character.physics.Gravity;
@@ -25,82 +25,65 @@ public class Interface extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // Créer un root
+
+        // ------------------------------------ ESPACE DE CRÉATION D'ÉLÉMENTS ------------------------------------
+        // --------- CRÉATION ROOT ---------
         BorderPane root = new BorderPane();
-
-        // Créer un Pane pour le jeu
+        // --------- CRÉATION PANNEAU DE JEU ---------
         Pane gamePane = new Pane();
-
-        // Ajouter le Pane au centre du root
-        root.setCenter(gamePane);
-
-        // Créer une barre de statut
+        // --------- CRÉATION BARRE DE STATUT ---------
         HBox statusBar = new HBox();
-        statusBar.setAlignment(Pos.CENTER); // Centrer les éléments dans la HBox
-        statusBar.setPadding(new Insets(0, 0, 7, 0)); // 7 pixels de marge en bas
-        statusBar.setSpacing(10); // Espacer les éléments dans la HBox
-
-
-        // Créer un arrière-plan
-        Background background = new Background();
-
-        // Créer une pièce de monnaie et ajuster sa taille et sa position
-        Image imageCoin = new Image("file:src/main/resources/coin.png");
-        ImageView imageViewCoin = new ImageView(imageCoin);
-        imageViewCoin.setFitWidth(imageCoin.getWidth() * 0.025);
-        imageViewCoin.setFitHeight(imageCoin.getHeight() * 0.025);
-
-        // Créer un ennemi et ajuster sa taille et sa position
+        statusBar.setAlignment(Pos.CENTER); // Centrer les éléments de la HBOX
+        statusBar.setPadding(new Insets(0, 0, 7, 0)); // Espacement de la HBOX
+        statusBar.setSpacing(10); // Espacement entre les éléments de la HBOX
+        // --------- CRÉATION & AJUSTER SA TAILLE D'UN ENNEMI ----------
         Enemy enemy = new Enemy();
-
-        //Mise en place de l'image de l'ennemi
         enemy.setImageView();
-
-
-
-        // Créer un bouton de pause
-        Button pauseButton = new Button("Pause");
-
-        // Créer un texte pour afficher la vie du joueur
-        Text playerLife = new Text("life "+ enemy.getHealthStatus());
-
-        Text coin = new Text("coin "+ enemy.getPickupCoin());
-
-        // Créer deux séparateur pour espacer les éléments de la barre de statut
+        // --------- CRÉATION DE SÉPARATEURS ---------
         Separator separator1 = new Separator(Orientation.VERTICAL);
         Separator separator2 = new Separator(Orientation.VERTICAL);
-
-
-        // Ajouter les images au root
-        root.getChildren().add(background.getImageViewBackground_1());
-        root.getChildren().add(background.getImageViewBackground_2());
-        root.getChildren().add(imageViewCoin);
-        root.getChildren().add(enemy.getImageView());
-
-        // Ajouter les éléments à la barre de statut
-        statusBar.getChildren().addAll(pauseButton, separator1,  playerLife, separator2, coin);
-
-
-        // Ajouter la barre de statut au root en bas de la fenêtre
-        root.setBottom(statusBar);
-
-
-        // Creér la scène
+        // --------- CRÉATION DE PIÈCES ----------
+        Coin[] coins = new Coin[5]; // NOMBRE ARBITRAIRE DE PIÈCES
+        for (int i = 0; i < coins.length; i++) { coins[i] = new Coin(); } // Créer pièces
+        CoinGenerator coinGenerator = new CoinGenerator(); // Créer générateur de pièces
+        coinGenerator.spawnCoin(coins, enemy); // Génération de pièces
+        // --------- CRÉATION SCÈNE ----------
         Scene scene = new Scene(root, 640, 440);
-
-
-
-
-        // Ajouter une pièce de monnaie toutes les 3 secondes
-        CoinSpawnRate coinSpawnRate = new CoinSpawnRate();
-        coinSpawnRate.spawnCoin(imageViewCoin);
-
-        // Appliquer la gravité à l'ennemi
+        // --------- CRÉATION DE LA GRAVITÉ ----------
         Gravity gravity = new Gravity();
+        // --------- CRÉATION ARRIÈRE-PLAN ----------
+        Background background = new Background();
+        // --------- CONFIGURATION DE LA SCÈNE ----------
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        // --------- APPLIQUER GRAVITÉ À LA SCÈNE ----------
         gravity.applyGravity(scene, enemy.getImageView());
 
+
+        // ------------------------------------ ESPACE D'AJOUT AU JEU ------------------------------------
+        // --------- AJOUT LES ÉLÉMENTS (BACKGROUND ET ENNEMI) AU PANNEAU DE JEU ----------
+        gamePane.getChildren().addAll(background.getImageViewBackground_1(), background.getImageViewBackground_2(), enemy.getImageView());
+        // --------- AJOUTER PIÈCES AU PANNEAU DE JEU ----------
+        for (Coin coin : coins) { gamePane.getChildren().add(coin.getImageView()); } // Ajouter pièces au panneau de jeu
+        // --------- AJOUT BOUTON PAUSE ----------
+        Button pauseButton = new Button("Pause");
+        // --------- AJOUT BARRE DE STATUT ----------
+        Text playerLife = new Text("Life: " + enemy.getHealthStatus());
+        Text nbOfCoin = new Text("Coins: " + enemy.getPickupCoin());
+        // --------- AJOUT ÉLÉMENTS À LA BARRE DE STATUT ----------
+        statusBar.getChildren().addAll(pauseButton, separator1,  playerLife, separator2, nbOfCoin);
+        // --------- AJOUT PANNEAU DE JEU AU ROOT ---------
+        root.setCenter(gamePane);
+        // --------- AJOUT ÉLÉMENTS AU ROOT ----------
+        root.setBottom(statusBar);
+        // --------- DÉFILEMENT DE L'ARRIÈRE-PLAN ----------
+        background.scroll(enemy.getPickupCoin());
+
+
+        // ------------------------------------ ESPACE DE GESTION DES ÉVÉNEMENTS ------------------------------------
+        // --------- GESTIONNAIRE D'ÉVÉNEMENTS ----------
         pauseButton.setOnAction(event -> {
-            isPaused = !isPaused; // Basculer l'état de pause
+            isPaused = !isPaused; // Inverser l'état de pause
             if (isPaused) {
                 gravity.disableGravity();
                 background.stopScroll();
@@ -109,20 +92,18 @@ public class Interface extends Application {
                 background.startScroll();
             }
         });
+        // --------- ANIMATION DE LA SCÈNE ---------
+        AnimationTimer animationTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+            }
+        };
 
-        // Paramétrer la scène et la fenêtre
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
 
-        // Fais défiler l'arrière-plan
-        background.scroll(enemy.getPickupCoin());
-
-        // Afficher la fenêtre
+        // --------- AFFICHAGE DE LA SCÈNE ----------
         primaryStage.show();
-
     }
     public static void main(String[] args) {
         launch(args);
     }
 }
-

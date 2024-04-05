@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 public class Background {
     private ImageView imageViewBackground_1;
     private ImageView imageViewBackground_2;
-    private  int speed;
+    private  double speed;
     private boolean isScrolling = true;
 
     public Background() {
@@ -25,12 +25,12 @@ public class Background {
         return imageViewBackground_2;
     }
 
-    public void scroll(int speedBoostCoin) {
+    public void scroll(int numberOfCoin) {
 
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                speed = 6 + 10*speedBoostCoin;
+                speed = 6 + 10 * numberOfCoin;
                 if (isScrolling) {
                     imageViewBackground_1.setLayoutX(imageViewBackground_1.getLayoutX()-speed);
                     imageViewBackground_2.setLayoutX(imageViewBackground_2.getLayoutX()-speed);
