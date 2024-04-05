@@ -11,10 +11,9 @@ public class Gravity {
     protected static final double JUMP_VELOCITY = -300;
     private double velocity = 0;
     private boolean jumping = false;
-    private int jumpingInterval = 0;
     private boolean isGravity = true;
 
-    public void applyGravity(Scene scene, Enemy enemy) {
+    public void applyGravity(Scene scene, ImageView imageViewEnemy) {
 
         // Laisser le personnage sauter avec la touche espace
         scene.setOnKeyPressed((event) -> {
@@ -30,6 +29,7 @@ public class Gravity {
         // Met à jour la position du personnage
         AnimationTimer animationTimer = new AnimationTimer() {
             private long lastUpdateTime = 0;
+            private int jumpingInterval = 0;
 
             @Override
             public void handle(long now) {
@@ -47,16 +47,28 @@ public class Gravity {
                 if (velocity > 300) {
                     velocity = 300;
                 }
+                double newY = imageViewEnemy.getY() + velocity * deltaTime;
 
+                // Regarder si le personnage est au sol (Y = 315)
+                if (newY > 315) {
+                    velocity = JUMP_VELOCITY;
+                }
 
-                velocity = Collision.borderTouch(enemy, velocity);
-                couldownJump();
+                if (jumping) {
+                    jumpingInterval++;
+                }
+                if (jumpingInterval == 20) {
+                    jumping = false;
+                    jumpingInterval = 0;
+                }
 
-                double newY = enemy.getImageView().getY() + velocity * deltaTime;
+                if (newY < 0) {
+                    velocity = -JUMP_VELOCITY;
+                }
                 // Met à jour la position du personnage
-
-               coordonneesUpdate( enemy.getImageView(), newY);
-
+                if (isGravity) {
+                    imageViewEnemy.setY(newY);
+                }
                 lastUpdateTime = now;
 
             }

@@ -1,13 +1,22 @@
 package character;
 
+import character.physics.Background;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import character.physics.Hitbox;
 
 public class Enemy extends Character {
-
+    Image[] characterImage = new Image[3];
+    ImageView imageViewEnemy;
+    Hitbox hitbox = new Hitbox();
     private int pickupCoin = 0;
+    double vy = 0;
+    double newY = 0;
+    public static final double GRAVITY = 500;
+    public static final double JUMP_VELOCITY = 300;
+    public boolean jumpingStatus = false;
+
     private double ratio;
 
     // -------------- Constructor --------------
@@ -48,6 +57,26 @@ public class Enemy extends Character {
         this.pickupCoin += 1;
     }
 
+    public void notJumping() {
+        // L'ennemi ne saute pas alors il bounce
+        vy = JUMP_VELOCITY;
+        jumpingStatus = true;
+    }
 
+    public void updatePosition(double dt) {
+        // Calcul de la nouvelle vitesse et la nouvelle position de l'ennemi
+        vy += GRAVITY * dt;
+        newY = imageView.getY() + (vy * dt);
+
+        // On update la position de l'ennemi
+        imageView.setY(newY);
+
+        // On vérifie si l'ennemi est au sol
+        if (imageView.getY() > 315) {
+            vy = JUMP_VELOCITY;
+        } else if (newY < 0) {
+            vy = -JUMP_VELOCITY;
+        }
+    }
 }
 

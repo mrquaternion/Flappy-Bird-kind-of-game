@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 
 import character.Enemy;
 import character.physics.Gravity;
@@ -40,7 +41,7 @@ public class Interface extends Application {
         Enemy enemy = new Enemy();
         enemy.setImageView();
         // --------- CRÉATION DE SÉPARATEURS ---------
-         Separator separator1 = new Separator(Orientation.VERTICAL);
+        Separator separator1 = new Separator(Orientation.VERTICAL);
         Separator separator2 = new Separator(Orientation.VERTICAL);
         // --------- CRÉATION DE PIÈCES ----------
         Coin[] coins = new Coin[5]; // NOMBRE ARBITRAIRE DE PIÈCES
@@ -56,8 +57,32 @@ public class Interface extends Application {
         // --------- CONFIGURATION DE LA SCÈNE ----------
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
+
+
         // --------- APPLIQUER GRAVITÉ À LA SCÈNE ----------
-        gravity.applyGravity(scene, enemy);
+        scene.setOnKeyPressed((event) -> {
+            if (event.getCode() == KeyCode.W && !enemy.jumpingStatus) {
+                enemy.notJumping();
+            }
+        });
+
+        // --------- ANIMATION DE LA SCÈNE ---------
+        AnimationTimer animationTimer = new AnimationTimer() {
+            double lastTime = 0;
+
+            @Override
+            public void handle(long now) {
+                double deltaTime = (lastTime - now) * 1e-9;
+
+                if (lastTime == 0) {
+                    lastTime = now;
+                    return;
+                }
+                enemy.updatePosition(deltaTime);
+                lastTime = now;
+            }
+        };
+        animationTimer.start();
 
 
         // ------------------------------------ ESPACE D'AJOUT AU JEU ------------------------------------
@@ -92,12 +117,7 @@ public class Interface extends Application {
                 background.startScroll();
             }
         });
-        // --------- ANIMATION DE LA SCÈNE ---------
-        AnimationTimer animationTimer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-            }
-        };
+
 
 
         // --------- AFFICHAGE DE LA SCÈNE ----------
