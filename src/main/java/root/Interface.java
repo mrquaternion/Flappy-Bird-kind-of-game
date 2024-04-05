@@ -40,7 +40,7 @@ public class Interface extends Application {
         Enemy enemy = new Enemy();
         enemy.setImageView();
         // --------- CRÉATION DE SÉPARATEURS ---------
-        Separator separator1 = new Separator(Orientation.VERTICAL);
+         Separator separator1 = new Separator(Orientation.VERTICAL);
         Separator separator2 = new Separator(Orientation.VERTICAL);
         // --------- CRÉATION DE PIÈCES ----------
         Coin[] coins = new Coin[5]; // NOMBRE ARBITRAIRE DE PIÈCES
@@ -57,7 +57,7 @@ public class Interface extends Application {
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         // --------- APPLIQUER GRAVITÉ À LA SCÈNE ----------
-        gravity.applyGravity(scene, enemy.getImageView());
+        gravity.applyGravity(scene, enemy);
 
 
         // ------------------------------------ ESPACE D'AJOUT AU JEU ------------------------------------

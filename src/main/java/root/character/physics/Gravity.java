@@ -1,5 +1,6 @@
 package character.physics;
 
+import character.Enemy;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -7,12 +8,13 @@ import javafx.scene.input.KeyCode;
 
 public class Gravity {
     private static final double GRAVITY = 500;
-    private static final double JUMP_VELOCITY = -300;
+    protected static final double JUMP_VELOCITY = -300;
     private double velocity = 0;
     private boolean jumping = false;
+    private int jumpingInterval = 0;
     private boolean isGravity = true;
 
-    public void applyGravity(Scene scene, ImageView imageViewEnemy) {
+    public void applyGravity(Scene scene, Enemy enemy) {
 
         // Laisser le personnage sauter avec la touche espace
         scene.setOnKeyPressed((event) -> {
@@ -28,7 +30,6 @@ public class Gravity {
         // Met à jour la position du personnage
         AnimationTimer animationTimer = new AnimationTimer() {
             private long lastUpdateTime = 0;
-            private int jumpingInterval = 0;
 
             @Override
             public void handle(long now) {
@@ -46,28 +47,16 @@ public class Gravity {
                 if (velocity > 300) {
                     velocity = 300;
                 }
-                double newY = imageViewEnemy.getY() + velocity * deltaTime;
 
-                // Regarder si le personnage est au sol (Y = 315)
-                if (newY > 315) {
-                    velocity = JUMP_VELOCITY;
-                }
 
-                if (jumping) {
-                    jumpingInterval++;
-                }
-                if (jumpingInterval == 20) {
-                    jumping = false;
-                    jumpingInterval = 0;
-                }
+                velocity = Collision.borderTouch(enemy, velocity);
+                couldownJump();
 
-                if (newY < 0) {
-                    velocity = -JUMP_VELOCITY;
-                }
+                double newY = enemy.getImageView().getY() + velocity * deltaTime;
                 // Met à jour la position du personnage
-                if (isGravity) {
-                    imageViewEnemy.setY(newY);
-                }
+
+               coordonneesUpdate( enemy.getImageView(), newY);
+
                 lastUpdateTime = now;
 
             }
@@ -88,4 +77,23 @@ public class Gravity {
             animationTimer.start();
         }*/
     }
+
+
+    private void couldownJump(){
+        if (jumping) {
+            jumpingInterval++;
+        }
+        if (jumpingInterval == 20) {
+            jumping = false;
+            jumpingInterval = 0;
+        }
+    }
+
+    private void coordonneesUpdate(ImageView imageViewEnemy, double newY){
+        // Met à jour la position du personnage
+        if (isGravity) {
+            imageViewEnemy.setY(newY);
+        }
+    }
+
 }

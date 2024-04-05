@@ -14,4 +14,8 @@ public class Hero  extends Character {
     public Image characterImage() {
         return new Image("file:src/main/resources/enemy.png");
     }
+
+    public void setImageView(){
+        // Implement the method here
+    }
 }

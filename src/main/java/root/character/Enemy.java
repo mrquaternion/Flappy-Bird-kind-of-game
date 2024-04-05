@@ -1,34 +1,27 @@
 package character;
 
-import character.physics.Background;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import character.physics.Hitbox;
 
 public class Enemy extends Character {
-    Image[] characterImage = new Image[3];
-    ImageView imageViewEnemy;
-    Hitbox hitbox = new Hitbox();
+
     private int pickupCoin = 0;
+    private double ratio;
 
     // -------------- Constructor --------------
     public Enemy(){
-        this.x = 50;
-        this.y = 315;
-        width = 394;
-        height = 211;
+        ratio = 0.45;
         healthStatus = 100;
-        characterImage[0] = new Image("file:src/main/resources/luffysprite.png");
+        characterImage = new Image("file:src/main/resources/luffysprite.png");
     }
 
     // -------------- Getters --------------
-    public int getX() { return x; }
-    public int getY() { return y; }
     public ImageView getImageView() {
-        return imageViewEnemy;
+        return imageViewCharacter;
     }
-    public Image getImage() { return characterImage[0]; }
+    public Image getImage() { return characterImage; }
     public int getPickupCoin() { return pickupCoin; }
     public int getHealthStatus() { return healthStatus; }
     public Hitbox getHitbox() {
@@ -37,31 +30,24 @@ public class Enemy extends Character {
     }
 
     // -------------- Setters --------------
+    @Override
     public void setImageView(){
-        ImageView imageViewEnemy = new ImageView(characterImage[0]);
-        imageViewEnemy.setFitWidth(characterImage[0].getWidth() * 0.45);
-        imageViewEnemy.setFitHeight(characterImage[0].getHeight() * 0.45);
+        ImageView imageViewEnemy = new ImageView(characterImage);
+        imageViewEnemy.setFitWidth(characterImage.getWidth() * ratio);
+        imageViewEnemy.setFitHeight(characterImage.getHeight() * ratio);
         imageViewEnemy.setPreserveRatio(true);
-        imageViewEnemy.setY(y);
-        imageViewEnemy.setX(x);
-        this.imageViewEnemy = imageViewEnemy;
+        imageViewEnemy.setY(400 -  imageViewEnemy.getFitHeight());
+        imageViewEnemy.setX(50);
+        this.imageViewCharacter = imageViewEnemy;
     }
 
     // -------------- Methods --------------
-    @Override
-    public Image characterImage() {
-        return characterImage[0];
-    }
+
 
     public void increasePickupCoin() {
         this.pickupCoin += 1;
     }
 
-    public void setHitbox() {
-        hitbox.setX(imageViewEnemy.getX());
-        hitbox.setY(imageViewEnemy.getY());
-        hitbox.setWidth(imageViewEnemy.getFitWidth());
-        hitbox.setHeight(imageViewEnemy.getFitHeight());
-    }
+
 }
 
