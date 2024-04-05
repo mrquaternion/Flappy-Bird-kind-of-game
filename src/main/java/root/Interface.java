@@ -59,31 +59,7 @@ public class Interface extends Application {
         primaryStage.setResizable(false);
 
 
-        // --------- APPLIQUER GRAVITÉ À LA SCÈNE ----------
-        scene.setOnKeyPressed((event) -> {
-            if (event.getCode() == KeyCode.W && !enemy.jumpingStatus) {
-                enemy.notJumping();
-            }
-        });
 
-        // --------- ANIMATION DE LA SCÈNE ---------
-        AnimationTimer animationTimer = new AnimationTimer() {
-            double lastTime = 0;
-
-            @Override
-            public void handle(long now) {
-                double deltaTime = (lastTime - now) * 1e-9;
-
-                if (lastTime == 0) {
-                    lastTime = now;
-                    return;
-                }
-                enemy.couldownJump();
-                enemy.updatePosition(deltaTime);
-                lastTime = now;
-            }
-        };
-        animationTimer.start();
 
 
         // ------------------------------------ ESPACE D'AJOUT AU JEU ------------------------------------
@@ -120,6 +96,36 @@ public class Interface extends Application {
             }
         });
         */
+
+        // --------- APPLIQUER GRAVITÉ À LA SCÈNE ----------
+        scene.setOnKeyPressed((event) -> {
+            if (event.getCode() == KeyCode.W && !enemy.jumpingStatus) {
+                enemy.notJumping();
+            }
+        });
+
+        // --------- ANIMATION DE LA SCÈNE ---------
+        AnimationTimer animationTimer = new AnimationTimer() {
+            double lastTime = 0;
+
+            @Override
+            public void handle(long now) {
+                double deltaTime = (lastTime - now) * 1e-9;
+
+                if (lastTime == 0) {
+                    lastTime = now;
+                    return;
+                }
+                enemy.couldownJump();
+                enemy.updatePosition(deltaTime);
+
+                // update text of nbOfCoins
+                nbOfCoin.setText("Coins: " + enemy.getPickupCoin());
+
+                lastTime = now;
+            }
+        };
+        animationTimer.start();
 
 
 
