@@ -8,6 +8,7 @@ public class Background {
     private ImageView imageViewBackground_1;
     private ImageView imageViewBackground_2;
     private  int speed;
+    private boolean isScrolling = true;
 
     public Background() {
         Image imageBackground = new Image("file:src/main/resources/bg.png");
@@ -30,8 +31,11 @@ public class Background {
             @Override
             public void handle(long now) {
                 speed = 6 + 10*speedBoostCoin;
-                imageViewBackground_1.setLayoutX(imageViewBackground_1.getLayoutX()-speed);
-                imageViewBackground_2.setLayoutX(imageViewBackground_2.getLayoutX()-speed);
+                if (isScrolling) {
+                    imageViewBackground_1.setLayoutX(imageViewBackground_1.getLayoutX()-speed);
+                    imageViewBackground_2.setLayoutX(imageViewBackground_2.getLayoutX()-speed);
+                }
+
                 if (imageViewBackground_1.getLayoutX() <= -640.0) {
                     imageViewBackground_1.setLayoutX(640);
                     imageViewBackground_2.setLayoutX(0);
@@ -41,5 +45,13 @@ public class Background {
                 }
             }
         }.start();
+    }
+
+    public void stopScroll() {
+        isScrolling = false;
+    }
+
+    public void startScroll() {
+        isScrolling = true;
     }
 }
