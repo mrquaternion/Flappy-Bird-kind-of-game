@@ -6,13 +6,13 @@ import javafx.scene.image.Image;
 public class Tank extends Hero {
     // -------------- Constructor --------------
     public Tank(){
-        ratio = 0.45;
+        ratio = 0.75;
         healthStatus = 100;
         characterImage = new Image("file:src/main/resources/kizaru.png");
     }
 
     @Override
-    public void interaction(Enemy enemy, Hero hero) {
+    public void interaction(Enemy enemy) {
        //hitbox
         enemy.setHealthStatus(enemy.getHealthStatus() - 50);
     }

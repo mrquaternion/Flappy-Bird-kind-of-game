@@ -1,3 +1,8 @@
+import character.Hero;
+import character.hero.Melee;
+import character.hero.Stealth;
+import character.hero.Tank;
+import character.physics.Collision;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -40,6 +45,20 @@ public class Interface extends Application {
         // --------- CRÉATION & AJUSTER SA TAILLE D'UN ENNEMI ----------
         Enemy enemy = new Enemy();
         enemy.setImageView();
+
+        // --------- CRÉATION Des heros  ---------
+        Melee[] melee = new Melee[Hero.NUMBER_OF_HEROES];
+        Tank[] tank = new Tank[Hero.NUMBER_OF_HEROES];
+        Stealth[] stealth = new Stealth[Hero.NUMBER_OF_HEROES];
+        for (int i = 0; i < Hero.NUMBER_OF_HEROES; i++) {
+            melee[i] = new Melee();
+            melee[i].setImageView();
+            tank[i] = new Tank();
+            tank[i].setImageView();
+            stealth[i] = new Stealth();
+            stealth[i].setImageView();
+        }
+
         // --------- CRÉATION DE SÉPARATEURS ---------
         Separator separator1 = new Separator(Orientation.VERTICAL);
         Separator separator2 = new Separator(Orientation.VERTICAL);
@@ -63,6 +82,10 @@ public class Interface extends Application {
         // ------------------------------------ ESPACE D'AJOUT AU JEU ------------------------------------
         // --------- AJOUT LES ÉLÉMENTS (BACKGROUND ET ENNEMI) AU PANNEAU DE JEU ----------
         gamePane.getChildren().addAll(background.getImageViewBackground_1(), background.getImageViewBackground_2(), enemy.getImageView());
+        // --------- AJOUTER HEROS AU PANNEAU DE JEU ----------
+        for (int i = 0; i < Hero.NUMBER_OF_HEROES; i++) {
+            gamePane.getChildren().addAll(melee[i].getImageView(), tank[i].getImageView(), stealth[i].getImageView());
+        }
         // --------- AJOUTER PIÈCES AU PANNEAU DE JEU ----------
         for (Coin coin : coins) { gamePane.getChildren().add(coin.getImageView()); } // Ajouter pièces au panneau de jeu
         // --------- AJOUT BOUTON PAUSE ----------
@@ -116,9 +139,23 @@ public class Interface extends Application {
 
                     background.scroll(enemy.getPickupCoin());
 
+                    for (int i = 0, j = 0; i < Hero.NUMBER_OF_HEROES; i++, j += 2) {
+                        melee[i].updatePosition(deltaTime);
+                        tank[i].updatePosition(deltaTime);
+                        stealth[i].updatePosition(deltaTime);
+                        melee[i].borderTouch();
+                        tank[i].borderTouch();
+                        stealth[i].borderTouch();
+                        melee[i].Collision(enemy);
+                        tank[i].Collision(enemy);
+                        stealth[i].Collision(enemy);
+
+                    }
+
+
 
                     // update text of nbOfCoins
-                    nbOfCoin.setText("Coins: " + enemy.getPickupCoin());
+                    nbOfCoin.setText("Coins: " + enemy.getAllCoin());
                     // update text of playerLife
                     playerLife.setText("Life: " + enemy.getHealthStatus());
 
@@ -140,6 +177,7 @@ public class Interface extends Application {
                 } else {
                     animationTimer.start(); // Redémarre le timer si le jeu reprend
                     pauseButton.setText("Pause"); // Revenir au texte original
+                    Hero.chooseType(melee, tank, stealth);
                 }
             });
 

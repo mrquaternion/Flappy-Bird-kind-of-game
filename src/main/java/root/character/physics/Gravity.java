@@ -77,7 +77,7 @@ public class Gravity {
     }
     public void disableGravity() {
         isGravity = false;
-        System.out.println(isGravity);
+       // System.out.println(isGravity);
     }
 /*
 

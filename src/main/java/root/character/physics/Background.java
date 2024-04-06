@@ -31,7 +31,7 @@ public class Background {
 
 
 
-                System.out.println(speed);
+                //System.out.println(speed);
                 speed = 2 + ((2 * ((double)SPEED_BOOST * numberOfCoin)) /120);
 
                 if (isScrolling) {

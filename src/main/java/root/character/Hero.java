@@ -1,6 +1,7 @@
 package character;
 
 import character.physics.Background;
+import character.physics.Collision;
 import javafx.scene.image.Image;
 
 import java.util.Random;
@@ -10,8 +11,8 @@ public abstract class Hero  extends Character {
     private int spawnTime;
     private boolean isActivated;
     public final static int SPEED = 120;
-    Random rand;
-
+    private static Random rand = new Random();
+    public static final int NUMBER_OF_HEROES = 2;
 
 
     @Override
@@ -23,15 +24,17 @@ public abstract class Hero  extends Character {
 
     }
 
-    public abstract void interaction(Enemy enemy, Hero hero);
+    public abstract void interaction(Enemy enemy);
 
     @Override
     public void updatePosition(double dt) {
         // Calcul de la nouvelle vitesse et la nouvelle position du hero
-        imageViewCharacter.setX(imageViewCharacter.getX() - SPEED * dt);
+        if (isActivated) {
+            imageViewCharacter.setX(imageViewCharacter.getX() - SPEED * dt);
+        }
     }
 
-    protected void borderTouch() {
+    public void borderTouch() {
         if (imageViewCharacter.getX() < -imageViewCharacter.getFitWidth()) {
             isActivated = false;
             imageViewCharacter.setX(Background.WIDTH);
@@ -50,16 +53,37 @@ public abstract class Hero  extends Character {
         return false;
     }
 
-    public Hero chooseType() {
-        double x = rand.nextDouble(); // Generate a random double between 0.0 and 1.0
+    public static void chooseType(Melee[] melee, Tank[] tank, Stealth[] stealths) {
+        double x;
+        boolean didSpawn = false;
+        do {
+            x =rand.nextDouble(); // Generate a random double between 0.0 and 1.0
+            if (x < 1.0 / 3.0) {
+                if(spawn(melee)){
+                    didSpawn = true;
+                }
+            } else if (x < 2.0 / 3.0) {
+                if(spawn(tank)){
+                    didSpawn = true;
+                }
+            } else {
+                if(spawn(stealths)){
+                    didSpawn = true;
+                }
+            }
+        } while (!didSpawn);
 
-        if (x < 1.0 / 3.0) {
-            return new Stealth();
-        } else if (x < 2.0 / 3.0) {
-            return new Tank();
-        } else {
-            return new Melee();
+    }
+
+    public void  Collision(Enemy enemy) {
+        if (Collision.checkCollisionHero(this, enemy)) {
+            isActivated = false;
+            this.interaction(enemy);
+            imageViewCharacter.setX(Background.WIDTH);
+            imageViewCharacter.setY(Math.random() * (Background.HEIGHT - imageViewCharacter.getFitHeight()));
         }
     }
+
+
 
 }

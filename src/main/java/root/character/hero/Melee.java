@@ -6,14 +6,12 @@ import javafx.scene.image.Image;
 
 public class Melee extends Hero {
     public Melee(){
-        ratio = 0.45;
+        ratio = 0.70;
         healthStatus = 100;
         characterImage = new Image("file:src/main/resources/kaido.png");
-        imageViewCharacter.setX((int) Background.WIDTH);
-        imageViewCharacter.setY(Math.random() * (int) Background.HEIGHT - imageViewCharacter.getFitHeight());
     }
     @Override
-    public void interaction(Enemy enemy, Hero hero) {
+    public void interaction(Enemy enemy) {
         //hitbox
         enemy.setHealthStatus(0);
     }

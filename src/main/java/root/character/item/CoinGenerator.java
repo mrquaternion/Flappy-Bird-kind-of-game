@@ -33,7 +33,7 @@ public class CoinGenerator {
 
     // Helper method to reset a coin's position
     private void resetCoinPosition(Coin coin) {
-        System.out.println("x: " + coin.getImageView().getX() + ", y: "+ coin.getImageView().getY());
+        //System.out.println("x: " + coin.getImageView().getX() + ", y: "+ coin.getImageView().getY());
         coin.imageView.setX(640); // Place the coin at the right edge
         // Randomly place the coin within the vertical bounds of the screen
         coin.imageView.setY(rand.nextDouble() * (Background.HEIGHT - coin.imageView.getFitHeight()));
