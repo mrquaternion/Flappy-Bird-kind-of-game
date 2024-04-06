@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 
 public class Background {
     public static final int HEIGHT = 400;
+    public static final int WIDTH = 640;
     private ImageView imageViewBackground_1;
     private ImageView imageViewBackground_2;
     private  double speed;
@@ -28,9 +29,8 @@ public class Background {
 
     public void scroll(int numberOfCoin) {
 
-        new AnimationTimer() {
-            @Override
-            public void handle(long now) {
+
+
                 speed = 6 + 10 * numberOfCoin;
                 if (isScrolling) {
                     imageViewBackground_1.setLayoutX(imageViewBackground_1.getLayoutX()-speed);
@@ -43,9 +43,9 @@ public class Background {
                 } else if (imageViewBackground_2.getLayoutX() <= -640.0) {
                     imageViewBackground_2.setLayoutX(640);
                     imageViewBackground_1.setLayoutX(0);
-                }
+
             }
-        }.start();
+
     }
 
     public void stopScroll() {

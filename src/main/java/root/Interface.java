@@ -69,17 +69,28 @@ public class Interface extends Application {
         // --------- ANIMATION DE LA SCÈNE ---------
         AnimationTimer animationTimer = new AnimationTimer() {
             double lastTime = 0;
+            boolean previous  = false ;
 
             @Override
             public void handle(long now) {
-                double deltaTime = (lastTime - now) * 1e-9;
+
+                double deltaTime = (now - lastTime) * 1e-9;
 
                 if (lastTime == 0) {
                     lastTime = now;
                     return;
                 }
+
                 enemy.couldownJump();
-                enemy.updatePosition(deltaTime);
+
+                if (enemy.go) {
+                    enemy.updatePosition(deltaTime);
+                }
+                if (!isPaused){
+                    enemy.gravityUnblock();
+                }
+                // --------- DÉFILEMENT DE L'ARRIÈRE-PLAN ----------
+                background.scroll(enemy.getPickupCoin());
                 lastTime = now;
             }
         };
@@ -95,32 +106,33 @@ public class Interface extends Application {
         Button pauseButton = new Button("Pause");
         // --------- AJOUT BARRE DE STATUT ----------
         Text playerLife = new Text("Life: " + enemy.getHealthStatus());
-        Text nbOfCoin = new Text("Coins: " + enemy.getPickupCoin());
+        Text nbOfCoin = new Text("Coins: " + enemy.getAllCoin());
         // --------- AJOUT ÉLÉMENTS À LA BARRE DE STATUT ----------
         statusBar.getChildren().addAll(pauseButton, separator1,  playerLife, separator2, nbOfCoin);
         // --------- AJOUT PANNEAU DE JEU AU ROOT ---------
         root.setCenter(gamePane);
         // --------- AJOUT ÉLÉMENTS AU ROOT ----------
         root.setBottom(statusBar);
-        // --------- DÉFILEMENT DE L'ARRIÈRE-PLAN ----------
-        background.scroll(enemy.getPickupCoin());
+
 
 
         // ------------------------------------ ESPACE DE GESTION DES ÉVÉNEMENTS ------------------------------------
         // --------- GESTIONNAIRE D'ÉVÉNEMENTS ----------
-        /*
+
         pauseButton.setOnAction(event -> {
-            isPaused = !isPaused; // Inverser l'état de pause
+
+            isPaused = !isPaused; // Inverse l'état de pause
             if (isPaused) {
-                gravity.disableGravity();
-                background.stopScroll();
+                animationTimer.stop(); // Arrête le timer si en pause
+                pauseButton.setText("Resume"); // Change le texte du bouton pour indiquer la prochaine action
+                System.out.println("Game is paused");
+                enemy.gravityBlock();
+
             } else {
-                gravity.enableGravity();
-                background.startScroll();
+                animationTimer.start(); // Redémarre le timer si le jeu reprend
+                pauseButton.setText("Pause"); // Revenir au texte original
             }
         });
-        */
-
 
 
 
@@ -130,4 +142,5 @@ public class Interface extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }
