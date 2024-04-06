@@ -24,7 +24,7 @@ public class Enemy extends Character {
 
     // -------------- Constructor --------------
     public Enemy(){
-        ratio = 0.45;
+        ratio = 0.40;
         healthStatus = 100;
         characterImage = new Image("file:src/main/resources/luffysprite.png");
     }
@@ -60,12 +60,11 @@ public class Enemy extends Character {
         this.pickupCoin += 1;
     }
 
-    public void notJumping() {
+    public void isJumping() {
         // L'ennemi ne saute pas alors il bounce
-        vy = JUMP_VELOCITY;
+        vy = -JUMP_VELOCITY;
         jumpingStatus = true;
     }
-
 
     public void updatePosition(double dt) {
         // Calcul de la nouvelle vitesse et la nouvelle position de l'ennemi
@@ -79,16 +78,16 @@ public class Enemy extends Character {
        borderTouch();
     }
 
-    private  void borderTouch(){
+    private void borderTouch(){
         if (imageViewCharacter.getY() > Background.HEIGHT -(imageViewCharacter.getFitHeight())) {
-            vy =  JUMP_VELOCITY;
+            vy =  -JUMP_VELOCITY;
 
         } else if (imageViewCharacter.getY() < 0) {
-            vy =  -JUMP_VELOCITY;
+            vy =  JUMP_VELOCITY;
         }
-        }
+    }
 
-    public void couldownJump(){
+    public void jumpCooldown(){
         if (jumpingStatus) {
             jumpingInterval++;
         }
@@ -97,6 +96,6 @@ public class Enemy extends Character {
             jumpingInterval = 0;
         }
     }
-    }
+}
 
 

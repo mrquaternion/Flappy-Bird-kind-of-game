@@ -47,7 +47,7 @@ public class Interface extends Application {
         Coin[] coins = new Coin[5]; // NOMBRE ARBITRAIRE DE PIÈCES
         for (int i = 0; i < coins.length; i++) { coins[i] = new Coin(); } // Créer pièces
         CoinGenerator coinGenerator = new CoinGenerator(); // Créer générateur de pièces
-        coinGenerator.spawnCoin(coins, enemy); // Génération de pièces
+
         // --------- CRÉATION SCÈNE ----------
         Scene scene = new Scene(root, 640, 440);
         // --------- CRÉATION DE LA GRAVITÉ ----------
@@ -79,7 +79,7 @@ public class Interface extends Application {
         // --------- AJOUT ÉLÉMENTS AU ROOT ----------
         root.setBottom(statusBar);
         // --------- DÉFILEMENT DE L'ARRIÈRE-PLAN ----------
-        background.scroll(enemy.getPickupCoin());
+
 
 
         // ------------------------------------ ESPACE DE GESTION DES ÉVÉNEMENTS ------------------------------------
@@ -100,7 +100,7 @@ public class Interface extends Application {
         // --------- APPLIQUER GRAVITÉ À LA SCÈNE ----------
         scene.setOnKeyPressed((event) -> {
             if (event.getCode() == KeyCode.W && !enemy.jumpingStatus) {
-                enemy.notJumping();
+                enemy.isJumping();
             }
         });
 
@@ -110,25 +110,27 @@ public class Interface extends Application {
 
             @Override
             public void handle(long now) {
-                double deltaTime = (lastTime - now) * 1e-9;
+                double deltaTime = (now - lastTime) * 1e-9;
 
                 if (lastTime == 0) {
                     lastTime = now;
                     return;
                 }
-                enemy.couldownJump();
+                enemy.jumpCooldown();
                 enemy.updatePosition(deltaTime);
+                coinGenerator.spawnCoin(coins, enemy, deltaTime); // Génération de pièces
+                background.scroll(enemy.getPickupCoin());
+
 
                 // update text of nbOfCoins
                 nbOfCoin.setText("Coins: " + enemy.getPickupCoin());
+                // update text of playerLife
+                playerLife.setText("Life: " + enemy.getHealthStatus());
 
                 lastTime = now;
             }
         };
         animationTimer.start();
-
-
-
 
         // --------- AFFICHAGE DE LA SCÈNE ----------
         primaryStage.show();

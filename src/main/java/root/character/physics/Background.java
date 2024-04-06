@@ -8,8 +8,9 @@ public class Background {
     public static final int HEIGHT = 400;
     private ImageView imageViewBackground_1;
     private ImageView imageViewBackground_2;
-    private  double speed;
+    private double speed;
     private boolean isScrolling = true;
+    static final int SPEED_BOOST = 10;
 
     public Background() {
         Image imageBackground = new Image("file:src/main/resources/bg.png");
@@ -28,13 +29,14 @@ public class Background {
 
     public void scroll(int numberOfCoin) {
 
-        new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                speed = 6 + 10 * numberOfCoin;
+
+
+                System.out.println(speed);
+                speed = 2 + ((2 * ((double)SPEED_BOOST * numberOfCoin)) /120);
+
                 if (isScrolling) {
-                    imageViewBackground_1.setLayoutX(imageViewBackground_1.getLayoutX()-speed);
-                    imageViewBackground_2.setLayoutX(imageViewBackground_2.getLayoutX()-speed);
+                    imageViewBackground_1.setLayoutX(imageViewBackground_1.getLayoutX() - speed);
+                    imageViewBackground_2.setLayoutX(imageViewBackground_2.getLayoutX() - speed);
                 }
 
                 if (imageViewBackground_1.getLayoutX() <= -640.0) {
@@ -44,8 +46,8 @@ public class Background {
                     imageViewBackground_2.setLayoutX(640);
                     imageViewBackground_1.setLayoutX(0);
                 }
-            }
-        }.start();
+
+
     }
 
     public void stopScroll() {
