@@ -3,10 +3,14 @@ package character;
 import character.physics.Background;
 import javafx.scene.image.Image;
 
+import java.util.Random;
+import character.hero.*;
+
 public abstract class Hero  extends Character {
     private int spawnTime;
     private boolean isActivated;
     public final static int SPEED = 120;
+    Random rand;
 
 
 
@@ -46,5 +50,16 @@ public abstract class Hero  extends Character {
         return false;
     }
 
+    public Hero chooseType() {
+        double x = rand.nextDouble(); // Generate a random double between 0.0 and 1.0
+
+        if (x < 1.0 / 3.0) {
+            return new Stealth();
+        } else if (x < 2.0 / 3.0) {
+            return new Tank();
+        } else {
+            return new Melee();
+        }
+    }
 
 }

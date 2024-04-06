@@ -3,7 +3,6 @@ package character.item;
 import character.physics.Background;
 import character.physics.Collision;
 import character.Enemy;
-
 import java.util.Random;
 
 public class CoinGenerator {
