@@ -1,13 +1,12 @@
 package character.physics;
 
-import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Background {
     public static final int HEIGHT = 400;
-    private ImageView imageViewBackground_1;
-    private ImageView imageViewBackground_2;
+    private final ImageView imageViewBackground_1;
+    private final ImageView imageViewBackground_2;
     private double speed;
     private boolean isScrolling = true;
     static final int SPEED_BOOST = 10;

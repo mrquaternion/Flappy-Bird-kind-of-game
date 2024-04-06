@@ -60,8 +60,6 @@ public class Interface extends Application {
 
 
 
-
-
         // ------------------------------------ ESPACE D'AJOUT AU JEU ------------------------------------
         // --------- AJOUT LES ÉLÉMENTS (BACKGROUND ET ENNEMI) AU PANNEAU DE JEU ----------
         gamePane.getChildren().addAll(background.getImageViewBackground_1(), background.getImageViewBackground_2(), enemy.getImageView());
