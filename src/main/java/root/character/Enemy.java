@@ -70,7 +70,7 @@ public class Enemy extends Character {
         vy = -JUMP_VELOCITY;
         jumpingStatus = true;
     }
-
+    @Override
     public void updatePosition(double dt) {
         // Calcul de la nouvelle vitesse et la nouvelle position de l'ennemi
         vy += GRAVITY * dt;
@@ -82,8 +82,8 @@ public class Enemy extends Character {
         // On vérifie si l'ennemi est au sol
         borderTouch();
     }
-
-    private void borderTouch() {
+    @Override
+    protected void borderTouch() {
         if (imageViewCharacter.getY() > Background.HEIGHT - (imageViewCharacter.getFitHeight())) {
             vy = -JUMP_VELOCITY;
 

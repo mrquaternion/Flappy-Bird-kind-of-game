@@ -47,6 +47,9 @@ public abstract class Character {
         return hitbox;
     }
 
+    public abstract void updatePosition(double dt);
+
+    protected abstract void borderTouch();
 
 }
 

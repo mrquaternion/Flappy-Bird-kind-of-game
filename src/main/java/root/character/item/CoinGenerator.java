@@ -3,7 +3,7 @@ package character.item;
 import character.physics.Background;
 import character.physics.Collision;
 import character.Enemy;
-import javafx.animation.AnimationTimer;
+
 import java.util.Random;
 
 public class CoinGenerator {
@@ -16,7 +16,7 @@ public class CoinGenerator {
 
              if (coin.isActive) {
                  coin.updatePosition(enemy.getPickupCoin(), dt);
-                 if (Collision.checkCollision(coin, enemy)) {
+                 if (Collision.checkCollisionCoin(coin, enemy)) {
                      enemy.increasePickupCoin();
                      coin.isActive = false;
                      resetCoinPosition(coin);

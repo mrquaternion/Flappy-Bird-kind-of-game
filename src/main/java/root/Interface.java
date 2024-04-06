@@ -110,19 +110,22 @@ public class Interface extends Application {
                 enemy.jumpCooldown();
                 if (enemy.go) {
                     enemy.updatePosition(deltaTime);
+                    coinGenerator.spawnCoin(coins, enemy, deltaTime); // Génération de pièces
                 }
-                if (!isPaused){
+                if (!isPaused) {
                     enemy.gravityUnblock();
-                coinGenerator.spawnCoin(coins, enemy, deltaTime); // Génération de pièces
-                background.scroll(enemy.getPickupCoin());
 
 
-                // update text of nbOfCoins
-                nbOfCoin.setText("Coins: " + enemy.getPickupCoin());
-                // update text of playerLife
-                playerLife.setText("Life: " + enemy.getHealthStatus());
+                    background.scroll(enemy.getPickupCoin());
 
-                lastTime = now;
+
+                    // update text of nbOfCoins
+                    nbOfCoin.setText("Coins: " + enemy.getPickupCoin());
+                    // update text of playerLife
+                    playerLife.setText("Life: " + enemy.getHealthStatus());
+
+                    lastTime = now;
+                }
             }
         };
         animationTimer.start();

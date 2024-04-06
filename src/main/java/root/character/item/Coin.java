@@ -20,7 +20,7 @@ public class Coin {
     public Coin() {
         this.image = new Image("file:src/main/resources/coin.png");
         this.imageView = new ImageView(image);
-        this.imageView.setX(640);
+        this.imageView.setX((int)   Background.WIDTH);
         this.imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
     }
 
