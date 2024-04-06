@@ -130,6 +130,11 @@ public class Interface extends Application {
                 }
                 enemy.jumpCooldown();
                 if (enemy.go) {
+                    for (int i = 0; i < Hero.NUMBER_OF_HEROES; i++) {
+                        melee[i].updatePosition(deltaTime);
+                        tank[i].updatePosition(deltaTime);
+                        stealth[i].updatePosition(deltaTime);
+                    }
                     enemy.updatePosition(deltaTime);
                     coinGenerator.spawnCoin(coins, enemy, deltaTime); // Génération de pièces
                 }
@@ -140,9 +145,10 @@ public class Interface extends Application {
                     background.scroll(enemy.getPickupCoin());
 
                     for (int i = 0, j = 0; i < Hero.NUMBER_OF_HEROES; i++, j += 2) {
-                        melee[i].updatePosition(deltaTime);
-                        tank[i].updatePosition(deltaTime);
-                        stealth[i].updatePosition(deltaTime);
+
+
+
+
                         melee[i].borderTouch();
                         tank[i].borderTouch();
                         stealth[i].borderTouch();
@@ -152,7 +158,9 @@ public class Interface extends Application {
 
                     }
 
-
+                    //faire spawn les heros mettre le timer avant de les faire spawn
+                    // ---- > Hero.chooseType(melee, tank, stealth);
+                    Hero.chooseType(melee, tank, stealth);
 
                     // update text of nbOfCoins
                     nbOfCoin.setText("Coins: " + enemy.getAllCoin());
@@ -177,7 +185,7 @@ public class Interface extends Application {
                 } else {
                     animationTimer.start(); // Redémarre le timer si le jeu reprend
                     pauseButton.setText("Pause"); // Revenir au texte original
-                    Hero.chooseType(melee, tank, stealth);
+
                 }
             });
 

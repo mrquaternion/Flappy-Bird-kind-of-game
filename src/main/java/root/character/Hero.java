@@ -54,24 +54,15 @@ public abstract class Hero  extends Character {
     }
 
     public static void chooseType(Melee[] melee, Tank[] tank, Stealth[] stealths) {
-        double x;
-        boolean didSpawn = false;
-        do {
-            x =rand.nextDouble(); // Generate a random double between 0.0 and 1.0
+        double x =rand.nextDouble(); // Generate a random double between 0.0 and 1.0
+
             if (x < 1.0 / 3.0) {
-                if(spawn(melee)){
-                    didSpawn = true;
-                }
+                spawn(melee);
             } else if (x < 2.0 / 3.0) {
-                if(spawn(tank)){
-                    didSpawn = true;
-                }
+               spawn(tank);
             } else {
-                if(spawn(stealths)){
-                    didSpawn = true;
-                }
+               spawn(stealths);
             }
-        } while (!didSpawn);
 
     }
 
