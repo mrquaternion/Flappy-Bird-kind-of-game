@@ -47,7 +47,7 @@ public class Interface extends Application {
         Coin[] coins = new Coin[5]; // NOMBRE ARBITRAIRE DE PIÈCES
         for (int i = 0; i < coins.length; i++) { coins[i] = new Coin(); } // Créer pièces
         CoinGenerator coinGenerator = new CoinGenerator(); // Créer générateur de pièces
-        coinGenerator.spawnCoin(coins, enemy); // Génération de pièces
+
         // --------- CRÉATION SCÈNE ----------
         Scene scene = new Scene(root, 640, 440);
         // --------- CRÉATION DE LA GRAVITÉ ----------
@@ -59,42 +59,7 @@ public class Interface extends Application {
         primaryStage.setResizable(false);
 
 
-        // --------- APPLIQUER GRAVITÉ À LA SCÈNE ----------
-        scene.setOnKeyPressed((event) -> {
-            if (event.getCode() == KeyCode.W && !enemy.jumpingStatus) {
-                enemy.notJumping();
-            }
-        });
 
-        // --------- ANIMATION DE LA SCÈNE ---------
-        AnimationTimer animationTimer = new AnimationTimer() {
-            double lastTime = 0;
-            boolean previous  = false ;
-
-            @Override
-            public void handle(long now) {
-
-                double deltaTime = (now - lastTime) * 1e-9;
-
-                if (lastTime == 0) {
-                    lastTime = now;
-                    return;
-                }
-
-                enemy.couldownJump();
-
-                if (enemy.go) {
-                    enemy.updatePosition(deltaTime);
-                }
-                if (!isPaused){
-                    enemy.gravityUnblock();
-                }
-                // --------- DÉFILEMENT DE L'ARRIÈRE-PLAN ----------
-                background.scroll(enemy.getPickupCoin());
-                lastTime = now;
-            }
-        };
-        animationTimer.start();
 
 
         // ------------------------------------ ESPACE D'AJOUT AU JEU ------------------------------------
@@ -113,28 +78,69 @@ public class Interface extends Application {
         root.setCenter(gamePane);
         // --------- AJOUT ÉLÉMENTS AU ROOT ----------
         root.setBottom(statusBar);
+        // --------- DÉFILEMENT DE L'ARRIÈRE-PLAN ----------
 
 
 
         // ------------------------------------ ESPACE DE GESTION DES ÉVÉNEMENTS ------------------------------------
         // --------- GESTIONNAIRE D'ÉVÉNEMENTS ----------
 
-        pauseButton.setOnAction(event -> {
 
-            isPaused = !isPaused; // Inverse l'état de pause
-            if (isPaused) {
-                animationTimer.stop(); // Arrête le timer si en pause
-                pauseButton.setText("Resume"); // Change le texte du bouton pour indiquer la prochaine action
-                System.out.println("Game is paused");
-                enemy.gravityBlock();
 
-            } else {
-                animationTimer.start(); // Redémarre le timer si le jeu reprend
-                pauseButton.setText("Pause"); // Revenir au texte original
+
+        // --------- APPLIQUER GRAVITÉ À LA SCÈNE ----------
+        scene.setOnKeyPressed((event) -> {
+            if (event.getCode() == KeyCode.W && !enemy.jumpingStatus) {
+                enemy.isJumping();
             }
         });
 
+        // --------- ANIMATION DE LA SCÈNE ---------
+        AnimationTimer animationTimer = new AnimationTimer() {
+            double lastTime = 0;
 
+            @Override
+            public void handle(long now) {
+                double deltaTime = (now - lastTime) * 1e-9;
+
+                if (lastTime == 0) {
+                    lastTime = now;
+                    return;
+                }
+                enemy.jumpCooldown();
+                if (enemy.go) {
+                    enemy.updatePosition(deltaTime);
+                }
+                if (!isPaused){
+                    enemy.gravityUnblock();
+                coinGenerator.spawnCoin(coins, enemy, deltaTime); // Génération de pièces
+                background.scroll(enemy.getPickupCoin());
+
+
+                // update text of nbOfCoins
+                nbOfCoin.setText("Coins: " + enemy.getPickupCoin());
+                // update text of playerLife
+                playerLife.setText("Life: " + enemy.getHealthStatus());
+
+                lastTime = now;
+            }
+        };
+        animationTimer.start();
+
+         pauseButton.setOnAction(event -> {
+
+                isPaused = !isPaused; // Inverse l'état de pause
+                if (isPaused) {
+                    animationTimer.stop(); // Arrête le timer si en pause
+                    pauseButton.setText("Resume"); // Change le texte du bouton pour indiquer la prochaine action
+                    System.out.println("Game is paused");
+                    enemy.gravityBlock();
+
+                } else {
+                    animationTimer.start(); // Redémarre le timer si le jeu reprend
+                    pauseButton.setText("Pause"); // Revenir au texte original
+                }
+            });
 
         // --------- AFFICHAGE DE LA SCÈNE ----------
         primaryStage.show();

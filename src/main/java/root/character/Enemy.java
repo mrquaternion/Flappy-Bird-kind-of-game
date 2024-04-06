@@ -23,8 +23,8 @@ public class Enemy extends Character {
 
 
     // -------------- Constructor --------------
-    public Enemy() {
-        ratio = 0.45;
+    public Enemy(){
+        ratio = 0.40;
         healthStatus = 100;
         characterImage = new Image("file:src/main/resources/luffysprite.png");
     }
@@ -65,12 +65,11 @@ public class Enemy extends Character {
     }
 
 
-    public void notJumping() {
+    public void isJumping() {
         // L'ennemi ne saute pas alors il bounce
         vy = -JUMP_VELOCITY;
         jumpingStatus = true;
     }
-
 
     public void updatePosition(double dt) {
         // Calcul de la nouvelle vitesse et la nouvelle position de l'ennemi
@@ -93,7 +92,7 @@ public class Enemy extends Character {
         }
     }
 
-    public void couldownJump() {
+    public void jumpCooldown(){
         if (jumpingStatus) {
             jumpingInterval++;
         }
