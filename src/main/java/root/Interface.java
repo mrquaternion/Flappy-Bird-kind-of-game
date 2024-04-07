@@ -145,10 +145,6 @@ public class Interface extends Application {
                     background.scroll(enemy.getPickupCoin());
 
                     for (int i = 0, j = 0; i < Hero.NUMBER_OF_HEROES; i++, j += 2) {
-
-
-
-
                         melee[i].borderTouch();
                         tank[i].borderTouch();
                         stealth[i].borderTouch();
