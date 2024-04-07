@@ -10,24 +10,27 @@ public class Bullet {
 
     private double r;
 
+    double ratio;
+
 
     public Bullet(double startX, double startY) {
         this.image = new Image("file:src/main/resources/chopper.png");
         this.imageView = new ImageView(image);
         imageView.setX(startX);
         imageView.setY(startY);
+        ratio = 0.1;
         setImageView();
     }
 
     public void setImageView() {
-        imageView.setFitWidth(image.getWidth() * 0.3);
-        imageView.setFitHeight(image.getHeight() * 0.3);
+        imageView.setFitWidth(image.getWidth() * ratio);
+        imageView.setFitHeight(image.getHeight() * ratio);
         imageView.setPreserveRatio(true);
     }
 
     public void updatePosition(double dt) {
         // frame per second
-        double speed = 500;
+        double speed = 3000;
         imageView.setX(imageView.getX() + speed * dt);
     }
 

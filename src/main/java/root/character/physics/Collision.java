@@ -18,7 +18,6 @@ public class Collision {
         double dy = hero.getMidY() - enemy.getMidY();
         double d2 = dx * dx + dy * dy;
         return d2 < (hero.getRadius() + enemy.getRadius()) * (hero.getRadius() + enemy.getRadius());
-
     }
 
     public static boolean checkCollisionBullet(Hero hero, Bullet bullet) {

@@ -1,9 +1,10 @@
 package character;
 
+import character.hero.Melee;
+import character.hero.Tank;
 import character.physics.Background;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import character.item.Bullet;
 
 public class Enemy extends Character {
     Image image;
@@ -23,7 +24,7 @@ public class Enemy extends Character {
 
     // -------------- Constructor --------------
     public Enemy() {
-        this.ratio = 0.40;
+        this.ratio = 0.16;
         this.healthStatus = 100;
         this.image = new Image("file:src/main/resources/luffysprite.png");
         this.imageView = new ImageView(image);
@@ -95,8 +96,11 @@ public class Enemy extends Character {
     }
     public void updatePosition(double dt) {
         // Calcul de la nouvelle vitesse et la nouvelle position de l'ennemi
-        vy += GRAVITY * dt;
-        newY = imageView.getY() + (vy * dt);
+        vy += (GRAVITY + 15 * pickupCoin) * dt;
+        if (vy > 300) {
+            vy = 300;
+        }
+        newY = imageView.getY() + (vy * dt) ;
 
         // On update la position de l'ennemi
         imageView.setY(newY);
@@ -129,6 +133,24 @@ public class Enemy extends Character {
     }
     public void gravityUnblock () {
         go = true;
+    }
+
+    public boolean death(){
+        if (healthStatus == 0) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public void killReward(Hero hero){
+        if (hero instanceof Melee) {
+            allCoin += 5;
+        }else if(hero instanceof Tank){
+            allCoin +=10;
+        }else {
+           allCoin += 7;
+        }
     }
 }
 

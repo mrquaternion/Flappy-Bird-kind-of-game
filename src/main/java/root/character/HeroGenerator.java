@@ -10,7 +10,8 @@ public class HeroGenerator {
             int index = rand.nextInt(heroes.length);
             if (!heroes[index].isActivated) {
                 heroes[index].isActivated = true;
-                resetHeroPosition(heroes[index]);
+                Hero.setRandomRadius(heroes[index]);
+                heroes[index].resetHeroPosition();
                 return true; // Indicate that a hero was spawned
             }
         }
@@ -21,22 +22,18 @@ public class HeroGenerator {
     public void updateHeroes(Hero[] heroes, Enemy enemy, double dt) {
         for (Hero hero : heroes) {
             if (hero.isActivated) {
-                Hero.setRandomRadius(hero);
                 hero.updatePosition(enemy.getPickupCoin(), dt);
                 hero.borderTouch();
                 if (Collision.checkCollisionHero(hero, enemy)) {
                     hero.isActivated = false;
                     hero.interaction(enemy);
-                    resetHeroPosition(hero);
+                    hero.resetHeroPosition();
                 }
             }
             hero.setImageView();
         }
     }
 
-    public void resetHeroPosition(Hero hero) {
-        hero.getImageView().setX(Background.WIDTH);
-        hero.getImageView().setY(rand.nextDouble() * (Background.HEIGHT - hero.getImageView().getFitHeight()));
-    }
+
 
 }

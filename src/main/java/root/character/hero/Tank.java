@@ -35,18 +35,12 @@ public class Tank extends Hero {
 
         }
     }
-    public void teleport(){
-        if (Math.random() < 0.5)
-            imageView.setX( imageView.getX() - 30 * Math.random());
-        else{
-            imageView.setX(imageView.getX() + 30 * Math.random());
-        }
-        if (Math.random() < 0.5)
-            imageView.setY( imageView.getY() - 30 * Math.random());
-        else{
-            imageView.setY(imageView.getY() + 30 * Math.random());
-        }
+    public void teleport() {
+        imageView.setX(imageView.getX() + getRandomDisplacement());
+        imageView.setY(imageView.getY() + getRandomDisplacement());
+    }
 
-
+    private double getRandomDisplacement() {
+        return (Math.random() - 0.5) * 60; // Produit un nombre entre -30 et 30
     }
 }

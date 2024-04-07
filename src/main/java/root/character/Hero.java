@@ -11,7 +11,7 @@ public abstract class Hero extends Character {
     public static final int NUMBER_OF_HEROES = 6;
     public static final double vx = 120;
     public static final int frameRate = 60;
-    public int nbOfCoins = 0;
+
     Enemy enemy;
 
     // -------------- Setters --------------
@@ -24,6 +24,7 @@ public abstract class Hero extends Character {
 
     public static void setRandomRadius(Hero hero){
         hero.r = 10 + Math.random() * 35;
+        hero.setRatio(hero.r / hero.image.getHeight());
     }
 
 // -------------- Getters --------------
@@ -54,6 +55,11 @@ public abstract class Hero extends Character {
             imageView.setX(Background.WIDTH);
             imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
         }
+    }
+
+    public void resetHeroPosition() {
+        imageView.setX(Background.WIDTH);
+        imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
     }
 
 

@@ -1,5 +1,6 @@
 import character.Hero;
 import character.HeroGenerator;
+import character.Scores;
 import character.hero.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -24,7 +25,6 @@ import character.physics.Collision;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Iterator;
 
 
 public class Interface extends Application {
@@ -33,6 +33,7 @@ public class Interface extends Application {
     private Enemy enemy; // Declare enemy at the class level
     private List<Bullet> bullets = new ArrayList<>();
     private Bullet lastBullet = null;
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -61,7 +62,6 @@ public class Interface extends Application {
             } else {
                 heroes[i] = new Stealth();
             }
-
         }
 
         // --------- CRÉATION DE SÉPARATEURS ---------
@@ -159,14 +159,15 @@ public class Interface extends Application {
                         }
                         Hero hitHero = Collision.checkCollisionBullet(heroes, lastBullet);
                         if (hitHero != null) {
-                            hitHero.interaction(enemy);
-                            heroGenerator.resetHeroPosition(hitHero);
+                            hitHero.resetHeroPosition();
+                            enemy.killReward(hitHero);
                             gamePane.getChildren().remove(lastBullet.getImageView());
                         }
                     }
-
-
-
+                    if (enemy.death()){
+                        Scores.save(enemy.getAllCoin());
+                        primaryStage.close();
+                    }
 
                     // Spawn heroes as needed, every 3 seconds
                     if (heroGenerator.spawnHeroIfNeeded(heroes, now, lastSpawnTime)) {
@@ -215,6 +216,8 @@ public class Interface extends Application {
             gamePane.getChildren().add(lastBullet.getImageView()); // Add the bullet to the scene
         }
     }
+
+
 
 
     public static void main(String[] args) {

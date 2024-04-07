@@ -15,7 +15,6 @@ public abstract class Character {
     public abstract void setImageView ();
 
 
-
     public void setHealthStatus(int healthStatus) {
         this.healthStatus = healthStatus;
     }
@@ -34,7 +33,9 @@ public abstract class Character {
 
     public abstract double getMidY();
 
-
+    public void setRatio(double ratio) {
+        this.ratio = ratio;
+    }
 }
 
 

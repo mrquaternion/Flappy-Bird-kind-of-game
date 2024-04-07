@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Stealth extends Hero {
+    private double centerY;
+    protected double sinCount = 0;
 
     public Stealth() {
         this.image = new Image("file:src/main/resources/BlackBeard.png");
@@ -29,6 +31,15 @@ public class Stealth extends Hero {
 
     @Override
     public void updatePosition(int nbOfCoins, double dt) {
+        sinCount += dt;
         imageView.setX(imageView.getX() - ((vx / frameRate) + (nbOfCoins * 10) * dt));
+        imageView.setY(centerY + Math.sin(sinCount*3)*25);
+    }
+
+    @Override
+    public void resetHeroPosition(){
+        imageView.setX(Background.WIDTH);
+        imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
+        centerY = imageView.getY();
     }
 }
