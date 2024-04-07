@@ -1,27 +1,53 @@
 package character;
 
 import character.physics.Background;
-import character.physics.Collision;
+import character.physics.Hitbox;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
-import java.util.Random;
-import character.hero.*;
+public abstract class Hero extends Character {
+    public Image image;
+    public ImageView imageView = new ImageView();
+    protected boolean isActivated = false;
+    public static final int NUMBER_OF_HEROES = 6;
+    public static final double vx = 120;
+    public static final int frameRate = 60;
+    public int nbOfCoins = 0;
+    Enemy enemy;
 
-public abstract class Hero  extends Character {
-    private int spawnTime;
-    private boolean isActivated;
-    public final static int SPEED = 120;
-    private static Random rand = new Random();
-    public static final int NUMBER_OF_HEROES = 2;
 
+    public void setHitbox() {
+        hitbox.setX(imageView.getX());
+        hitbox.setY(imageView.getY());
+        hitbox.setWidth(imageView.getFitWidth());
+        hitbox.setHeight(imageView.getFitHeight());
+    }
+
+    public ImageView getImageView() {
+        setImageView();
+        return imageView;
+    }
+
+    public void setImageView() {
+
+        imageView.setFitWidth(image.getWidth() * ratio);
+        imageView.setFitHeight(image.getHeight() * ratio);
+        imageView.setPreserveRatio(true);
+    }
+
+    public Hitbox getHitbox() {
+        Hitbox hitbox = new Hitbox();
+        hitbox.setX(imageView.getX());
+        hitbox.setY(imageView.getY());
+        hitbox.setWidth(image.getWidth() * ratio);
+        hitbox.setHeight(image.getHeight() * ratio);
+        return hitbox;
+    }
 
     @Override
     public void imageViewCharacterSet() {
-        double randomY = Math.random() * (Background.HEIGHT - imageViewCharacter.getFitHeight());
-        imageViewCharacter.setY(randomY);
-        imageViewCharacter.setY(randomY);
-        imageViewCharacter.setX(Background.WIDTH);
-
+        imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
+        imageView.setX(Background.WIDTH - 20);
     }
 
     public abstract void interaction(Enemy enemy);
@@ -29,52 +55,19 @@ public abstract class Hero  extends Character {
     @Override
     public void updatePosition(double dt) {
         // Calcul de la nouvelle vitesse et la nouvelle position du hero
-        if (isActivated) {
-            imageViewCharacter.setX(imageViewCharacter.getX() - SPEED * dt);
-        }
+        imageView.setX(imageView.getX() - ((vx / frameRate) + (nbOfCoins * 10) * dt));
+    }
+    public void updatePosition(int nbOfCoins, double dt) {
+        imageView.setX(imageView.getX() - ((vx / frameRate) + (nbOfCoins * 10) * dt));
     }
 
+
+    @Override
     public void borderTouch() {
-        if (imageViewCharacter.getX() < -imageViewCharacter.getFitWidth()) {
+        if (imageView.getX() < -imageView.getFitWidth()) {
             isActivated = false;
-            imageViewCharacter.setX(Background.WIDTH);
-            imageViewCharacter.setY(Math.random() * (Background.HEIGHT - imageViewCharacter.getFitHeight()));
+            imageView.setX(Background.WIDTH);
+            imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
         }
     }
-
-
-    public static boolean spawn(Hero[] heroes) {
-        for (Hero hero : heroes) {
-            if (!hero.isActivated) {
-                hero.isActivated = true;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static void chooseType(Melee[] melee, Tank[] tank, Stealth[] stealths) {
-        double x =rand.nextDouble(); // Generate a random double between 0.0 and 1.0
-
-            if (x < 1.0 / 3.0) {
-                spawn(melee);
-            } else if (x < 2.0 / 3.0) {
-               spawn(tank);
-            } else {
-               spawn(stealths);
-            }
-
-    }
-
-    public void  Collision(Enemy enemy) {
-        if (Collision.checkCollisionHero(this, enemy)) {
-            isActivated = false;
-            this.interaction(enemy);
-            imageViewCharacter.setX(Background.WIDTH);
-            imageViewCharacter.setY(Math.random() * (Background.HEIGHT - imageViewCharacter.getFitHeight()));
-        }
-    }
-
-
-
 }

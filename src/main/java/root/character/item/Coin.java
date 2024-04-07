@@ -20,7 +20,7 @@ public class Coin {
     public Coin() {
         this.image = new Image("file:src/main/resources/coin.png");
         this.imageView = new ImageView(image);
-        this.imageView.setX((int)   Background.WIDTH);
+        this.imageView.setX(Background.WIDTH);
         this.imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
     }
 
@@ -50,7 +50,6 @@ public class Coin {
         imageView.setFitWidth(image.getWidth() * 0.02);
         imageView.setFitHeight(image.getHeight() * 0.02);
         imageView.setPreserveRatio(true);
-
     }
 
     // -------------- Methods --------------

@@ -1,8 +1,6 @@
 import character.Hero;
-import character.hero.Melee;
-import character.hero.Stealth;
-import character.hero.Tank;
-import character.physics.Collision;
+import character.HeroGenerator;
+import character.hero.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -14,9 +12,7 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 import character.Enemy;
@@ -27,7 +23,7 @@ import javafx.scene.text.Text;
 
 public class Interface extends Application {
     private boolean isPaused = false;
-
+    Hero lastHero = null;
 
     @Override
     public void start(Stage primaryStage) {
@@ -46,17 +42,17 @@ public class Interface extends Application {
         Enemy enemy = new Enemy();
         enemy.setImageView();
 
-        // --------- CRÉATION Des heros  ---------
-        Melee[] melee = new Melee[Hero.NUMBER_OF_HEROES];
-        Tank[] tank = new Tank[Hero.NUMBER_OF_HEROES];
-        Stealth[] stealth = new Stealth[Hero.NUMBER_OF_HEROES];
+        // --------- CRÉATION DES HÉROS  ---------
+        Hero[] heroes = new Hero[Hero.NUMBER_OF_HEROES];
         for (int i = 0; i < Hero.NUMBER_OF_HEROES; i++) {
-            melee[i] = new Melee();
-            melee[i].setImageView();
-            tank[i] = new Tank();
-            tank[i].setImageView();
-            stealth[i] = new Stealth();
-            stealth[i].setImageView();
+            if (i % 3 == 0) {
+                heroes[i] = new Melee();
+            } else if (i % 3 == 1) {
+                heroes[i] = new Tank();
+            } else {
+                heroes[i] = new Stealth();
+            }
+
         }
 
         // --------- CRÉATION DE SÉPARATEURS ---------
@@ -73,6 +69,8 @@ public class Interface extends Application {
         Gravity gravity = new Gravity();
         // --------- CRÉATION ARRIÈRE-PLAN ----------
         Background background = new Background();
+        // --------- CRÉATION GÉNÉRATEUR DE HÉROS ----------
+        HeroGenerator heroGenerator = new HeroGenerator();
         // --------- CONFIGURATION DE LA SCÈNE ----------
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
@@ -82,12 +80,14 @@ public class Interface extends Application {
         // ------------------------------------ ESPACE D'AJOUT AU JEU ------------------------------------
         // --------- AJOUT LES ÉLÉMENTS (BACKGROUND ET ENNEMI) AU PANNEAU DE JEU ----------
         gamePane.getChildren().addAll(background.getImageViewBackground_1(), background.getImageViewBackground_2(), enemy.getImageView());
-        // --------- AJOUTER HEROS AU PANNEAU DE JEU ----------
-        for (int i = 0; i < Hero.NUMBER_OF_HEROES; i++) {
-            gamePane.getChildren().addAll(melee[i].getImageView(), tank[i].getImageView(), stealth[i].getImageView());
-        }
         // --------- AJOUTER PIÈCES AU PANNEAU DE JEU ----------
-        for (Coin coin : coins) { gamePane.getChildren().add(coin.getImageView()); } // Ajouter pièces au panneau de jeu
+        for (Coin coin : coins) {
+            gamePane.getChildren().add(coin.getImageView());
+        }
+        // --------- AJOUTER HÉROS AU PANNEAU DE JEU ----------
+        for (Hero hero : heroes) {
+            gamePane.getChildren().add(hero.getImageView());
+        }
         // --------- AJOUT BOUTON PAUSE ----------
         Button pauseButton = new Button("Pause");
         // --------- AJOUT BARRE DE STATUT ----------
@@ -102,13 +102,8 @@ public class Interface extends Application {
         // --------- DÉFILEMENT DE L'ARRIÈRE-PLAN ----------
 
 
-
         // ------------------------------------ ESPACE DE GESTION DES ÉVÉNEMENTS ------------------------------------
         // --------- GESTIONNAIRE D'ÉVÉNEMENTS ----------
-
-
-
-
         // --------- APPLIQUER GRAVITÉ À LA SCÈNE ----------
         scene.setOnKeyPressed((event) -> {
             if (event.getCode() == KeyCode.W && !enemy.jumpingStatus) {
@@ -119,6 +114,7 @@ public class Interface extends Application {
         // --------- ANIMATION DE LA SCÈNE ---------
         AnimationTimer animationTimer = new AnimationTimer() {
             double lastTime = 0;
+            double lastSpawnTime = 0;
 
             @Override
             public void handle(long now) {
@@ -126,41 +122,25 @@ public class Interface extends Application {
 
                 if (lastTime == 0) {
                     lastTime = now;
+                    lastSpawnTime = now;
                     return;
                 }
+
                 enemy.jumpCooldown();
                 if (enemy.go) {
-                    for (int i = 0; i < Hero.NUMBER_OF_HEROES; i++) {
-                        melee[i].updatePosition(deltaTime);
-                        tank[i].updatePosition(deltaTime);
-                        stealth[i].updatePosition(deltaTime);
-                    }
                     enemy.updatePosition(deltaTime);
-                    coinGenerator.spawnCoin(coins, enemy, deltaTime); // Génération de pièces
+                    coinGenerator.spawn(coins, enemy, deltaTime); // Génération de pièces
                 }
                 if (!isPaused) {
                     enemy.gravityUnblock();
-
-
                     background.scroll(enemy.getPickupCoin());
 
-                    for (int i = 0, j = 0; i < Hero.NUMBER_OF_HEROES; i++, j += 2) {
+                    heroGenerator.updateHeroes(heroes, enemy, deltaTime);
 
-
-
-
-                        melee[i].borderTouch();
-                        tank[i].borderTouch();
-                        stealth[i].borderTouch();
-                        melee[i].Collision(enemy);
-                        tank[i].Collision(enemy);
-                        stealth[i].Collision(enemy);
-
+                    // Spawn heroes as needed, every 3 seconds
+                    if (heroGenerator.spawnHeroIfNeeded(heroes, now, lastSpawnTime)) {
+                        lastSpawnTime = now; // Update the last spawn time only when a hero is spawned
                     }
-
-                    //faire spawn les heros mettre le timer avant de les faire spawn
-                    // ---- > Hero.chooseType(melee, tank, stealth);
-                    Hero.chooseType(melee, tank, stealth);
 
                     // update text of nbOfCoins
                     nbOfCoin.setText("Coins: " + enemy.getAllCoin());
@@ -173,21 +153,20 @@ public class Interface extends Application {
         };
         animationTimer.start();
 
-         pauseButton.setOnAction(event -> {
+     pauseButton.setOnAction(event -> {
+            isPaused = !isPaused; // Inverse l'état de pause
+            if (isPaused) {
+                animationTimer.stop(); // Arrête le timer si en pause
+                pauseButton.setText("Resume"); // Change le texte du bouton pour indiquer la prochaine action
+                System.out.println("Game is paused");
+                enemy.gravityBlock();
 
-                isPaused = !isPaused; // Inverse l'état de pause
-                if (isPaused) {
-                    animationTimer.stop(); // Arrête le timer si en pause
-                    pauseButton.setText("Resume"); // Change le texte du bouton pour indiquer la prochaine action
-                    System.out.println("Game is paused");
-                    enemy.gravityBlock();
+            } else {
+                animationTimer.start(); // Redémarre le timer si le jeu reprend
+                pauseButton.setText("Pause"); // Revenir au texte original
 
-                } else {
-                    animationTimer.start(); // Redémarre le timer si le jeu reprend
-                    pauseButton.setText("Pause"); // Revenir au texte original
-
-                }
-            });
+            }
+     });
 
         // --------- AFFICHAGE DE LA SCÈNE ----------
         primaryStage.show();

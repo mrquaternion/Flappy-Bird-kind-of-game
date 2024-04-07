@@ -28,33 +28,19 @@ public class Background {
     }
 
     public void scroll(int numberOfCoin) {
+        speed = 2 + ((2 * ((double)SPEED_BOOST * numberOfCoin)) /120);
 
+        if (isScrolling) {
+            imageViewBackground_1.setLayoutX(imageViewBackground_1.getLayoutX() - speed);
+            imageViewBackground_2.setLayoutX(imageViewBackground_2.getLayoutX() - speed);
+        }
 
-
-                //System.out.println(speed);
-                speed = 2 + ((2 * ((double)SPEED_BOOST * numberOfCoin)) /120);
-
-                if (isScrolling) {
-                    imageViewBackground_1.setLayoutX(imageViewBackground_1.getLayoutX() - speed);
-                    imageViewBackground_2.setLayoutX(imageViewBackground_2.getLayoutX() - speed);
-                }
-
-                if (imageViewBackground_1.getLayoutX() <= -640.0) {
-                    imageViewBackground_1.setLayoutX(640);
-                    imageViewBackground_2.setLayoutX(0);
-                } else if (imageViewBackground_2.getLayoutX() <= -640.0) {
-                    imageViewBackground_2.setLayoutX(640);
-                    imageViewBackground_1.setLayoutX(0);
-                }
-
-
-    }
-
-    public void stopScroll() {
-        isScrolling = false;
-    }
-
-    public void startScroll() {
-        isScrolling = true;
+        if (imageViewBackground_1.getLayoutX() <= -640.0) {
+            imageViewBackground_1.setLayoutX(640);
+            imageViewBackground_2.setLayoutX(0);
+        } else if (imageViewBackground_2.getLayoutX() <= -640.0) {
+            imageViewBackground_2.setLayoutX(640);
+            imageViewBackground_1.setLayoutX(0);
+        }
     }
 }

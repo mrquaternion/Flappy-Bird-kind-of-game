@@ -1,14 +1,12 @@
 package character;
 
 import character.physics.Background;
-import character.physics.Gravity;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import character.physics.Hitbox;
-
 public class Enemy extends Character {
-
+    Image image;
+    ImageView imageView;
 
     private int pickupCoin = 0;
     private int allCoin = 0;
@@ -23,10 +21,11 @@ public class Enemy extends Character {
 
 
     // -------------- Constructor --------------
-    public Enemy(){
-        ratio = 0.40;
-        healthStatus = 100;
-        characterImage = new Image("file:src/main/resources/luffysprite.png");
+    public Enemy() {
+        this.ratio = 0.40;
+        this.healthStatus = 100;
+        this.image = new Image("file:src/main/resources/luffysprite.png");
+        this.imageView = new ImageView(image);
     }
 
     // -------------- Getters --------------
@@ -39,18 +38,26 @@ public class Enemy extends Character {
         return healthStatus;
     }
 
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void setImageView() {
+        imageView.setFitWidth(image.getWidth() * ratio);
+        imageView.setFitHeight(image.getHeight() * ratio);
+        imageView.setPreserveRatio(true);
+    }
 
     @Override
     protected void imageViewCharacterSet() {
-        imageViewCharacter.setY(Background.HEIGHT - imageViewCharacter.getFitHeight());
-        imageViewCharacter.setX(50);
+        imageView.setY(Background.HEIGHT - imageView.getFitHeight());
+        imageView.setX(50);
     }
 
     public void increasePickupCoin() {
         this.pickupCoin += 1;
         this.allCoin += 1;
     }
-
 
     public void increaseAllCoin() {
         this.allCoin += 1;
@@ -64,6 +71,13 @@ public class Enemy extends Character {
         this.allCoin = allCoin;
     }
 
+    public void setHitbox() {
+        hitbox.setX(imageView.getX());
+        hitbox.setY(imageView.getY());
+        hitbox.setWidth(imageView.getFitWidth());
+        hitbox.setHeight(imageView.getFitHeight());
+    }
+
 
     public void isJumping() {
         // L'ennemi ne saute pas alors il bounce
@@ -74,20 +88,20 @@ public class Enemy extends Character {
     public void updatePosition(double dt) {
         // Calcul de la nouvelle vitesse et la nouvelle position de l'ennemi
         vy += GRAVITY * dt;
-        newY = imageViewCharacter.getY() + (vy * dt);
+        newY = imageView.getY() + (vy * dt);
 
         // On update la position de l'ennemi
-        imageViewCharacter.setY(newY);
+        imageView.setY(newY);
 
         // On vérifie si l'ennemi est au sol
         borderTouch();
     }
     @Override
     protected void borderTouch() {
-        if (imageViewCharacter.getY() > Background.HEIGHT - (imageViewCharacter.getFitHeight())) {
+        if (imageView.getY() > Background.HEIGHT - (imageView.getFitHeight())) {
             vy = -JUMP_VELOCITY;
 
-        } else if (imageViewCharacter.getY() < 0) {
+        } else if (imageView.getY() < 0) {
             vy = JUMP_VELOCITY;
         }
     }
