@@ -1,6 +1,5 @@
 package character;
 import character.physics.Hitbox;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public abstract class Character {
@@ -9,14 +8,14 @@ public abstract class Character {
 
     protected double ratio;
 
+    protected double r;
+
 
 
     // -------------- Setters --------------
     public abstract void setImageView ();
 
-    protected abstract void imageViewCharacterSet();
 
-    public abstract void setHitbox();
 
     public void setHealthStatus(int healthStatus) {
         this.healthStatus = healthStatus;
@@ -24,14 +23,18 @@ public abstract class Character {
 
     // -------------- Getters --------------
     public abstract ImageView getImageView();
-    public Hitbox getHitbox() {
-        setHitbox();
-        return hitbox;
-    }
 
-    public abstract void updatePosition(double dt);
 
     protected abstract void borderTouch();
+
+    public double getRadius(){
+        return r;
+    }
+
+    public abstract double getMidX();
+
+    public abstract double getMidY();
+
 
 }
 

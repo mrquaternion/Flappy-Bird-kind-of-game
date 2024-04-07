@@ -21,4 +21,9 @@ public class Stealth extends Hero {
         //hitbox
         enemy.setAllCoin(enemy.getAllCoin() - 10);
     }
+
+    @Override
+    public void updatePosition(int nbOfCoins, double dt) {
+        imageView.setX(imageView.getX() - ((vx / frameRate) + (nbOfCoins * 10) * dt));
+    }
 }

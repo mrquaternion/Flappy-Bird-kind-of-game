@@ -20,6 +20,7 @@ public class Enemy extends Character {
     public boolean go = true;
 
 
+
     // -------------- Constructor --------------
     public Enemy() {
         this.ratio = 0.40;
@@ -27,6 +28,21 @@ public class Enemy extends Character {
         this.image = new Image("file:src/main/resources/luffysprite.png");
         this.imageView = new ImageView(image);
     }
+
+    // -------------- Setters --------------
+    public void setImageView() {
+        imageView.setFitWidth(image.getWidth() * ratio);
+        imageView.setFitHeight(image.getHeight() * ratio);
+        imageView.setPreserveRatio(true);
+    }
+
+    public void setRadius() {
+        this.r = imageView.getFitHeight() / 2;
+    }
+    public void setAllCoin(int allCoin) {
+        this.allCoin = allCoin;
+    }
+
 
     // -------------- Getters --------------
 
@@ -42,49 +58,42 @@ public class Enemy extends Character {
         return imageView;
     }
 
-    public void setImageView() {
-        imageView.setFitWidth(image.getWidth() * ratio);
-        imageView.setFitHeight(image.getHeight() * ratio);
-        imageView.setPreserveRatio(true);
+
+    @Override
+    public double getMidX(){
+        return imageView.getX() + imageView.getFitWidth() / 2;
     }
 
     @Override
-    protected void imageViewCharacterSet() {
-        imageView.setY(Background.HEIGHT - imageView.getFitHeight());
-        imageView.setX(50);
+    public double getMidY(){
+        return imageView.getY() + imageView.getFitHeight() / 2;
     }
 
-    public void increasePickupCoin() {
-        this.pickupCoin += 1;
-        this.allCoin += 1;
-    }
 
-    public void increaseAllCoin() {
-        this.allCoin += 1;
-    }
 
     public int getAllCoin() {
         return allCoin;
     }
 
-    public void setAllCoin(int allCoin) {
-        this.allCoin = allCoin;
+
+
+    //----------------- Coin -----------------
+
+    public void increaseAllCoin() {
+        this.allCoin += 1;
+    }
+    public void increasePickupCoin() {
+        this.pickupCoin += 1;
+        this.allCoin += 1;
     }
 
-    public void setHitbox() {
-        hitbox.setX(imageView.getX());
-        hitbox.setY(imageView.getY());
-        hitbox.setWidth(imageView.getFitWidth());
-        hitbox.setHeight(imageView.getFitHeight());
-    }
-
+    // -------------- Physics --------------
 
     public void isJumping() {
         // L'ennemi ne saute pas alors il bounce
         vy = -JUMP_VELOCITY;
         jumpingStatus = true;
     }
-    @Override
     public void updatePosition(double dt) {
         // Calcul de la nouvelle vitesse et la nouvelle position de l'ennemi
         vy += GRAVITY * dt;
@@ -115,12 +124,15 @@ public class Enemy extends Character {
             jumpingInterval = 0;
         }
     }
+
     public void gravityBlock () {
         go = false;
     }
     public void gravityUnblock () {
         go = true;
     }
+
+
 }
 
 

@@ -2,11 +2,7 @@ package character.item;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Rectangle;
 import character.physics.Background;
-
-
-import character.physics.Hitbox;
 
 public class Coin {
     protected double vx = 120;
@@ -15,6 +11,7 @@ public class Coin {
     Image image;
     ImageView imageView;
 
+    private double r;
 
     // -------------- Constructor --------------
     public Coin() {
@@ -35,13 +32,17 @@ public class Coin {
         return imageView;
     }
 
-    public Hitbox getHitbox() {
-        Hitbox hitbox = new Hitbox();
-        hitbox.setX(imageView.getX());
-        hitbox.setY(imageView.getY());
-        hitbox.setWidth(image.getWidth() * 0.02);
-        hitbox.setHeight(image.getHeight() * 0.02);
-        return hitbox;
+    public double getRadius() {
+        return r;
+    }
+
+    public double getMidX(){
+        return imageView.getX() + imageView.getFitWidth() / 2;
+    }
+
+
+    public double getMidY(){
+        return imageView.getY() + imageView.getFitHeight() / 2;
     }
 
     // -------------- Setters --------------
@@ -52,8 +53,14 @@ public class Coin {
         imageView.setPreserveRatio(true);
     }
 
+    public void setRadius() {
+        this.r = imageView.getFitHeight() / 2;
+    }
+
     // -------------- Methods --------------
     public void updatePosition(int nbOfCoins, double dt) {
         imageView.setX(imageView.getX() - ((vx / frameRate) + (nbOfCoins * 10) * dt));
     }
+
+
 }

@@ -6,15 +6,18 @@ import character.item.Coin;
 
 public class Collision {
     public static boolean checkCollisionCoin(Coin coin, Enemy enemy) {
-        Hitbox coinHitbox = coin.getHitbox();
-        Hitbox enemyHitbox = enemy.getHitbox();
-        return coinHitbox.intersects(enemyHitbox);
+        double dx = coin.getMidX() - enemy.getMidX();
+        double dy = coin.getMidY() - enemy.getMidY();
+        double d2 = dx * dx + dy * dy;
+        return d2 < (coin.getRadius() + enemy.getRadius()) * (coin.getRadius() + enemy.getRadius());
     }
 
     public static boolean checkCollisionHero(Hero hero, Enemy enemy) {
-        Hitbox heroHitbox = hero.getHitbox();
-        Hitbox enemyHitbox = enemy.getHitbox();
-        return heroHitbox.intersects(enemyHitbox);
+        double dx = hero.getMidX() - enemy.getMidX();
+        double dy = hero.getMidY() - enemy.getMidY();
+        double d2 = dx * dx + dy * dy;
+        return d2 < (hero.getRadius() + enemy.getRadius()) * (hero.getRadius() + enemy.getRadius());
+
     }
     protected static double borderTouch(Enemy enemy, double velocity){
         if (enemy.getImageView().getY() > Background.HEIGHT -(enemy.getImageView().getFitHeight())) {

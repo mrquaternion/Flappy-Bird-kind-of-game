@@ -21,6 +21,7 @@ public class HeroGenerator {
     public void updateHeroes(Hero[] heroes, Enemy enemy, double dt) {
         for (Hero hero : heroes) {
             if (hero.isActivated) {
+                Hero.setRandomRadius(hero);
                 hero.updatePosition(enemy.getPickupCoin(), dt);
                 hero.borderTouch();
                 if (Collision.checkCollisionHero(hero, enemy)) {
@@ -37,4 +38,5 @@ public class HeroGenerator {
         hero.getImageView().setX(Background.WIDTH);
         hero.getImageView().setY(rand.nextDouble() * (Background.HEIGHT - hero.getImageView().getFitHeight()));
     }
+
 }
