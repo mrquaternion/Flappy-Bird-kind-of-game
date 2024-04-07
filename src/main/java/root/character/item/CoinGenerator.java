@@ -14,7 +14,6 @@ public class CoinGenerator {
 
         // Check if it's time to spawn or reset a coin
         timeToSpawn += dt;
-        System.out.println("timeToSpawn: " + timeToSpawn);
         for (Coin coin : coins) {
              if (coin.isActive) {
                  coin.updatePosition(enemy.getPickupCoin(), dt);

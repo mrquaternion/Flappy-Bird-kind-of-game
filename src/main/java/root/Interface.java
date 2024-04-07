@@ -41,7 +41,6 @@ public class Interface extends Application {
         // --------- CRÉATION & AJUSTER SA TAILLE D'UN ENNEMI ----------
         Enemy enemy = new Enemy();
         enemy.setImageView();
-        enemy.setRadius();
 
         // --------- CRÉATION DES HÉROS  ---------
         Hero[] heroes = new Hero[Hero.NUMBER_OF_HEROES];

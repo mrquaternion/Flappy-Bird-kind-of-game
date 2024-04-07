@@ -27,6 +27,7 @@ public class Enemy extends Character {
         this.healthStatus = 100;
         this.image = new Image("file:src/main/resources/luffysprite.png");
         this.imageView = new ImageView(image);
+        r = 30;
     }
 
     // -------------- Setters --------------
@@ -36,9 +37,7 @@ public class Enemy extends Character {
         imageView.setPreserveRatio(true);
     }
 
-    public void setRadius() {
-        this.r = imageView.getFitHeight() / 2;
-    }
+
     public void setAllCoin(int allCoin) {
         this.allCoin = allCoin;
     }
