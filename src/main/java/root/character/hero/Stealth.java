@@ -18,8 +18,13 @@ public class Stealth extends Hero {
 
     @Override
     public void interaction(Enemy enemy) {
-        //hitbox
-        enemy.setAllCoin(enemy.getAllCoin() - 10);
+        if (enemy.getAllCoin() >= 10){
+            enemy.setAllCoin(enemy.getAllCoin() - 10);
+        }
+        else{
+            enemy.setAllCoin(0);
+            //test
+        }
     }
 
     @Override
