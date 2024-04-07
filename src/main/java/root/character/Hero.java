@@ -29,7 +29,6 @@ public abstract class Hero extends Character {
     }
 
     public void setImageView() {
-
         imageView.setFitWidth(image.getWidth() * ratio);
         imageView.setFitHeight(image.getHeight() * ratio);
         imageView.setPreserveRatio(true);

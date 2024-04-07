@@ -20,10 +20,19 @@ import character.physics.Gravity;
 import character.item.*;
 import character.physics.Background;
 import javafx.scene.text.Text;
+import character.physics.Collision;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Iterator;
+
 
 public class Interface extends Application {
     private boolean isPaused = false;
-    Hero lastHero = null;
+    private Pane gamePane; // Declare gamePane at the class level
+    private Enemy enemy; // Declare enemy at the class level
+    private List<Bullet> bullets = new ArrayList<>();
+    private Bullet lastBullet = null;
 
     @Override
     public void start(Stage primaryStage) {
@@ -32,14 +41,14 @@ public class Interface extends Application {
         // --------- CRÉATION ROOT ---------
         BorderPane root = new BorderPane();
         // --------- CRÉATION PANNEAU DE JEU ---------
-        Pane gamePane = new Pane();
+        gamePane = new Pane();
         // --------- CRÉATION BARRE DE STATUT ---------
         HBox statusBar = new HBox();
         statusBar.setAlignment(Pos.CENTER); // Centrer les éléments de la HBOX
         statusBar.setPadding(new Insets(0, 0, 7, 0)); // Espacement de la HBOX
         statusBar.setSpacing(10); // Espacement entre les éléments de la HBOX
         // --------- CRÉATION & AJUSTER SA TAILLE D'UN ENNEMI ----------
-        Enemy enemy = new Enemy();
+        enemy = new Enemy();
         enemy.setImageView();
 
         // --------- CRÉATION DES HÉROS  ---------
@@ -69,6 +78,7 @@ public class Interface extends Application {
         Gravity gravity = new Gravity();
         // --------- CRÉATION ARRIÈRE-PLAN ----------
         Background background = new Background();
+
         // --------- CRÉATION GÉNÉRATEUR DE HÉROS ----------
         HeroGenerator heroGenerator = new HeroGenerator();
         // --------- CONFIGURATION DE LA SCÈNE ----------
@@ -99,7 +109,7 @@ public class Interface extends Application {
         root.setCenter(gamePane);
         // --------- AJOUT ÉLÉMENTS AU ROOT ----------
         root.setBottom(statusBar);
-        // --------- DÉFILEMENT DE L'ARRIÈRE-PLAN ----------
+
 
 
         // ------------------------------------ ESPACE DE GESTION DES ÉVÉNEMENTS ------------------------------------
@@ -108,13 +118,17 @@ public class Interface extends Application {
         scene.setOnKeyPressed((event) -> {
             if (event.getCode() == KeyCode.W && !enemy.jumpingStatus) {
                 enemy.isJumping();
+            } else if (event.getCode() == KeyCode.R) {
+                shoot();
             }
         });
+
 
         // --------- ANIMATION DE LA SCÈNE ---------
         AnimationTimer animationTimer = new AnimationTimer() {
             double lastTime = 0;
             double lastSpawnTime = 0;
+
 
             @Override
             public void handle(long now) {
@@ -126,6 +140,7 @@ public class Interface extends Application {
                     return;
                 }
 
+
                 enemy.jumpCooldown();
                 if (enemy.go) {
                     enemy.updatePosition(deltaTime);
@@ -136,6 +151,23 @@ public class Interface extends Application {
                     background.scroll(enemy.getPickupCoin());
 
                     heroGenerator.updateHeroes(heroes, enemy, deltaTime);
+
+
+                    if (lastBullet != null) {
+                        lastBullet.updatePosition(deltaTime);
+                        if (lastBullet.getImageView().getX() > Background.WIDTH) {
+                            gamePane.getChildren().remove(lastBullet.getImageView());
+                        }
+                        Hero hitHero = Collision.checkCollisionBullet(heroes, lastBullet);
+                        if (hitHero != null) {
+                            hitHero.interaction(enemy);
+                            heroGenerator.resetHeroPosition(hitHero);
+                            gamePane.getChildren().remove(lastBullet.getImageView());
+                        }
+                    }
+
+
+
 
                     // Spawn heroes as needed, every 3 seconds
                     if (heroGenerator.spawnHeroIfNeeded(heroes, now, lastSpawnTime)) {
@@ -170,7 +202,22 @@ public class Interface extends Application {
 
         // --------- AFFICHAGE DE LA SCÈNE ----------
         primaryStage.show();
+
     }
+
+    public void shoot() {
+        if (lastBullet == null || lastBullet.getImageView().getX() > Background.WIDTH) {
+            double startX = enemy.getImageView().getX() + enemy.getImageView().getFitWidth();
+            double startY = enemy.getImageView().getY() + enemy.getImageView().getFitHeight() / 2;
+
+            lastBullet = new Bullet(startX, startY); // Create a new bullet
+            bullets.add(lastBullet); // Add it to your bullets list if you're tracking all bullets
+
+            gamePane.getChildren().add(lastBullet.getImageView()); // Add the bullet to the scene
+        }
+    }
+
+
     public static void main(String[] args) {
         launch(args);
     }

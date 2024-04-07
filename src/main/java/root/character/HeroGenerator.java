@@ -33,7 +33,7 @@ public class HeroGenerator {
         }
     }
 
-    private void resetHeroPosition(Hero hero) {
+    public void resetHeroPosition(Hero hero) {
         hero.getImageView().setX(Background.WIDTH);
         hero.getImageView().setY(rand.nextDouble() * (Background.HEIGHT - hero.getImageView().getFitHeight()));
     }

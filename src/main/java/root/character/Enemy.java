@@ -3,10 +3,11 @@ package character;
 import character.physics.Background;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import character.item.Bullet;
 
 public class Enemy extends Character {
     Image image;
-    ImageView imageView;
+    public static ImageView imageView;
 
     private int pickupCoin = 0;
     private int allCoin = 0;
@@ -121,6 +122,7 @@ public class Enemy extends Character {
     public void gravityUnblock () {
         go = true;
     }
+
 }
 
 

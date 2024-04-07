@@ -3,6 +3,7 @@ package character.physics;
 import character.Enemy;
 import character.Hero;
 import character.item.Coin;
+import character.item.Bullet;
 
 public class Collision {
     public static boolean checkCollisionCoin(Coin coin, Enemy enemy) {
@@ -15,6 +16,17 @@ public class Collision {
         Hitbox heroHitbox = hero.getHitbox();
         Hitbox enemyHitbox = enemy.getHitbox();
         return heroHitbox.intersects(enemyHitbox);
+    }
+
+    public static Hero checkCollisionBullet(Hero[] heroes, Bullet bullet) {
+        for (Hero hero : heroes) {
+            Hitbox heroHitbox = hero.getHitbox();
+            Hitbox bulletHitbox = bullet.getHitbox();
+            if (heroHitbox.intersects(bulletHitbox)) {
+                return hero;
+            }
+        }
+        return null;
     }
     protected static double borderTouch(Enemy enemy, double velocity){
         if (enemy.getImageView().getY() > Background.HEIGHT -(enemy.getImageView().getFitHeight())) {
