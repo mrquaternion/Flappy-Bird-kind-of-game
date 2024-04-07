@@ -8,18 +8,17 @@ import java.util.Random;
 public class CoinGenerator {
     Random rand = new Random();
 
-    public void spawnCoin(Coin[] coins, Enemy enemy, double dt) {
+    public void spawn(Coin[] coins, Enemy enemy, double dt) {
 
         // Check if it's time to spawn or reset a coin
         for (Coin coin : coins) {
-
              if (coin.isActive) {
                  coin.updatePosition(enemy.getPickupCoin(), dt);
                  if (Collision.checkCollisionCoin(coin, enemy)) {
                      enemy.increasePickupCoin();
                      coin.isActive = false;
                      resetCoinPosition(coin);
-                 } else if (coin.getImageView().getX() < -coin.getImage().getWidth()) {
+                 } else if (coin.getImageView().getX() < -coin.getImageView().getFitWidth()) {
                      coin.isActive = false;
                      resetCoinPosition(coin);
                  }

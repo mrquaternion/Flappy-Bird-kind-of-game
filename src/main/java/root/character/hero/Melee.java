@@ -3,12 +3,17 @@ import character.Enemy;
 import character.Hero;
 import character.physics.Background;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 
 public class Melee extends Hero {
-    public Melee(){
-        ratio = 0.70;
-        healthStatus = 100;
-        characterImage = new Image("file:src/main/resources/kaido.png");
+    public Melee() {
+        this.image = new Image("file:src/main/resources/kaido.png");
+        this.imageView = new ImageView(image);
+        this.ratio = 0.85;
+        this.healthStatus = 100;
+        this.imageView.setX(Background.WIDTH);
+        this.imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
     }
     @Override
     public void interaction(Enemy enemy) {
