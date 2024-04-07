@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
 public abstract class Hero extends Character {
     public Image image;
     public ImageView imageView = new ImageView();
-    protected boolean isActivated = false;
+    public boolean isActivated = false;
     public static final int NUMBER_OF_HEROES = 6;
     public static final double vx = 120;
     public static final int frameRate = 60;

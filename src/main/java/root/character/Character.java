@@ -1,9 +1,8 @@
 package character;
-import character.physics.Hitbox;
 import javafx.scene.image.ImageView;
 
 public abstract class Character {
-    Hitbox hitbox = new Hitbox();
+
     protected int healthStatus;
 
     protected double ratio;

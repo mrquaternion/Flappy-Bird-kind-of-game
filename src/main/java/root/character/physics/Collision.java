@@ -21,24 +21,23 @@ public class Collision {
 
     }
 
+    public static boolean checkCollisionBullet(Hero hero, Bullet bullet) {
+        double dx = hero.getMidX() - bullet.getMidX();
+        double dy = hero.getMidY() - bullet.getMidY();
+        double d2 = dx * dx + dy * dy;
+        return d2 < (hero.getRadius() + bullet.getRadius()) * (hero.getRadius() + bullet.getRadius());
+    }
+
     public static Hero checkCollisionBullet(Hero[] heroes, Bullet bullet) {
         for (Hero hero : heroes) {
-            Hitbox heroHitbox = hero.getHitbox();
-            Hitbox bulletHitbox = bullet.getHitbox();
-            if (heroHitbox.intersects(bulletHitbox)) {
+            if (checkCollisionBullet(hero, bullet)) {
+                hero.isActivated = false;
                 return hero;
             }
         }
         return null;
     }
-    protected static double borderTouch(Enemy enemy, double velocity){
-        if (enemy.getImageView().getY() > Background.HEIGHT -(enemy.getImageView().getFitHeight())) {
-            return  Gravity.JUMP_VELOCITY;
 
-        } else if (enemy.getImageView().getY() < 0) {
-            return  -Gravity.JUMP_VELOCITY;
-        } else{
-            return velocity;
-        }
-    }
+
+
 }

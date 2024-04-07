@@ -1,15 +1,15 @@
 package character.item;
 
-import character.Enemy;
-
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import character.physics.Hitbox;
 
 public class Bullet {
-    Hitbox hitbox = new Hitbox();
+
     private final Image image;
     private final ImageView imageView;
+
+    private double r;
+
 
     public Bullet(double startX, double startY) {
         this.image = new Image("file:src/main/resources/chopper.png");
@@ -35,11 +35,19 @@ public class Bullet {
         return imageView;
     }
 
-    public Hitbox getHitbox() {
-        hitbox.setX(imageView.getX());
-        hitbox.setY(imageView.getY());
-        hitbox.setWidth(imageView.getFitWidth());
-        hitbox.setHeight(imageView.getFitHeight());
-        return hitbox;
+    public double getMidX(){
+        return imageView.getX() + imageView.getFitWidth() / 2;
+    }
+
+public double getMidY(){
+        return imageView.getY() + imageView.getFitHeight() / 2;
+    }
+
+    public double getRadius() {
+        return r;
+    }
+
+    public void setRadius() {
+        this.r = imageView.getFitHeight() / 2;
     }
 }
