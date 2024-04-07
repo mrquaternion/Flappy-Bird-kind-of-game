@@ -8,9 +8,13 @@ import java.util.Random;
 public class CoinGenerator {
     Random rand = new Random();
 
+    private double timeToSpawn = 0;
+
     public void spawn(Coin[] coins, Enemy enemy, double dt) {
 
         // Check if it's time to spawn or reset a coin
+        timeToSpawn += dt;
+        System.out.println("timeToSpawn: " + timeToSpawn);
         for (Coin coin : coins) {
              if (coin.isActive) {
                  coin.updatePosition(enemy.getPickupCoin(), dt);
@@ -22,8 +26,9 @@ public class CoinGenerator {
                      coin.isActive = false;
                      resetCoinPosition(coin);
                  }
-             } else if (rand.nextInt(500) == 0) {
+             } else if (timeToSpawn >= 2) {
                  coin.isActive = true;
+                 timeToSpawn = 0;
              }
 
              coin.setImageView();

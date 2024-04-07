@@ -1,7 +1,6 @@
 package character;
 
 import character.physics.Background;
-import character.physics.Hitbox;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
@@ -15,18 +14,7 @@ public abstract class Hero extends Character {
     public int nbOfCoins = 0;
     Enemy enemy;
 
-
-    public void setHitbox() {
-        hitbox.setX(imageView.getX());
-        hitbox.setY(imageView.getY());
-        hitbox.setWidth(imageView.getFitWidth());
-        hitbox.setHeight(imageView.getFitHeight());
-    }
-
-    public ImageView getImageView() {
-        setImageView();
-        return imageView;
-    }
+    // -------------- Setters --------------
 
     public void setImageView() {
         imageView.setFitWidth(image.getWidth() * ratio);
@@ -34,31 +22,29 @@ public abstract class Hero extends Character {
         imageView.setPreserveRatio(true);
     }
 
-    public Hitbox getHitbox() {
-        Hitbox hitbox = new Hitbox();
-        hitbox.setX(imageView.getX());
-        hitbox.setY(imageView.getY());
-        hitbox.setWidth(image.getWidth() * ratio);
-        hitbox.setHeight(image.getHeight() * ratio);
-        return hitbox;
+    public static void setRandomRadius(Hero hero){
+        hero.r = 10 + Math.random() * 35;
+    }
+
+// -------------- Getters --------------
+    public ImageView getImageView() {
+        setImageView();
+        return imageView;
     }
 
     @Override
-    public void imageViewCharacterSet() {
-        imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
-        imageView.setX(Background.WIDTH - 20);
+    public double getMidX(){
+        return imageView.getX() + imageView.getFitWidth() / 2;
+    }
+
+    @Override
+    public double getMidY(){
+        return imageView.getY() + imageView.getFitHeight() / 2;
     }
 
     public abstract void interaction(Enemy enemy);
 
-    @Override
-    public void updatePosition(double dt) {
-        // Calcul de la nouvelle vitesse et la nouvelle position du hero
-        imageView.setX(imageView.getX() - ((vx / frameRate) + (nbOfCoins * 10) * dt));
-    }
-    public void updatePosition(int nbOfCoins, double dt) {
-        imageView.setX(imageView.getX() - ((vx / frameRate) + (nbOfCoins * 10) * dt));
-    }
+    public abstract void updatePosition(int nbOfCoins, double dt);
 
 
     @Override
@@ -69,4 +55,7 @@ public abstract class Hero extends Character {
             imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
         }
     }
+
+
+
 }

@@ -50,6 +50,7 @@ public class Interface extends Application {
         // --------- CRÉATION & AJUSTER SA TAILLE D'UN ENNEMI ----------
         enemy = new Enemy();
         enemy.setImageView();
+        enemy.setRadius();
 
         // --------- CRÉATION DES HÉROS  ---------
         Hero[] heroes = new Hero[Hero.NUMBER_OF_HEROES];
@@ -149,7 +150,6 @@ public class Interface extends Application {
                 if (!isPaused) {
                     enemy.gravityUnblock();
                     background.scroll(enemy.getPickupCoin());
-
                     heroGenerator.updateHeroes(heroes, enemy, deltaTime);
 
 
