@@ -12,8 +12,6 @@ public abstract class Hero extends Character {
     public static final double vx = 120;
     public static final int frameRate = 60;
 
-    Enemy enemy;
-
     // -------------- Setters --------------
 
     public void setImageView() {
@@ -47,7 +45,6 @@ public abstract class Hero extends Character {
 
     public abstract void updatePosition(int nbOfCoins, double dt);
 
-
     @Override
     public void borderTouch() {
         if (imageView.getX() < -imageView.getFitWidth()) {
@@ -61,7 +58,4 @@ public abstract class Hero extends Character {
         imageView.setX(Background.WIDTH);
         imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
     }
-
-
-
 }

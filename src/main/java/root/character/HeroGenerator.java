@@ -1,8 +1,8 @@
 package character;
-import java.util.Random;
 
-import character.physics.Background;
+import java.util.Random;
 import character.physics.Collision;
+
 public class HeroGenerator {
     Random rand = new Random();
     public boolean spawnHeroIfNeeded(Hero[] heroes, long now, double lastSpawnTime) {

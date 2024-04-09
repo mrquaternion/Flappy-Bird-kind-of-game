@@ -10,7 +10,7 @@ public class Melee extends Hero {
     public Melee() {
         this.image = new Image("file:src/main/resources/kaido.png");
         this.imageView = new ImageView(image);
-        this.ratio = 0.85;
+        this.ratio = 0.85; // 0.85
         this.healthStatus = 100;
         this.imageView.setX(Background.WIDTH);
         this.imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));

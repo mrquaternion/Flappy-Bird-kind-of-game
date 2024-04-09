@@ -2,18 +2,12 @@ package character;
 import javafx.scene.image.ImageView;
 
 public abstract class Character {
-
     protected int healthStatus;
-
     protected double ratio;
-
     protected double r;
-
-
 
     // -------------- Setters --------------
     public abstract void setImageView ();
-
 
     public void setHealthStatus(int healthStatus) {
         this.healthStatus = healthStatus;
@@ -21,7 +15,6 @@ public abstract class Character {
 
     // -------------- Getters --------------
     public abstract ImageView getImageView();
-
 
     protected abstract void borderTouch();
 

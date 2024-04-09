@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 
 import character.Enemy;
-import character.physics.Gravity;
 import character.item.*;
 import character.physics.Background;
 import javafx.scene.text.Text;
@@ -31,9 +30,9 @@ public class Interface extends Application {
     private boolean isPaused = false;
     private Pane gamePane; // Declare gamePane at the class level
     private Enemy enemy; // Declare enemy at the class level
-    private List<Bullet> bullets = new ArrayList<>();
+    private final List<Bullet> bullets = new ArrayList<>();
     private Bullet lastBullet = null;
-
+    private long lastBulletTime = 0; // Track the last time a bullet was shot
 
     @Override
     public void start(Stage primaryStage) {
@@ -74,8 +73,7 @@ public class Interface extends Application {
 
         // --------- CRÉATION SCÈNE ----------
         Scene scene = new Scene(root, 640, 440);
-        // --------- CRÉATION DE LA GRAVITÉ ----------
-        Gravity gravity = new Gravity();
+
         // --------- CRÉATION ARRIÈRE-PLAN ----------
         Background background = new Background();
 
@@ -119,7 +117,7 @@ public class Interface extends Application {
             if (event.getCode() == KeyCode.W && !enemy.jumpingStatus) {
                 enemy.isJumping();
             } else if (event.getCode() == KeyCode.R) {
-                shoot();
+                shoot(System.nanoTime());
             }
         });
 
@@ -140,7 +138,6 @@ public class Interface extends Application {
                     return;
                 }
 
-
                 enemy.jumpCooldown();
                 if (enemy.go) {
                     enemy.updatePosition(deltaTime);
@@ -150,7 +147,6 @@ public class Interface extends Application {
                     enemy.gravityUnblock();
                     background.scroll(enemy.getPickupCoin());
                     heroGenerator.updateHeroes(heroes, enemy, deltaTime);
-
 
                     if (lastBullet != null) {
                         lastBullet.updatePosition(deltaTime);
@@ -205,8 +201,9 @@ public class Interface extends Application {
 
     }
 
-    public void shoot() {
-        if (lastBullet == null || lastBullet.getImageView().getX() > Background.WIDTH) {
+    public void shoot(long now) {
+        // Check if more than 1 second has passed since the last bullet was shot
+        if (lastBullet == null || now - lastBulletTime > 1e9) {
             double startX = enemy.getImageView().getX() + enemy.getImageView().getFitWidth();
             double startY = enemy.getImageView().getY() + enemy.getImageView().getFitHeight() / 2;
 
@@ -214,8 +211,10 @@ public class Interface extends Application {
             bullets.add(lastBullet); // Add it to your bullets list if you're tracking all bullets
 
             gamePane.getChildren().add(lastBullet.getImageView()); // Add the bullet to the scene
+            lastBulletTime = now; // Update the time the last bullet was shot
         }
     }
+
 
 
 

@@ -12,7 +12,7 @@ public class Stealth extends Hero {
     public Stealth() {
         this.image = new Image("file:src/main/resources/BlackBeard.png");
         this.imageView = new ImageView(image);
-        this.ratio = 0.15;
+        this.ratio = 0.15; // 0.15
         this.healthStatus = 100;
         this.imageView.setX(Background.WIDTH);
         this.imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));

@@ -24,7 +24,7 @@ public class Enemy extends Character {
 
     // -------------- Constructor --------------
     public Enemy() {
-        this.ratio = 0.16;
+        this.ratio = 0.35; // 0.16
         this.healthStatus = 100;
         this.image = new Image("file:src/main/resources/luffysprite.png");
         this.imageView = new ImageView(image);
@@ -38,14 +38,12 @@ public class Enemy extends Character {
         imageView.setPreserveRatio(true);
     }
 
-
     public void setAllCoin(int allCoin) {
         this.allCoin = allCoin;
     }
 
 
     // -------------- Getters --------------
-
     public int getPickupCoin() {
         return pickupCoin;
     }
@@ -58,7 +56,6 @@ public class Enemy extends Character {
         return imageView;
     }
 
-
     @Override
     public double getMidX(){
         return imageView.getX() + imageView.getFitWidth() / 2;
@@ -69,26 +66,17 @@ public class Enemy extends Character {
         return imageView.getY() + imageView.getFitHeight() / 2;
     }
 
-
-
     public int getAllCoin() {
         return allCoin;
     }
 
-
-
     //----------------- Coin -----------------
-
-    public void increaseAllCoin() {
-        this.allCoin += 1;
-    }
     public void increasePickupCoin() {
         this.pickupCoin += 1;
         this.allCoin += 1;
     }
 
     // -------------- Physics --------------
-
     public void isJumping() {
         // L'ennemi ne saute pas alors il bounce
         vy = -JUMP_VELOCITY;
@@ -135,21 +123,15 @@ public class Enemy extends Character {
         go = true;
     }
 
-    public boolean death(){
-        if (healthStatus == 0) {
-            return true;
-        }else {
-            return false;
-        }
-    }
+    public boolean death() { return healthStatus == 0; }
 
     public void killReward(Hero hero){
         if (hero instanceof Melee) {
             allCoin += 5;
-        }else if(hero instanceof Tank){
+        } else if(hero instanceof Tank){
             allCoin +=10;
-        }else {
-           allCoin += 7;
+        } else {
+            allCoin += 7;
         }
     }
 }

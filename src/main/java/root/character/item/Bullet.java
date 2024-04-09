@@ -4,12 +4,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
 public class Bullet {
-
     private final Image image;
     private final ImageView imageView;
-
     private double r;
-
     double ratio;
 
 
@@ -18,7 +15,7 @@ public class Bullet {
         this.imageView = new ImageView(image);
         imageView.setX(startX);
         imageView.setY(startY);
-        ratio = 0.1;
+        ratio = 0.2; // 0.1
         setImageView();
     }
 
@@ -38,19 +35,15 @@ public class Bullet {
         return imageView;
     }
 
-    public double getMidX(){
+    public double getMidX() {
         return imageView.getX() + imageView.getFitWidth() / 2;
     }
 
-public double getMidY(){
+public double getMidY() {
         return imageView.getY() + imageView.getFitHeight() / 2;
     }
 
     public double getRadius() {
         return r;
-    }
-
-    public void setRadius() {
-        this.r = imageView.getFitHeight() / 2;
     }
 }
