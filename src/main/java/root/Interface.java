@@ -160,10 +160,7 @@ public class Interface extends Application {
                             gamePane.getChildren().remove(lastBullet.getImageView());
                         }
                     }
-                    if (enemy.death()){
-                        Scores.save(enemy.getAllCoin());
-                        primaryStage.close();
-                    }
+
 
                     // Spawn heroes as needed, every 3 seconds
                     if (heroGenerator.spawnHeroIfNeeded(heroes, now, lastSpawnTime)) {
@@ -176,6 +173,10 @@ public class Interface extends Application {
                     playerLife.setText("Life: " + enemy.getHealthStatus());
 
                     lastTime = now;
+                }
+                if (enemy.death()) {
+                    primaryStage.close();
+                    Scores.save(enemy.getAllCoin());
                 }
             }
         };

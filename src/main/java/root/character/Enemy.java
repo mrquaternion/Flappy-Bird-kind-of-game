@@ -123,7 +123,7 @@ public class Enemy extends Character {
         go = true;
     }
 
-    public boolean death() { return healthStatus == 0; }
+    public boolean death() { return healthStatus <= 0; }
 
     public void killReward(Hero hero){
         if (hero instanceof Melee) {
