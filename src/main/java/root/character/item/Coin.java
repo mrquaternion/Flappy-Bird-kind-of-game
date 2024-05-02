@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import character.physics.Background;
 
 public class Coin {
+    public static final int NUMBER_OF_COINS = 10;
     protected double vx = 120;
     static final int frameRate = 60;
     protected boolean isActive = false;
@@ -44,8 +45,7 @@ public class Coin {
         return imageView.getY() + imageView.getFitHeight() / 2;
     }
 
-    // -------------- Setters --------------
-
+    // -------------- Setters ----------------
     public void setImageView() {
         imageView.setFitWidth(image.getWidth() * 0.02);
         imageView.setFitHeight(image.getHeight() * 0.02);

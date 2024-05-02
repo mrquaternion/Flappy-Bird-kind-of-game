@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class Scores {
-    static HashMap<String, String> scores = new HashMap<String, String>();
+    static HashMap<String, String> scores = new HashMap<>();
     final static String source = "scores.txt";
 
     public static void save(int score) {
@@ -30,9 +30,7 @@ public class Scores {
             System.out.println("Données sauvegardées avec succès.");
 
             read();
-        } catch (IOException exception) {
-            System.out.println("Erreur à l'écriture du fichier.");
-        }
+        } catch (IOException exception) { System.out.println("Erreur à l'écriture du fichier."); }
     }
 
     public static void read() throws IOException {
@@ -41,10 +39,7 @@ public class Scores {
         try (BufferedReader br = new BufferedReader(new FileReader(source))) {
             String line;
             while ((line = br.readLine()) != null) { linesList.add(line); }
-        } catch (IOException exception) {
-            System.out.println("Erreur à la lecture du fichier.");
-            throw exception;
-        }
+        } catch (IOException exception) { System.out.println("Erreur à la lecture du fichier."); }
 
         String[] linesArray = linesList.toArray(new String[0]);
         extract(linesArray);
@@ -65,9 +60,7 @@ public class Scores {
     }
 
     public static void createMap(int[] unsortedScores, String[] correspondingScoresDate, int size) {
-            for (int i = 0 ; i < size; i++) {
-                scores.put(Integer.toString(unsortedScores[i]), correspondingScoresDate[i]);
-            }
+        for (int i = 0 ; i < size; i++) { scores.put(Integer.toString(unsortedScores[i]), correspondingScoresDate[i]); }
     }
 
     public static void sortedArray(int[] unsortedScores) {
@@ -75,7 +68,7 @@ public class Scores {
         String[] finalArray = new String[unsortedScores.length];
 
         for (int i = 0; i < unsortedScores.length; i++) {
-            String newLine = (String)scores.get(Integer.toString(unsortedScores[i]));
+            String newLine = scores.get(Integer.toString(unsortedScores[i]));
             finalArray[i] = unsortedScores[i] + "," + newLine;
         }
 
@@ -88,8 +81,6 @@ public class Scores {
                bw.append(finalArray[i]);
                bw.newLine();
            }
-       } catch (IOException exception) {
-            System.out.println("Erreur à la réécriture.");
-       }
+       } catch (IOException exception) { System.out.println("Erreur à la réécriture."); }
     }
 }

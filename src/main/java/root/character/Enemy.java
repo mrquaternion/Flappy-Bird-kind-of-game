@@ -2,9 +2,13 @@ package character;
 
 import character.hero.Melee;
 import character.hero.Tank;
+import character.item.Bullet;
 import character.physics.Background;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Enemy extends Character {
     Image image;
@@ -20,6 +24,12 @@ public class Enemy extends Character {
 
     public int jumpingInterval = 0;
     public boolean isMoving = true;
+
+    public Bullet lastBullet = null;
+
+    public final List<Bullet> bullets = new ArrayList<>();
+    public long lastBulletTime = 0;
+
 
 
     // -------------- Constructor --------------

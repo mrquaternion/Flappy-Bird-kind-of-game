@@ -12,6 +12,7 @@ public class HeroGenerator {
                 heroes[index].isActivated = true;
                 Hero.setRandomRadius(heroes[index]);
                 heroes[index].resetHeroPosition();
+
                 return true; // Indicate that a hero was spawned
             }
         }
