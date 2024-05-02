@@ -19,7 +19,7 @@ public class Enemy extends Character {
     public boolean jumpingStatus = false;
 
     public int jumpingInterval = 0;
-    public boolean go = true;
+    public boolean isMoving = true;
 
 
     // -------------- Constructor --------------
@@ -117,10 +117,10 @@ public class Enemy extends Character {
     }
 
     public void gravityBlock () {
-        go = false;
+        isMoving = false;
     }
     public void gravityUnblock () {
-        go = true;
+        isMoving = true;
     }
 
     public boolean death() { return healthStatus <= 0; }

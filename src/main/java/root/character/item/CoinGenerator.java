@@ -18,6 +18,7 @@ public class CoinGenerator {
              if (coin.isActive) {
                  coin.updatePosition(enemy.getPickupCoin(), dt);
                  if (Collision.checkCollisionCoin(coin, enemy)) {
+                     System.out.println(coin.getImageView().getY());
                      enemy.increasePickupCoin();
                      coin.isActive = false;
                      resetCoinPosition(coin);

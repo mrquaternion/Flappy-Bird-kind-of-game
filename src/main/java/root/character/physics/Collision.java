@@ -10,6 +10,7 @@ public class Collision {
         double dx = coin.getMidX() - enemy.getMidX();
         double dy = coin.getMidY() - enemy.getMidY();
         double d2 = dx * dx + dy * dy;
+
         return d2 < (coin.getRadius() + enemy.getRadius()) * (coin.getRadius() + enemy.getRadius());
     }
 
@@ -36,7 +37,4 @@ public class Collision {
         }
         return null;
     }
-
-
-
 }

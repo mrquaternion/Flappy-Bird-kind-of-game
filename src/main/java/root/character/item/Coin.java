@@ -10,19 +10,18 @@ public class Coin {
     protected boolean isActive = false;
     Image image;
     ImageView imageView;
-
     private double r;
 
     // -------------- Constructor --------------
     public Coin() {
         this.image = new Image("file:src/main/resources/coin.png");
         this.imageView = new ImageView(image);
+        setImageView();
         this.imageView.setX(Background.WIDTH);
         this.imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
     }
 
     // -------------- Getters --------------
-
     public Image getImage() {
         return image;
     }
@@ -61,6 +60,4 @@ public class Coin {
     public void updatePosition(int nbOfCoins, double dt) {
         imageView.setX(imageView.getX() - ((vx / frameRate) + (nbOfCoins * 10) * dt));
     }
-
-
 }
