@@ -19,13 +19,13 @@ public class Controller {
     public void handleKeyPress(KeyEvent event) {
         switch (event.getCode()) {
             case SPACE:
-                model.pause();  // Implémenter la fonction de saut dans le modèle
+                model.togglePause();  // Implémenter la fonction de saut dans le modèle
                 break;
             case W:
-                model.jump();  // Implémenter la fonction de saut dans le modèle
+                model.toggleJump();  // Implémenter la fonction de saut dans le modèle
                 break;
             case E:
-                model.shoot();  // Implémenter la fonction de tir dans le modèle
+                model.toggleShoot();  // Implémenter la fonction de tir dans le modèle
                 break;
             default:
                 break;
