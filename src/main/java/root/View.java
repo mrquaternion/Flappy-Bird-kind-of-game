@@ -9,6 +9,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import character.item.Bullet;
+import java.util.List;
+import character.physics.Background;
+import javafx.scene.Node;
+import character.Enemy;
+import character.Hero;
+import character.item.Coin;
 
 import java.util.function.Consumer;
 
@@ -18,22 +25,28 @@ public class View {
 
     private Text playerLife;
     private Text nbOfCoin;
+
     private Button pauseButton;
 
-    private ImageView background1;
-    private ImageView background2;
-
-
-
     public View() {
+        createContent();
     }
+
+    public Pane getRoot() { return root; }
 
     private void createContent() {
         root = new BorderPane();
         gamePane = new Pane();
         root.setCenter(gamePane);
         setupStatusBar(root);
+    }
+
+    public void setupGameComponents(Background background, List<Hero> heroes, List<Coin> coins, Enemy enemy) {
         gamePane.getChildren().addAll(background.getImageViewBackground_1(), background.getImageViewBackground_2());
+        coins.forEach(coin -> gamePane.getChildren().add(coin.getImageView()));
+        heroes.forEach(hero -> gamePane.getChildren().add(hero.getImageView()));
+        gamePane.getChildren().add(enemy.getImageView());
+        System.out.println(gamePane.getChildren());
     }
 
     public void setupStatusBar(BorderPane root) {
@@ -42,15 +55,13 @@ public class View {
         statusBar.setPadding(new Insets(0, 0, 7, 0));
         statusBar.setSpacing(10);
 
-        Button pauseButton = new Button("Pause");
+        pauseButton = new Button("Pause");
         playerLife = new Text("Life: " );
         nbOfCoin = new Text("Coins: ");
         Separator separator1 = new Separator(Orientation.VERTICAL);
         Separator separator2 = new Separator(Orientation.VERTICAL);
 
-        //pauseButton.setOnAction(event -> togglePause(pauseButton));
-
-        statusBar.getChildren().addAll(pauseButton, separator1,  playerLife, separator2, nbOfCoin);
+        statusBar.getChildren().addAll(pauseButton, separator1, separator2, playerLife, nbOfCoin);
         root.setBottom(statusBar);
     }
 
@@ -59,12 +70,28 @@ public class View {
         nbOfCoin.setText("Coins: " + coin);
     }
 
-    public void update(int coin, int health) {
+    public void updatePauseState() {
+        if (pauseButton.getText().equals("Pause")) {
+            pauseButton.setText("Resume");
+        } else {
+            pauseButton.setText("Pause");
+        }
+    }
+
+    public void update(int coin, int health, List<Bullet> bullets) {
         updateStatusBar(coin, health);
-
+        updateBullets(bullets);
     }
 
-    public Pane getRoot() {
-        return root;
+    public void updateBullets(List<Bullet> bullets) {
+        root.getChildren().clear();
+        for (Bullet bullet : bullets) {
+            if (!root.getChildren().contains(bullet.getImageView())) {
+                root.getChildren().add(bullet.getImageView());
+            }
+        }
     }
+
+    // update heroes, enemy, coins, background
+
 }

@@ -45,23 +45,23 @@ public class Interface extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        BorderPane root = new BorderPane();
-        gamePane = new Pane();
+        BorderPane root = new BorderPane(); // DONE
+        gamePane = new Pane(); // DONE
 
-        setupScene(primaryStage, root);
-        setupGameComponents();
-        setupStatusBar(root);
+        setupScene(primaryStage, root); // DONE
+        setupGameComponents(); // DONE
+        setupStatusBar(root); // DONE
 
-        background = new Background();
-        gamePane.getChildren().addAll(background.getImageViewBackground_1(), background.getImageViewBackground_2());
+        background = new Background(); // DONE
+        gamePane.getChildren().addAll(background.getImageViewBackground_1(), background.getImageViewBackground_2()); // DONE
 
         HeroGenerator heroGenerator = new HeroGenerator();
         CoinGenerator coinGenerator = new CoinGenerator();
-        for (Coin coin : coins) { gamePane.getChildren().add(coin.getImageView()); }
-        for (Hero hero : heroes) { gamePane.getChildren().add(hero.getImageView()); }
-        gamePane.getChildren().add(enemy.getImageView());
+        for (Coin coin : coins) { gamePane.getChildren().add(coin.getImageView()); } // DONE
+        for (Hero hero : heroes) { gamePane.getChildren().add(hero.getImageView()); } // DONE
+        gamePane.getChildren().add(enemy.getImageView()); // DONE
 
-        root.setCenter(gamePane);
+        root.setCenter(gamePane); // DONE
         handleEvent();
 
         animationTimer = new AnimationTimer() {
@@ -115,8 +115,8 @@ public class Interface extends Application {
                     lastTime = now;
                 }
                 System.out.println("This is the enemy health status before checking death: " + enemy.getHealthStatus());
-                if (enemy.death()) {
-                    stopTimer();
+                if (enemy.death()) { // DONE
+                    stopTimer(); // DONE
                     primaryStage.close();
                 }
             }
@@ -127,17 +127,17 @@ public class Interface extends Application {
     }
 
 
-    public void shoot(long now) {
-        // Check if more than 1 second has passed since the last bullet was shot
-        if (lastBullet == null || now - lastBulletTime > 1e9) {
-            double startX = enemy.getImageView().getX() + enemy.getImageView().getFitWidth();
-            double startY = enemy.getImageView().getY() + enemy.getImageView().getFitHeight() / 2;
+    public void shoot(long now) { // DONE
 
-            lastBullet = new Bullet(startX, startY); // Create a new bullet
-            bullets.add(lastBullet); // Add it to your bullets list if you're tracking all bullets
+        if (lastBullet == null || now - lastBulletTime > 1e9) { // DONE
+            double startX = enemy.getImageView().getX() + enemy.getImageView().getFitWidth(); // DONE
+            double startY = enemy.getImageView().getY() + enemy.getImageView().getFitHeight() / 2; // DONE
 
-            gamePane.getChildren().add(lastBullet.getImageView()); // Add the bullet to the scene
-            lastBulletTime = now; // Update the time the last bullet was shot
+            lastBullet = new Bullet(startX, startY); // DONE
+            bullets.add(lastBullet); // DONE
+
+            gamePane.getChildren().add(lastBullet.getImageView()); // DONE
+            lastBulletTime = now; // DONE
         }
     }
 
@@ -149,76 +149,76 @@ public class Interface extends Application {
     //----------------------------------------------
 
 
-    private void stopTimer() {
-        animationTimer.stop();
-        Scores.save(enemy.getAllCoin());
+    private void stopTimer() { // DONE
+        animationTimer.stop(); // DONE
+        Scores.save(enemy.getAllCoin()); // DONE
         System.out.println("The enemy just died.");
     }
 
-    private void setupScene(Stage primaryStage, BorderPane root) {
-        scene = new Scene(root, 640, 440);
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
+    private void setupScene(Stage primaryStage, BorderPane root) { // DONE
+        scene = new Scene(root, 640, 440); // DONE
+        primaryStage.setScene(scene); // DONE
+        primaryStage.setResizable(false); // DONE
     }
 
-    private void handleEvent() {
-        scene.setOnKeyPressed((event) -> {
-            if (event.getCode() == KeyCode.W && !enemy.jumpingStatus) {
-                enemy.isJumping();
-            } else if (event.getCode() == KeyCode.E) {
-                shoot(System.nanoTime());
+    private void handleEvent() { // DONE
+        scene.setOnKeyPressed((event) -> { // DONE
+            if (event.getCode() == KeyCode.W && !enemy.jumpingStatus) { // DONE
+                enemy.isJumping(); // DONE
+            } else if (event.getCode() == KeyCode.E) { // DONE
+                shoot(System.nanoTime()); // DONE
             }
-        });
+        }); // DONE
     }
 
-    private void setupGameComponents() {
-        enemy = new Enemy();
-        enemy.setImageView();
+    private void setupGameComponents() { // DONE
+        enemy = new Enemy(); // DONE
+        enemy.setImageView(); // DONE
 
-        heroes = new Hero[Hero.NUMBER_OF_HEROES];
-        for (int i = 0; i < Hero.NUMBER_OF_HEROES; i++) {
-            if (i % 3 == 0) {
-                heroes[i] = new Melee();
-            } else if (i % 3 == 1) {
-                heroes[i] = new Tank();
+        heroes = new Hero[Hero.NUMBER_OF_HEROES]; // DONE
+        for (int i = 0; i < Hero.NUMBER_OF_HEROES; i++) { // DONE
+            if (i % 3 == 0) { // DONE
+                heroes[i] = new Melee(); // DONE
+            } else if (i % 3 == 1) { // DONE
+                heroes[i] = new Tank(); // DONE
             } else {
-                heroes[i] = new Stealth();
+                heroes[i] = new Stealth(); // DONE
             }
         }
 
-        coins = new Coin[50]; // NOMBRE ARBITRAIRE DE PIÈCES
-        for (int i = 0; i < coins.length; i++) { coins[i] = new Coin(); } // Créer pièces
+        coins = new Coin[50];// DONE
+        for (int i = 0; i < coins.length; i++) { coins[i] = new Coin(); } // DONE
     }
 
-    private void setupStatusBar(BorderPane root) {
-        HBox statusBar = new HBox();
-        statusBar.setAlignment(Pos.CENTER);
-        statusBar.setPadding(new Insets(0, 0, 7, 0));
-        statusBar.setSpacing(10);
+    private void setupStatusBar(BorderPane root) { // DONE
+        HBox statusBar = new HBox(); // DONE
+        statusBar.setAlignment(Pos.CENTER); // DONE
+        statusBar.setPadding(new Insets(0, 0, 7, 0)); // DONE
+        statusBar.setSpacing(10); // DONE
 
-        Button pauseButton = new Button("Pause");
-        playerLife = new Text("Life: " + enemy.getHealthStatus());
-        nbOfCoin = new Text("Coins: " + enemy.getAllCoin());
-        Separator separator1 = new Separator(Orientation.VERTICAL);
-        Separator separator2 = new Separator(Orientation.VERTICAL);
+        Button pauseButton = new Button("Pause"); // DONE
+        playerLife = new Text("Life: " + enemy.getHealthStatus()); // DONE
+        nbOfCoin = new Text("Coins: " + enemy.getAllCoin()); // DONE
+        Separator separator1 = new Separator(Orientation.VERTICAL); // DONE
+        Separator separator2 = new Separator(Orientation.VERTICAL); // DONE
 
         pauseButton.setOnAction(event -> togglePause(pauseButton));
 
-        statusBar.getChildren().addAll(pauseButton, separator1,  playerLife, separator2, nbOfCoin);
-        root.setBottom(statusBar);
+        statusBar.getChildren().addAll(pauseButton, separator1,  playerLife, separator2, nbOfCoin); // DONE
+        root.setBottom(statusBar); // DONE
     }
 
     private void togglePause(Button pauseButton) {
-        isPaused = !isPaused; // Inverse l'état de pause
+        isPaused = !isPaused;
         if (isPaused) {
-            animationTimer.stop(); // Arrête le timer si en pause
-            pauseButton.setText("Resume"); // Change le texte du bouton pour indiquer la prochaine action
+            animationTimer.stop();
+            pauseButton.setText("Resume");
             System.out.println("Game is paused");
             enemy.gravityBlock();
 
         } else {
-            animationTimer.start(); // Redémarre le timer si le jeu reprend
-            pauseButton.setText("Pause"); // Revenir au texte original
+            animationTimer.start();
+            pauseButton.setText("Pause");
         }
     }
 

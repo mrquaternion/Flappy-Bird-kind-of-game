@@ -1,3 +1,5 @@
+import character.Scores;
+import character.item.Bullet;
 import javafx.scene.input.KeyEvent;
 import javafx.animation.AnimationTimer;
 public class Controller {
@@ -9,6 +11,7 @@ public class Controller {
     public Controller() {
         this.model = new Model();
         this.view = new View();
+        setupGameComponents();
         setupTimer();
     }
 
@@ -19,37 +22,59 @@ public class Controller {
     public void handleKeyPress(KeyEvent event) {
         switch (event.getCode()) {
             case SPACE:
-                model.togglePause();  // Implémenter la fonction de saut dans le modèle
+                model.togglePause();
+                pauseGame();
                 break;
             case W:
-                model.toggleJump();  // Implémenter la fonction de saut dans le modèle
+                model.toggleJump();
                 break;
             case E:
-                model.toggleShoot();  // Implémenter la fonction de tir dans le modèle
+                model.toggleShoot();
                 break;
             default:
                 break;
         }
-        view.update(model.getCoinCount(), model.getEnemyHealthStatus()); // Mettre à jour la vue si nécessaire
+    }
+
+    private void setupGameComponents() {
+        System.out.println("Setting up game components");
+        view.setupGameComponents(model.getBackground(), model.getHeroes(), model.getCoins(), model.getEnemy());
     }
 
     private void setupTimer() {
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                //model.updateGameState();  // Méthode pour mettre à jour l'état du jeu
-                view.update(model.getCoinCount(), model.getEnemyHealth());  // Mettre à jour la vue avec les nouvelles données
+                if (model.getEnemy().death()) {
+                    stopTimer();
+                } else {
+                    if (!model.isPaused) {
+                        model.updateGameState(now);
+                    }
+                }
+
+                view.update(model.getCoinCount(), model.getEnemyHealthStatus(), model.getBullets());
             }
         };
         timer.start();
     }
 
+    private void pauseGame() {
+        if (model.isPaused) {
+            timer.stop();
+            model.getEnemy().gravityBlock();
+        } else {
+            timer.start();
+        }
+        view.updatePauseState();
+    }
+
     public void stopTimer() {
         if (timer != null) {
             timer.stop();
+            Scores.save(model.getEnemy().getAllCoin());
         }
     }
-
 }
 
 

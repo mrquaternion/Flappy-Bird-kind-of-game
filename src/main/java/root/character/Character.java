@@ -29,6 +29,11 @@ public abstract class Character {
     public void setRatio(double ratio) {
         this.ratio = ratio;
     }
+
+    public double getX() { return getImageView().getX(); }
+    public double getY() { return getImageView().getY(); }
+    public double getFitWidth() { return getImageView().getFitWidth(); }
+    public double getFitHeight() { return getImageView().getFitHeight(); }
 }
 
 

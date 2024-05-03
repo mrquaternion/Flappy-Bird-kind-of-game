@@ -39,6 +39,7 @@ public class Enemy extends Character {
         this.image = new Image("file:src/main/resources/luffysprite.png");
         this.imageView = new ImageView(image);
         r = 30;
+        setImageView();
     }
 
     // -------------- Setters --------------

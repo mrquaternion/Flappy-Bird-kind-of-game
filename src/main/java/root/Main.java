@@ -16,10 +16,7 @@ public class Main extends Application {
 
             stage.setTitle("Flappy Game");
             stage.setScene(scene);
-            //Stage.set(false);
-
-            Stage.setOnCloseRequest(event -> handleClose(controller, event));
-
+            stage.setResizable(false);
 
             stage.show();
         } catch (Exception e) {
