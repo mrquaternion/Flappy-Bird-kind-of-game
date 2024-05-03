@@ -159,11 +159,11 @@ public class Model {
 
     public void shootVerification() {
         long now = System.nanoTime();
-        if (enemy.bulletAvailable && now - lastBulletSpawnTime > 1_000_000_000) { // 1 second cooldown
+        if (enemy.bulletAvailable && now - enemy.lastBulletSpawnTime > 1_000_000_000) { // 1 second cooldown
             double startX = enemy.getX() + enemy.getFitWidth();
             double startY = enemy.getY() + enemy.getFitHeight() / 2;
             createBullet(startX, startY);
-            lastBulletSpawnTime = now;  // Update last shot time
+            enemy.lastBulletSpawnTime = now;  // Update last shot time
         }
     }
 

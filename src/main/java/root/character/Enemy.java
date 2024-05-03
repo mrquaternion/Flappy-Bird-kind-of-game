@@ -26,6 +26,7 @@ public class Enemy extends Character {
 
     public Bullet bullet;  // Assume enemy can have only one bullet at a time
     public boolean bulletAvailable = true;
+    public double lastBulletSpawnTime = 0;
 
 
 
