@@ -13,11 +13,9 @@ public class Main extends Application {
 
             scene.setOnKeyPressed(event -> controller.handleKeyPress(event));
 
-
             stage.setTitle("Flappy Game");
             stage.setScene(scene);
             stage.setResizable(false);
-
             stage.show();
             scene.getRoot().requestFocus();
         } catch (Exception e) {
