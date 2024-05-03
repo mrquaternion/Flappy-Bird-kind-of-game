@@ -84,13 +84,11 @@ public class View {
     }
 
     public void updateBullets(List<Bullet> bullets) {
+
         for (Bullet bullet : bullets) {
             if (!root.getChildren().contains(bullet.getImageView())) {
                 root.getChildren().add(bullet.getImageView());
             }
         }
     }
-
-    // update heroes, enemy, coins, background
-
 }

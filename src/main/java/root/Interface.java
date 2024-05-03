@@ -1,3 +1,4 @@
+/*
 
 import character.Hero;
 import character.HeroGenerator;
@@ -226,3 +227,4 @@ public class Interface extends Application {
         launch(args);
     }
 }
+*/

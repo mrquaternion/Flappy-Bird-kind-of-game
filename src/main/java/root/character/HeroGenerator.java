@@ -1,17 +1,18 @@
 package character;
 
+import java.util.List;
 import java.util.Random;
 import character.physics.Collision;
 
 public class HeroGenerator {
     Random rand = new Random();
-    public boolean spawnHeroIfNeeded(Hero[] heroes, long now, double lastSpawnTime) {
+    public boolean spawnHeroIfNeeded(List<Hero> heroes, long now, double lastSpawnTime) {
         if ((now - lastSpawnTime) >= (3 * 1e9)) {
-            int index = rand.nextInt(heroes.length);
-            if (!heroes[index].isActivated) {
-                heroes[index].isActivated = true;
-                Hero.setRandomRadius(heroes[index]);
-                heroes[index].resetHeroPosition();
+            int index = rand.nextInt(heroes.size());
+            if (!heroes.get(index).isActivated) {
+                heroes.get(index).isActivated = true;
+                Hero.setRandomRadius(heroes.get(index));
+                heroes.get(index).resetHeroPosition();
 
                 return true; // Indicate that a hero was spawned
             }
@@ -19,8 +20,7 @@ public class HeroGenerator {
         return false; // No hero was spawned
     }
 
-    // New method for updating hero positions and checking collisions
-    public void updateHeroes(Hero[] heroes, Enemy enemy, double dt) {
+    public void updateHeroes(List<Hero> heroes, Enemy enemy, double dt) {
         for (Hero hero : heroes) {
             if (hero.isActivated) {
                 hero.updatePosition(enemy.getPickupCoin(), dt);
@@ -34,7 +34,4 @@ public class HeroGenerator {
             hero.setImageView();
         }
     }
-
-
-
 }

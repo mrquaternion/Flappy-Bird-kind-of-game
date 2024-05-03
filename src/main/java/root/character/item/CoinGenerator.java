@@ -3,6 +3,8 @@ package character.item;
 import character.physics.Background;
 import character.physics.Collision;
 import character.Enemy;
+
+import java.util.List;
 import java.util.Random;
 
 public class CoinGenerator {
@@ -10,9 +12,7 @@ public class CoinGenerator {
 
     private double timeToSpawn = 0;
 
-    public void spawn(Coin[] coins, Enemy enemy, double dt) {
-
-        // Check if it's time to spawn or reset a coin
+    public void spawn(List<Coin> coins, Enemy enemy, double dt) {
         timeToSpawn += dt;
         for (Coin coin : coins) {
              if (coin.isActive) {

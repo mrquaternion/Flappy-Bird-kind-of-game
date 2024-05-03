@@ -21,8 +21,11 @@ public class Model {
     private Enemy enemy;
     private List<Hero> heroes = new ArrayList<>();
     private List<Coin> coins = new ArrayList<>();
+    private CoinGenerator coinGenerator;
+    private HeroGenerator heroGenerator;
     public boolean isPaused = false;
     private long lastUpdateTime = 0;
+    private double lastHeroSpawnTime = 0;
 
     // --------------------------------- Constructor ---------------------------------
     public Model() {
@@ -30,6 +33,9 @@ public class Model {
         setCoins();
         setEnemy();
         setBackground();
+        setCoinGenerator();
+        setHeroGenerator();
+
         System.out.println("Model created. Here's the objects created: " + "Enemy: " + getEnemy() + ", Background: " + getBackground() + ", Heroes: " + getHeroes() + ", Coins: " + getCoins());
     }
 
@@ -44,6 +50,14 @@ public class Model {
 
 
     // --------------------------------- Setters ---------------------------------
+    private void setHeroGenerator() {
+        this.heroGenerator = new HeroGenerator();
+    }
+
+    private void setCoinGenerator() {
+        this.coinGenerator = new CoinGenerator();
+    }
+
     public void setHeroes() {
         for (int i = 0; i < Hero.NUMBER_OF_HEROES; i++) {
             switch (i % 3) {
@@ -78,41 +92,49 @@ public class Model {
     public void updateGameState(long now) {
         if (lastUpdateTime == 0) {
             lastUpdateTime = now;
+            lastHeroSpawnTime = now;
             return;
         }
 
         double deltaTime = (now - lastUpdateTime) / 1e9; // Convert nanoseconds to seconds
-        updateMovements(deltaTime);
 
         updateBullets(deltaTime);
+        updateBackground(deltaTime);
+        updateEnemyPosition(deltaTime);
+        updateHerosGeneration(deltaTime, now);
+        updateCoinsGeneration(deltaTime);
         lastUpdateTime = now;
     }
 
-    private void updateMovements(double dt) { // séparer en plusieurs méthodes
+    private void updateEnemyPosition(double dt) {
         enemy.gravityUnblock();
-        background.scroll(enemy.getPickupCoin());
         enemy.jumpCooldown();
-        enemy.updatePosition(dt);
-        for (Hero hero : heroes) {
-            if (hero.isActivated) {
-                hero.updatePosition(enemy.getPickupCoin(), dt);
-                hero.borderTouch();
-                if (Collision.checkCollisionHero(hero, enemy)) {
-                    hero.isActivated = false;
-                    hero.interaction(enemy);
-                    hero.resetHeroPosition();
-                }
-            }
-            hero.setImageView();
+        if (enemy.isMoving) {
+            enemy.updatePosition(dt);
+            updateCoinsGeneration(dt);
         }
     }
 
-    private void updateBullets(double deltaTime) {
+    private void updateCoinsGeneration(double dt) {
+        coinGenerator.spawn(coins, enemy, dt);
+    }
+
+    private void updateHerosGeneration(double dt, long now) {
+        heroGenerator.updateHeroes(heroes, enemy, dt);
+        if (heroGenerator.spawnHeroIfNeeded(heroes, now, lastHeroSpawnTime)) {
+            lastHeroSpawnTime = now; // Update the last spawn time only when a hero is spawned
+        }
+    }
+
+    private void updateBullets(double dt) {
         for (Bullet bullet : enemy.bullets) {
-            bullet.updatePosition(deltaTime);
+            bullet.updatePosition(dt);
         }
     }
 
+    private void updateBackground(double dt) {
+        background.scroll(enemy.getPickupCoin());
+    }
 
     public void toggleShoot() {
         double startX = enemy.getX() + enemy.getFitWidth();
