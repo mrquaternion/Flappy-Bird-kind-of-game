@@ -23,7 +23,6 @@ public class Enemy extends Character {
     public boolean jumpingStatus = false;
 
     public int jumpingInterval = 0;
-    public boolean isMoving = true;
 
     public Bullet lastBullet = null;
 
@@ -51,6 +50,10 @@ public class Enemy extends Character {
 
     public void setAllCoin(int allCoin) {
         this.allCoin = allCoin;
+    }
+
+    public void setVy(double vy) {
+        this.vy = vy;
     }
 
 
@@ -127,12 +130,8 @@ public class Enemy extends Character {
         }
     }
 
-    public void gravityBlock () {
-        isMoving = false;
-    }
-    public void gravityUnblock () {
-        isMoving = true;
-    }
+
+
 
     public boolean death() { return healthStatus <= 0; }
 

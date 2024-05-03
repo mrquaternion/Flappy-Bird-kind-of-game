@@ -41,8 +41,9 @@ public class View {
         setupStatusBar(root);
     }
 
-    public void setupGameComponents(Background background, List<Hero> heroes, List<Coin> coins, Enemy enemy) {
-        gamePane.getChildren().addAll(background.getImageViewBackground_1(), background.getImageViewBackground_2());
+
+    public void setupGameComponents(Background background, List<Hero> heroes, List<Coin> coins, Enemy enemy, ImageView gameOverImageView, Text merciRobinText) {
+        gamePane.getChildren().addAll(background.getImageViewBackground_1(), background.getImageViewBackground_2(), gameOverImageView, merciRobinText);
         coins.forEach(coin -> gamePane.getChildren().add(coin.getImageView()));
         heroes.forEach(hero -> gamePane.getChildren().add(hero.getImageView()));
         gamePane.getChildren().add(enemy.getImageView());
@@ -61,7 +62,7 @@ public class View {
         Separator separator1 = new Separator(Orientation.VERTICAL);
         Separator separator2 = new Separator(Orientation.VERTICAL);
 
-        statusBar.getChildren().addAll(pauseButton, separator1, separator2, playerLife, nbOfCoin);
+        statusBar.getChildren().addAll(pauseButton, separator1, playerLife, separator2,  nbOfCoin);
         root.setBottom(statusBar);
     }
 
@@ -84,13 +85,11 @@ public class View {
     }
 
     public void updateBullets(List<Bullet> bullets) {
+
         for (Bullet bullet : bullets) {
             if (!root.getChildren().contains(bullet.getImageView())) {
                 root.getChildren().add(bullet.getImageView());
             }
         }
     }
-
-    // update heroes, enemy, coins, background
-
 }

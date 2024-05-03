@@ -38,7 +38,7 @@ public class Controller {
 
     private void setupGameComponents() {
         System.out.println("Setting up game components");
-        view.setupGameComponents(model.getBackground(), model.getHeroes(), model.getCoins(), model.getEnemy());
+        view.setupGameComponents(model.getBackground(), model.getHeroes(), model.getCoins(), model.getEnemy(), model.getGameOverImageView(), model.getMerciRobinText());
     }
 
     private void setupTimer() {
@@ -46,6 +46,7 @@ public class Controller {
             @Override
             public void handle(long now) {
                 if (model.getEnemy().death()) {
+                    model.toggleGameOver();
                     stopTimer();
                 } else {
                     if (!model.isPaused) {
@@ -62,7 +63,6 @@ public class Controller {
     private void pauseGame() {
         if (model.isPaused) {
             timer.stop();
-            model.getEnemy().gravityBlock();
         } else {
             timer.start();
         }
