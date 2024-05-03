@@ -84,7 +84,6 @@ public class View {
     }
 
     public void updateBullets(List<Bullet> bullets) {
-        root.getChildren().clear();
         for (Bullet bullet : bullets) {
             if (!root.getChildren().contains(bullet.getImageView())) {
                 root.getChildren().add(bullet.getImageView());

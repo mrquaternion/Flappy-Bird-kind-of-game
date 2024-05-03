@@ -11,6 +11,7 @@ import character.physics.Background;
 import character.physics.Collision;
 import javafx.scene.Node;
 
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -82,13 +83,15 @@ public class Model {
 
         double deltaTime = (now - lastUpdateTime) / 1e9; // Convert nanoseconds to seconds
         updateMovements(deltaTime);
+
         updateBullets(deltaTime);
         lastUpdateTime = now;
     }
 
-    private void updateMovements(double dt) {
+    private void updateMovements(double dt) { // séparer en plusieurs méthodes
         enemy.gravityUnblock();
         background.scroll(enemy.getPickupCoin());
+        enemy.jumpCooldown();
         enemy.updatePosition(dt);
         for (Hero hero : heroes) {
             if (hero.isActivated) {
@@ -122,5 +125,7 @@ public class Model {
     public void toggleJump() {
         if (!enemy.jumpingStatus) { enemy.isJumping(); }
     }
-    public void togglePause() { this.isPaused = !isPaused; }
+    public void togglePause() { this.isPaused = !isPaused;
+        System.out.println("Pause toggled. Is paused: " + isPaused);
+    }
 }

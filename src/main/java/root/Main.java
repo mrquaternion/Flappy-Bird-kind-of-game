@@ -19,6 +19,7 @@ public class Main extends Application {
             stage.setResizable(false);
 
             stage.show();
+            scene.getRoot().requestFocus();
         } catch (Exception e) {
             e.printStackTrace();
         }
