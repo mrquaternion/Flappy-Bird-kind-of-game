@@ -41,6 +41,7 @@ public class View {
         setupStatusBar(root);
     }
 
+
     public void setupGameComponents(Background background, List<Hero> heroes, List<Coin> coins, Enemy enemy) {
         gamePane.getChildren().addAll(background.getImageViewBackground_1(), background.getImageViewBackground_2());
         coins.forEach(coin -> gamePane.getChildren().add(coin.getImageView()));

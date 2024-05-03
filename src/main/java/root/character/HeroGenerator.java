@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 import character.physics.Collision;
 
+
 public class HeroGenerator {
     Random rand = new Random();
     public boolean spawnHeroIfNeeded(List<Hero> heroes, long now, double lastSpawnTime) {

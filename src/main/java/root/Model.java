@@ -126,6 +126,7 @@ public class Model {
         }
     }
 
+
     private void updateBullets(double dt) {
         for (Bullet bullet : enemy.bullets) {
             bullet.updatePosition(dt);
