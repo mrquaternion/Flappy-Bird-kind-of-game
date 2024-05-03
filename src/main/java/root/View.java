@@ -79,17 +79,14 @@ public class View {
         }
     }
 
-    public void update(int coin, int health, List<Bullet> bullets) {
+    public void update(int coin, int health, Bullet bullet) {
         updateStatusBar(coin, health);
-        updateBullets(bullets);
+        updateBullets(bullet);
     }
 
-    public void updateBullets(List<Bullet> bullets) {
-
-        for (Bullet bullet : bullets) {
-            if (!root.getChildren().contains(bullet.getImageView())) {
-                root.getChildren().add(bullet.getImageView());
-            }
+    public void updateBullets(Bullet bullet) {
+        if (bullet != null) {
+            gamePane.getChildren().add(bullet.getImageView());
         }
     }
 }

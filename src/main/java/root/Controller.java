@@ -2,6 +2,9 @@ import character.Scores;
 import character.item.Bullet;
 import javafx.scene.input.KeyEvent;
 import javafx.animation.AnimationTimer;
+
+import java.util.List;
+
 public class Controller {
     private Model model;
     private View view;
@@ -29,7 +32,7 @@ public class Controller {
                 model.toggleJump();
                 break;
             case E:
-                model.toggleShoot();
+                model.shootVerification();
                 break;
             default:
                 break;
@@ -53,7 +56,7 @@ public class Controller {
                     }
                 }
 
-                view.update(model.getCoinCount(), model.getEnemyHealthStatus(), model.getBullets());
+                view.update(model.getCoinCount(), model.getEnemyHealthStatus(), model.getEnemy().getBullet());
             }
         };
         timer.start();

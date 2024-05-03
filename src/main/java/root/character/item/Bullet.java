@@ -39,7 +39,7 @@ public class Bullet {
         return imageView.getX() + imageView.getFitWidth() / 2;
     }
 
-public double getMidY() {
+    public double getMidY() {
         return imageView.getY() + imageView.getFitHeight() / 2;
     }
 

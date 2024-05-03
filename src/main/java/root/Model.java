@@ -21,11 +21,13 @@ public class Model {
     private Enemy enemy;
     private List<Hero> heroes = new ArrayList<>();
     private List<Coin> coins = new ArrayList<>();
+    private List<Bullet> bulletsToRemove = new ArrayList<>();
     private CoinGenerator coinGenerator;
     private HeroGenerator heroGenerator;
     public boolean isPaused = false;
     private long lastUpdateTime = 0;
     private double lastHeroSpawnTime = 0;
+    private long lastBulletSpawnTime = 0;
 
     // --------------------------------- Constructor ---------------------------------
     public Model() {
@@ -46,7 +48,7 @@ public class Model {
     public int getCoinCount() { return enemy.getAllCoin(); }
     public List<Hero> getHeroes() { return heroes; }
     public List<Coin> getCoins() { return coins; }
-    public List<Bullet> getBullets() { return enemy.bullets; }
+
 
 
     // --------------------------------- Setters ---------------------------------
@@ -96,14 +98,48 @@ public class Model {
             return;
         }
 
-        double deltaTime = (now - lastUpdateTime) / 1e9; // Convert nanoseconds to seconds
+        double deltaTime = (now - lastUpdateTime) / 1e9;
 
-        updateBullets(deltaTime);
-        updateBackground(deltaTime);
+        if (enemy.getBullet() != null) { updateBulletPosition(deltaTime); }
+
+        updateBackground();
         updateEnemyPosition(deltaTime);
         updateHerosGeneration(deltaTime, now);
-        updateCoinsGeneration(deltaTime);
+
         lastUpdateTime = now;
+    }
+
+    private void updateBulletPosition(double dt) {
+            enemy.getBullet().updatePosition(dt);
+            checkBulletCollision();
+            bulletOutOfBounds();
+    }
+
+    private void bulletOutOfBounds() {
+        if (enemy.getBullet().getImageView().getX() > Background.WIDTH) {
+            enemy.bulletAvailable = true;
+            enemy.setBullet(null);
+        }
+    }
+
+    private void checkBulletCollision() {
+        Hero hitHero = Collision.checkCollisionBullet(heroes, enemy.bullet);
+        if (hitHero != null) {
+            hitHero.resetHeroPosition();
+            enemy.killReward(hitHero);
+            enemy.bulletAvailable = true;
+            enemy.setBullet(null);
+        }
+    }
+
+    public void shootVerification() {
+        long now = System.nanoTime();
+        if (enemy.bulletAvailable && now - lastBulletSpawnTime > 1_000_000_000) { // 1 second cooldown
+            double startX = enemy.getX() + enemy.getFitWidth();
+            double startY = enemy.getY() + enemy.getFitHeight() / 2;
+            createBullet(startX, startY);
+            lastBulletSpawnTime = now;  // Update last shot time
+        }
     }
 
     private void updateEnemyPosition(double dt) {
@@ -126,23 +162,13 @@ public class Model {
         }
     }
 
-
-    private void updateBullets(double dt) {
-        for (Bullet bullet : enemy.bullets) {
-            bullet.updatePosition(dt);
-        }
-    }
-
-    private void updateBackground(double dt) {
+    private void updateBackground() {
         background.scroll(enemy.getPickupCoin());
     }
 
-    public void toggleShoot() {
-        double startX = enemy.getX() + enemy.getFitWidth();
-        double startY = enemy.getY() + (enemy.getFitHeight() / 2);
-
-        enemy.lastBullet = new Bullet(startX, startY);
-        enemy.bullets.add(enemy.lastBullet);
+    public void createBullet(double startX, double startY) {
+        enemy.setBullet(new Bullet(startX, startY));
+        enemy.bulletAvailable = false;
     }
 
     public void toggleJump() {

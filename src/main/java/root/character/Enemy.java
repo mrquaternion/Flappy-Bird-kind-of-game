@@ -25,10 +25,8 @@ public class Enemy extends Character {
     public int jumpingInterval = 0;
     public boolean isMoving = true;
 
-    public Bullet lastBullet = null;
-
-    public final List<Bullet> bullets = new ArrayList<>();
-    public long lastBulletTime = 0;
+    public Bullet bullet;  // Assume enemy can have only one bullet at a time
+    public boolean bulletAvailable = true;
 
 
 
@@ -55,6 +53,7 @@ public class Enemy extends Character {
 
 
     // -------------- Getters --------------
+    public Bullet getBullet() { return bullet; }
     public int getPickupCoin() {
         return pickupCoin;
     }
@@ -144,6 +143,10 @@ public class Enemy extends Character {
         } else {
             allCoin += 7;
         }
+    }
+
+    public void setBullet(Object o) {
+        this.bullet = (Bullet)o;
     }
 }
 
