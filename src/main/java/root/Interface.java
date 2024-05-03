@@ -1,4 +1,3 @@
-/*
 
 import character.Hero;
 import character.HeroGenerator;
@@ -80,14 +79,10 @@ public class Interface extends Application {
                 }
 
                 enemy.jumpCooldown();
-                if (enemy.isMoving) {
-                    enemy.updatePosition(deltaTime);
-                    coinGenerator.spawn(coins, enemy, deltaTime); // Génération de pièces
-                }
+
                 if (!isPaused) {
-                    enemy.gravityUnblock();
                     background.scroll(enemy.getPickupCoin());
-                    heroGenerator.updateHeroes(heroes, enemy, deltaTime);
+                    //heroGenerator.updateHeroes(heroes, enemy, deltaTime);
 
                     if (lastBullet != null) {
                         lastBullet.updatePosition(deltaTime);
@@ -104,9 +99,9 @@ public class Interface extends Application {
 
 
                     // Spawn heroes as needed, every 3 seconds
-                    if (heroGenerator.spawnHeroIfNeeded(heroes, now, lastSpawnTime)) {
-                        lastSpawnTime = now; // Update the last spawn time only when a hero is spawned
-                    }
+                    //if (heroGenerator.spawnHeroIfNeeded(heroes, now, lastSpawnTime)) {
+                        //lastSpawnTime = now; // Update the last spawn time only when a hero is spawned
+                   // }
 
                     // update text of nbOfCoins
                     nbOfCoin.setText("Coins: " + enemy.getAllCoin());
@@ -215,7 +210,7 @@ public class Interface extends Application {
             animationTimer.stop();
             pauseButton.setText("Resume");
             System.out.println("Game is paused");
-            enemy.gravityBlock();
+
 
         } else {
             animationTimer.start();
@@ -227,4 +222,3 @@ public class Interface extends Application {
         launch(args);
     }
 }
-*/

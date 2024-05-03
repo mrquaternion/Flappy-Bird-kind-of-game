@@ -10,6 +10,10 @@ import character.item.CoinGenerator;
 import character.physics.Background;
 import character.physics.Collision;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 
 import java.util.List;
@@ -21,13 +25,13 @@ public class Model {
     private Enemy enemy;
     private List<Hero> heroes = new ArrayList<>();
     private List<Coin> coins = new ArrayList<>();
-    private List<Bullet> bulletsToRemove = new ArrayList<>();
     private CoinGenerator coinGenerator;
     private HeroGenerator heroGenerator;
     public boolean isPaused = false;
     private long lastUpdateTime = 0;
     private double lastHeroSpawnTime = 0;
-    private long lastBulletSpawnTime = 0;
+    private ImageView gameOverImageView;
+    private Text merciRobinText;
 
     // --------------------------------- Constructor ---------------------------------
     public Model() {
@@ -37,6 +41,8 @@ public class Model {
         setBackground();
         setCoinGenerator();
         setHeroGenerator();
+        setGameOverImageView();
+        setMerciRobinText();
 
         System.out.println("Model created. Here's the objects created: " + "Enemy: " + getEnemy() + ", Background: " + getBackground() + ", Heroes: " + getHeroes() + ", Coins: " + getCoins());
     }
@@ -49,6 +55,8 @@ public class Model {
     public List<Hero> getHeroes() { return heroes; }
     public List<Coin> getCoins() { return coins; }
 
+    public ImageView getGameOverImageView() { return gameOverImageView; }
+    public Text getMerciRobinText() { return merciRobinText; }
 
 
     // --------------------------------- Setters ---------------------------------
@@ -90,6 +98,23 @@ public class Model {
         this.background = new Background();
     }
 
+    public void setGameOverImageView() {
+        this.gameOverImageView = new ImageView("file:src/main/resources/gameOver.png");
+        this.gameOverImageView.setFitWidth(200);
+        this.gameOverImageView.setFitHeight(200);
+        this.gameOverImageView.setX(200);
+        this.gameOverImageView.setY(100);
+        gameOverImageView.setVisible(false);
+    }
+
+    public void setMerciRobinText() {
+        this.merciRobinText = new Text("Merci Robin!");
+        merciRobinText.setX(200);
+        merciRobinText.setY(100);
+        merciRobinText.setFont(Font.font("Brush Script MT", 30));
+        merciRobinText.setVisible(false);
+    }
+
     // --------------------------------- Methods ---------------------------------
     public void updateGameState(long now) {
         if (lastUpdateTime == 0) {
@@ -98,7 +123,7 @@ public class Model {
             return;
         }
 
-        double deltaTime = (now - lastUpdateTime) / 1e9;
+        double deltaTime = (now - lastUpdateTime) / 1e9; // Convert nanoseconds to seconds
 
         if (enemy.getBullet() != null) { updateBulletPosition(deltaTime); }
 
@@ -143,12 +168,9 @@ public class Model {
     }
 
     private void updateEnemyPosition(double dt) {
-        enemy.gravityUnblock();
         enemy.jumpCooldown();
-        if (enemy.isMoving) {
-            enemy.updatePosition(dt);
-            updateCoinsGeneration(dt);
-        }
+        enemy.updatePosition(dt);
+        updateCoinsGeneration(dt);
     }
 
     private void updateCoinsGeneration(double dt) {
@@ -174,7 +196,17 @@ public class Model {
     public void toggleJump() {
         if (!enemy.jumpingStatus) { enemy.isJumping(); }
     }
-    public void togglePause() { this.isPaused = !isPaused;
-        System.out.println("Pause toggled. Is paused: " + isPaused);
+    public void togglePause() {
+        this.isPaused = !isPaused;
+        if (!isPaused) {
+            lastUpdateTime = 0;
+        }
     }
+
+    public void toggleGameOver() {
+        gameOverImageView.setVisible(true);
+        merciRobinText.setVisible(true);
+    }
+
+
 }
