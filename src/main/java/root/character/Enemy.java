@@ -7,12 +7,8 @@ import character.physics.Background;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Enemy extends Character {
-    Image image;
-    ImageView imageView;
+    ImageView imageView = new ImageView();
     private int pickupCoin = 0;
     private int allCoin = 0;
     double vy = 0;
@@ -21,37 +17,40 @@ public class Enemy extends Character {
     public static final double JUMP_VELOCITY = 300;
     public boolean jumpingStatus = false;
     public int jumpingInterval = 0;
-    private Bullet bullet;
-    public long lastBulletTime = 0;
+    private final Bullet bullet;
+
+
+    public Image[] frames;
 
     // -------------- Constructor --------------
     public Enemy() {
         this.ratio = 0.35; // 0.16
         this.healthStatus = 100;
-        this.image = new Image("file:src/main/resources/luffysprite.png");
-        this.imageView = new ImageView(image);
+        frames = new Image[] {
+                new Image("file:src/main/resources/luffy_1.png"),
+                new Image("file:src/main/resources/luffy_2.png"),
+                new Image("file:src/main/resources/luffy_3.png"),
+                new Image("file:src/main/resources/luffy_4.png")
+        };
+        this.imageView.setImage(frames[0]);
         r = 30;
         setImageView();
         bullet = new Bullet();
-
     }
 
     // -------------- Setters --------------
     public void setImageView() {
-        imageView.setFitWidth(image.getWidth() * ratio);
-        imageView.setFitHeight(image.getHeight() * ratio);
+        imageView.setFitWidth(imageView.getImage().getWidth() * ratio);
+        imageView.setFitHeight(imageView.getImage().getHeight() * ratio);
         imageView.setPreserveRatio(true);
+    }
+
+    public void setCurrentImageView(Image newImage) {
+        imageView.setImage(newImage);
     }
 
     public void setAllCoin(int allCoin) {
         this.allCoin = allCoin;
-    }
-
-    public void setVy(double vy) {
-        this.vy = vy;
-    }
-    public void setBullet() {
-        bullet = new Bullet();
     }
 
     public void setBulletPosition(double x, double y) {
@@ -74,11 +73,11 @@ public class Enemy extends Character {
     }
 
     public ImageView getImageView() {
-        return imageView;
+        return this.imageView;
     }
 
     @Override
-    public double getMidX(){
+    public double getMidX() {
         return imageView.getX() + imageView.getFitWidth() / 2;
     }
 
@@ -107,7 +106,7 @@ public class Enemy extends Character {
         if (hero instanceof Melee) {
             allCoin += 5;
         } else if(hero instanceof Tank){
-            allCoin +=8;
+            allCoin += 8;
         } else {
             allCoin += 7;
         }

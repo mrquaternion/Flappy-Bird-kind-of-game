@@ -15,8 +15,6 @@ import character.Enemy;
 import character.Hero;
 import character.item.Coin;
 
-import java.util.function.Consumer;
-
 public class View {
     private BorderPane root;
     private Pane gamePane;
@@ -46,7 +44,6 @@ public class View {
         coins.forEach(coin -> gamePane.getChildren().add(coin.getImageView()));
         heroes.forEach(hero -> gamePane.getChildren().add(hero.getImageView()));
         gamePane.getChildren().add(enemy.getImageView());
-        System.out.println(gamePane.getChildren());
     }
 
     public void setGameOverImageView() {

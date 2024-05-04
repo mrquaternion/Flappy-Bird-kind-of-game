@@ -20,7 +20,6 @@ public class Melee extends Hero {
     // -------------- Interaction --------------
     @Override
     public void interaction(Enemy enemy) {
-        //hitbox
         enemy.setHealthStatus(0);
     }
 

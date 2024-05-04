@@ -17,10 +17,10 @@ public class HeroGenerator {
                 Hero.setRandomRadius(heroes.get(index));
                 heroes.get(index).resetHeroPosition();
 
-                return true; // Indicate that a hero was spawned
+                return true; // Indique qu'un héro doit spawm
             }
         }
-        return false; // No hero was spawned
+        return false; // Inversement
     }
 
     // Update the position of the heroes and check for collisions

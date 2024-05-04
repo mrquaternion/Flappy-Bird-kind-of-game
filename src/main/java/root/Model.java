@@ -8,10 +8,6 @@ import character.item.Coin;
 import character.item.CoinGenerator;
 import character.physics.Background;
 import character.physics.Collision;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
-
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -19,15 +15,15 @@ public class Model {
     // --------------------------------- Fields ---------------------------------
     private Background background;
     private Enemy enemy;
-    private List<Hero> heroes = new ArrayList<>();
-    private List<Coin> coins = new ArrayList<>();
+    private final List<Hero> heroes = new ArrayList<>();
+    private final List<Coin> coins = new ArrayList<>();
     private CoinGenerator coinGenerator;
     private HeroGenerator heroGenerator;
     public boolean isPaused = false;
     private long lastUpdateTime = 0;
     private double lastHeroSpawnTime = 0;
-    private ImageView gameOverImageView;
-    private Text merciRobinText;
+    protected int frameCount = 0;
+    private double timeGone = 0;
 
     // --------------------------------- Constructor ---------------------------------
     public Model() {
@@ -37,8 +33,6 @@ public class Model {
         setBackground();
         setCoinGenerator();
         setHeroGenerator();
-
-        System.out.println("Model created. Here's the objects created: " + "Enemy: " + getEnemy() + ", Background: " + getBackground() + ", Heroes: " + getHeroes() + ", Coins: " + getCoins());
     }
 
     // --------------------------------- Getters ---------------------------------
@@ -97,14 +91,23 @@ public class Model {
             lastHeroSpawnTime = now;
             return;
         }
-        double deltaTime = (now - lastUpdateTime) / 1e9; // Convert nanoseconds to seconds
+        double deltaTime = (now - lastUpdateTime) / 1e9;
         enemy.updateBulletCooldown(deltaTime);
         updateBullet(deltaTime);
-        updateBackground(deltaTime);
+        updateBackground();
         updateEnemy(deltaTime);
         updateHerosGeneration(deltaTime, now);
         updateCoinsGeneration(deltaTime);
 
+
+        if (timeGone < 1) {
+            timeGone += deltaTime;
+        } else if (timeGone >= 0) {
+            timeGone = 0;
+            frameCount++;
+        }
+
+        enemy.setCurrentImageView(enemy.frames[frameCount % enemy.frames.length]);
         lastUpdateTime = now;
     }
 
@@ -122,7 +125,7 @@ public class Model {
     private void updateHerosGeneration(double dt, long now) {
         heroGenerator.updateHeroes(heroes, enemy, dt);
         if (heroGenerator.spawnHeroIfNeeded(heroes, now, lastHeroSpawnTime)) {
-            lastHeroSpawnTime = now; // Update the last spawn time only when a hero is spawned
+            lastHeroSpawnTime = now;
         }
     }
 
@@ -132,7 +135,7 @@ public class Model {
         }
     }
 
-    private void updateBackground(double dt) {
+    private void updateBackground() {
         background.scroll(enemy.getPickupCoin());
     }
 

@@ -19,7 +19,6 @@ public class CoinGenerator {
             if (coin.isActive) {
                 coin.updatePosition(enemy.getPickupCoin(), dt);
                 if (Collision.checkCollisionCoin(coin, enemy)) {
-                    System.out.println(coin.getImageView().getY());
                     enemy.increasePickupCoin();
                     coin.isActive = false;
                     resetCoinPosition(coin);
@@ -35,7 +34,6 @@ public class CoinGenerator {
         }
     }
 
-    // Helper method to reset a coin's position
     private void resetCoinPosition(Coin coin) {
         coin.imageView.setX(640);
         coin.imageView.setY(rand.nextDouble() * (Background.HEIGHT - coin.imageView.getFitHeight()));

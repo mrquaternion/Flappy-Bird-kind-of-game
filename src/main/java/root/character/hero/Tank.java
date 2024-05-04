@@ -16,13 +16,11 @@ public class Tank extends Hero {
         this.healthStatus = 100;
         this.imageView.setX(Background.WIDTH);
         this.imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
-
     }
 
     // -------------- Interaction --------------
     @Override
     public void interaction(Enemy enemy) {
-       //hitbox
         enemy.setHealthStatus(enemy.getHealthStatus() - 50);
     }
 
