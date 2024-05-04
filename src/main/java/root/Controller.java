@@ -1,5 +1,6 @@
 import character.Scores;
 import character.item.Bullet;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.animation.AnimationTimer;
 
@@ -56,7 +57,6 @@ public class Controller {
                         model.updateGameState(now);
                     }
                 }
-
                 view.update(model.getCoinCount(), model.getEnemyHealthStatus(), model.getEnemy().getBullet());
             }
         };

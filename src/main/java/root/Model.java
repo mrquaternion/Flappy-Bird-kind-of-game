@@ -32,6 +32,10 @@ public class Model {
     private double lastHeroSpawnTime = 0;
     private ImageView gameOverImageView;
     private Text merciRobinText;
+    double frameRate = 16 * 1e-9; // 8 fps
+    public ImageView currentFrame;
+    protected int frameCount = 0;
+    private double timeGone = 0;
 
     // --------------------------------- Constructor ---------------------------------
     public Model() {
@@ -125,11 +129,26 @@ public class Model {
 
         double deltaTime = (now - lastUpdateTime) / 1e9; // Convert nanoseconds to seconds
 
+        int frame = (int)((now - lastUpdateTime) * frameRate);
+        System.out.println(now + " " + lastUpdateTime);
+        System.out.println("This is the frame: " + frame);
         if (enemy.getBullet() != null) { updateBulletPosition(deltaTime); }
 
         updateBackground();
         updateEnemyPosition(deltaTime);
         updateHerosGeneration(deltaTime, now);
+
+
+        if (timeGone < 1) {
+            timeGone += deltaTime;
+        } else if (timeGone >= 0) {
+            timeGone = 0;
+            frameCount++;
+        }
+
+        enemy.setCurrentImageView(enemy.frames[frameCount % enemy.frames.length]);
+
+        System.out.println("Current frame: " + frameCount);
 
         lastUpdateTime = now;
     }
@@ -207,6 +226,4 @@ public class Model {
         gameOverImageView.setVisible(true);
         merciRobinText.setVisible(true);
     }
-
-
 }
