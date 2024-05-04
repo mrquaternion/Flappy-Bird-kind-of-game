@@ -2,6 +2,9 @@ import character.Scores;
 import character.item.Bullet;
 import javafx.scene.input.KeyEvent;
 import javafx.animation.AnimationTimer;
+
+import java.util.List;
+
 public class Controller {
     private Model model;
     private View view;
