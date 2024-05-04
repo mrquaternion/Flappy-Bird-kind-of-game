@@ -33,7 +33,7 @@ public class Controller {
                 model.toggleJump();
                 break;
             case E:
-                model.shootVerification();
+                model.toggleShoot();
                 break;
             default:
                 break;
@@ -42,7 +42,7 @@ public class Controller {
 
     private void setupGameComponents() {
         System.out.println("Setting up game components");
-        view.setupGameComponents(model.getBackground(), model.getHeroes(), model.getCoins(), model.getEnemy(), model.getGameOverImageView(), model.getMerciRobinText());
+        view.setupGameComponents(model.getBackground(), model.getHeroes(), model.getCoins(), model.getEnemy());
     }
 
     private void setupTimer() {
@@ -50,14 +50,15 @@ public class Controller {
             @Override
             public void handle(long now) {
                 if (model.getEnemy().death()) {
-                    model.toggleGameOver();
+                    view.toggleGameOver();
                     stopTimer();
                 } else {
                     if (!model.isPaused) {
                         model.updateGameState(now);
                     }
                 }
-                view.update(model.getCoinCount(), model.getEnemyHealthStatus(), model.getEnemy().getBullet());
+
+                view.update(model.getCoinCount(), model.getEnemyHealthStatus());
             }
         };
         timer.start();

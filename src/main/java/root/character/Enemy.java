@@ -23,9 +23,11 @@ public class Enemy extends Character {
 
     public int jumpingInterval = 0;
 
-    public Bullet bullet;  // Assume enemy can have only one bullet at a time
-    public boolean bulletAvailable = true;
-    public double lastBulletSpawnTime = 0;
+    private Bullet bullet;
+
+
+
+    public long lastBulletTime = 0;
 
     public Image[] frames;
 
@@ -43,6 +45,7 @@ public class Enemy extends Character {
         System.out.println("lol" + imageView);
         r = 30;
         setImageView();
+        bullet = new Bullet();
     }
 
     // -------------- Setters --------------
@@ -64,10 +67,21 @@ public class Enemy extends Character {
     public void setVy(double vy) {
         this.vy = vy;
     }
+    public void setBullet() {
+        bullet = new Bullet();
+    }
+
+    public void setBulletPosition(double x, double y) {
+        bullet.getImageView().setX(x);
+        bullet.getImageView().setY(y);
+    }
+
+    public void setBulletActive() {
+        bullet.setActive();
+    }
 
 
     // -------------- Getters --------------
-    public Bullet getBullet() { return bullet; }
     public int getPickupCoin() {
         return pickupCoin;
     }
@@ -94,6 +108,12 @@ public class Enemy extends Character {
     public int getAllCoin() {
         return allCoin;
     }
+
+    public Bullet getBullet() {
+        return bullet;
+    }
+
+
 
     //----------------- Coin -----------------
     public void increasePickupCoin() {
@@ -155,11 +175,24 @@ public class Enemy extends Character {
             allCoin += 7;
         }
     }
-
-    public void setBullet(Object o) {
-        this.bullet = (Bullet)o;
+    public void updateBulletPosition(double dt) {
+        if (bullet.getActive()) {
+            bullet.updatePosition(dt);
+        }
     }
+
+    public void updateBulletCooldown(double dt) {
+        if (bullet.getBulletCooldown() < 1 && bullet.getActive()){
+            bullet.updateBulletCooldown(dt);
+        }else if (bullet.getBulletCooldown() >= 1 && bullet.getActive()){
+            bullet.setDesactive();
+            bullet.setBulletCooldown(0);
+        }
+    }
+
 }
+
+
 
 
 

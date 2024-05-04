@@ -4,13 +4,10 @@ import character.HeroGenerator;
 import character.hero.Melee;
 import character.hero.Stealth;
 import character.hero.Tank;
-import character.item.Bullet;
 import character.item.Coin;
 import character.item.CoinGenerator;
 import character.physics.Background;
 import character.physics.Collision;
-import javafx.scene.Node;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -45,8 +42,6 @@ public class Model {
         setBackground();
         setCoinGenerator();
         setHeroGenerator();
-        setGameOverImageView();
-        setMerciRobinText();
 
         System.out.println("Model created. Here's the objects created: " + "Enemy: " + getEnemy() + ", Background: " + getBackground() + ", Heroes: " + getHeroes() + ", Coins: " + getCoins());
     }
@@ -58,7 +53,6 @@ public class Model {
     public int getCoinCount() { return enemy.getAllCoin(); }
     public List<Hero> getHeroes() { return heroes; }
     public List<Coin> getCoins() { return coins; }
-
     public ImageView getGameOverImageView() { return gameOverImageView; }
     public Text getMerciRobinText() { return merciRobinText; }
 
@@ -102,22 +96,6 @@ public class Model {
         this.background = new Background();
     }
 
-    public void setGameOverImageView() {
-        this.gameOverImageView = new ImageView("file:src/main/resources/gameOver.png");
-        this.gameOverImageView.setFitWidth(200);
-        this.gameOverImageView.setFitHeight(200);
-        this.gameOverImageView.setX(200);
-        this.gameOverImageView.setY(100);
-        gameOverImageView.setVisible(false);
-    }
-
-    public void setMerciRobinText() {
-        this.merciRobinText = new Text("Merci Robin!");
-        merciRobinText.setX(200);
-        merciRobinText.setY(100);
-        merciRobinText.setFont(Font.font("Brush Script MT", 30));
-        merciRobinText.setVisible(false);
-    }
 
     // --------------------------------- Methods ---------------------------------
     public void updateGameState(long now) {
@@ -126,17 +104,13 @@ public class Model {
             lastHeroSpawnTime = now;
             return;
         }
-
         double deltaTime = (now - lastUpdateTime) / 1e9; // Convert nanoseconds to seconds
-
-        int frame = (int)((now - lastUpdateTime) * frameRate);
-        System.out.println(now + " " + lastUpdateTime);
-        System.out.println("This is the frame: " + frame);
-        if (enemy.getBullet() != null) { updateBulletPosition(deltaTime); }
-
-        updateBackground();
-        updateEnemyPosition(deltaTime);
+        enemy.updateBulletCooldown(deltaTime);
+        updateBullet(deltaTime);
+        updateBackground(deltaTime);
+        updateEnemy(deltaTime);
         updateHerosGeneration(deltaTime, now);
+        updateCoinsGeneration(deltaTime);
 
 
         if (timeGone < 1) {
@@ -153,43 +127,11 @@ public class Model {
         lastUpdateTime = now;
     }
 
-    private void updateBulletPosition(double dt) {
-            enemy.getBullet().updatePosition(dt);
-            checkBulletCollision();
-            bulletOutOfBounds();
-    }
-
-    private void bulletOutOfBounds() {
-        if (enemy.getBullet().getImageView().getX() > Background.WIDTH) {
-            enemy.bulletAvailable = true;
-            enemy.setBullet(null);
-        }
-    }
-
-    private void checkBulletCollision() {
-        Hero hitHero = Collision.checkCollisionBullet(heroes, enemy.bullet);
-        if (hitHero != null) {
-            hitHero.resetHeroPosition();
-            enemy.killReward(hitHero);
-            enemy.bulletAvailable = true;
-            enemy.setBullet(null);
-        }
-    }
-
-    public void shootVerification() {
-        long now = System.nanoTime();
-        if (enemy.bulletAvailable && now - enemy.lastBulletSpawnTime > 1_000_000_000) { // 1 second cooldown
-            double startX = enemy.getX() + enemy.getFitWidth();
-            double startY = enemy.getY() + enemy.getFitHeight() / 2;
-            createBullet(startX, startY);
-            enemy.lastBulletSpawnTime = now;  // Update last shot time
-        }
-    }
-
-    private void updateEnemyPosition(double dt) {
+    // --------------------------------- Update Methods ---------------------------------
+    private void updateEnemy(double dt) {
         enemy.jumpCooldown();
         enemy.updatePosition(dt);
-        updateCoinsGeneration(dt);
+        Collision.checkCollisionsShoot(heroes, enemy);
     }
 
     private void updateCoinsGeneration(double dt) {
@@ -203,13 +145,23 @@ public class Model {
         }
     }
 
-    private void updateBackground() {
+    private void updateBullet(double dt) {
+        if (enemy.getBullet().getActive()) {
+            enemy.getBullet().updatePosition(dt);
+        }
+    }
+
+    private void updateBackground(double dt) {
         background.scroll(enemy.getPickupCoin());
     }
 
-    public void createBullet(double startX, double startY) {
-        enemy.setBullet(new Bullet(startX, startY));
-        enemy.bulletAvailable = false;
+    public void toggleShoot() {
+        if (enemy.getBullet().getBulletCooldown() == 0) {
+            double startX = enemy.getX() + enemy.getFitWidth();
+            double startY = enemy.getY() + (enemy.getFitHeight() / 2);
+            enemy.setBulletPosition(startX, startY);
+            enemy.setBulletActive();
+        }
     }
 
     public void toggleJump() {
@@ -222,8 +174,5 @@ public class Model {
         }
     }
 
-    public void toggleGameOver() {
-        gameOverImageView.setVisible(true);
-        merciRobinText.setVisible(true);
-    }
+
 }
