@@ -139,6 +139,7 @@ public class Model {
         background.scroll(enemy.getPickupCoin());
     }
 
+    // --------------------------------- Toggle Methods ---------------------------------
     public void toggleShoot() {
         if (enemy.getBullet().getBulletCooldown() == 0) {
             double startX = enemy.getX() + enemy.getFitWidth();

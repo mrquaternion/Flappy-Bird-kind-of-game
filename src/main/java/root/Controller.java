@@ -19,6 +19,7 @@ public class Controller {
         return view;
     }
 
+    // -------------- Key Press Handling --------------
     public void handleKeyPress(KeyEvent event) {
         switch (event.getCode()) {
             case SPACE:
@@ -36,6 +37,8 @@ public class Controller {
         }
     }
 
+    // -------------- Setup --------------
+
     private void setupGameComponents() {
         view.setupGameComponents(model.getBackground(), model.getHeroes(), model.getCoins(), model.getEnemy());
     }
@@ -52,13 +55,14 @@ public class Controller {
                         model.updateGameState(now);
                     }
                 }
-
+                // Update the view
                 view.update(model.getCoinCount(), model.getEnemyHealthStatus());
             }
         };
         timer.start();
     }
 
+    // -------------- Pause --------------
     private void pauseGame() {
         if (model.isPaused) {
             timer.stop();
@@ -68,6 +72,7 @@ public class Controller {
         view.updatePauseState();
     }
 
+    // -------------- Stop Timer --------------
     public void stopTimer() {
         if (timer != null) {
             timer.stop();

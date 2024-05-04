@@ -10,12 +10,15 @@ public class Background {
     private final ImageView imageViewBackground_2;
     static final int SPEED_BOOST = 10;
 
+    // -------------- Constructor --------------
     public Background() {
         Image imageBackground = new Image("file:src/main/resources/bg.png");
         this.imageViewBackground_1 = new ImageView(imageBackground);
         this.imageViewBackground_2 = new ImageView(imageBackground);
         imageViewBackground_2.setLayoutX(640);
     }
+
+    // -------------- Getters --------------
 
     public ImageView getImageViewBackground_1() {
         return imageViewBackground_1;
@@ -24,6 +27,8 @@ public class Background {
     public ImageView getImageViewBackground_2() {
         return imageViewBackground_2;
     }
+
+    // -------------- Methods --------------
 
     public void scroll(int numberOfCoin) {
         double speed = 2 + ((2 * ((double) SPEED_BOOST * numberOfCoin)) / 120);

@@ -15,6 +15,8 @@ public class Scores {
     static HashMap<String, String> scores = new HashMap<>();
     final static String source = "scores.txt";
 
+    // Méthode pour sauvegarder le score
+
     public static void save(int score) {
         LocalDateTime myDate = LocalDateTime.now();
         DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -33,6 +35,7 @@ public class Scores {
         } catch (IOException exception) { System.out.println("Erreur à l'écriture du fichier."); }
     }
 
+    // Méthode pour lire le fichier
     public static void read() throws IOException {
         ArrayList<String> linesList = new ArrayList<>();
 
@@ -45,6 +48,7 @@ public class Scores {
         extract(linesArray);
     }
 
+    // Méthode pour extraire les données
     public static void extract(String[] linesArray) {
         int size = linesArray.length;
         int[] unsortedScores = new int[size];
@@ -59,10 +63,12 @@ public class Scores {
         sortedArray(unsortedScores);
     }
 
+    // Méthode pour créer une map
     public static void createMap(int[] unsortedScores, String[] correspondingScoresDate, int size) {
         for (int i = 0 ; i < size; i++) { scores.put(Integer.toString(unsortedScores[i]), correspondingScoresDate[i]); }
     }
 
+    // Méthode pour trier le tableau
     public static void sortedArray(int[] unsortedScores) {
         Arrays.sort(unsortedScores);
         String[] finalArray = new String[unsortedScores.length];
@@ -75,6 +81,7 @@ public class Scores {
         writeBack(finalArray);
     }
 
+    // Méthode pour réécrire le fichier
     public static void writeBack(String[] finalArray) {
        try (BufferedWriter bw = new BufferedWriter(new FileWriter(source))) {
            for (int i = finalArray.length - 1; i >= 0; i--) {

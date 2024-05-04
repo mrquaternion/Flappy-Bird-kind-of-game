@@ -6,8 +6,8 @@ import character.item.Coin;
 import character.item.Bullet;
 
 import java.util.List;
-
 public class Collision {
+    // Check if the coin and enemy collide
     public static boolean checkCollisionCoin(Coin coin, Enemy enemy) {
         double dx = coin.getMidX() - enemy.getMidX();
         double dy = coin.getMidY() - enemy.getMidY();
@@ -16,6 +16,7 @@ public class Collision {
         return d2 < (coin.getRadius() + enemy.getRadius()) * (coin.getRadius() + enemy.getRadius());
     }
 
+    // Check if the hero and enemy collide
     public static boolean checkCollisionHero(Hero hero, Enemy enemy) {
         double dx = hero.getMidX() - enemy.getMidX();
         double dy = hero.getMidY() - enemy.getMidY();
@@ -24,6 +25,7 @@ public class Collision {
     }
 
 
+    // Check if the hero and bullet collide
     public static boolean checkCollisionBullet(Hero hero, Bullet bullet) {
         if (bullet.getActive()){
             double dx = hero.getMidX() - bullet.getMidX();
