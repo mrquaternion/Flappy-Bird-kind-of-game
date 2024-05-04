@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import character.item.Bullet;
 import java.util.List;
@@ -28,22 +29,23 @@ public class View {
 
     private Button pauseButton;
 
+    private ImageView gameOverImageView;
+    private Text merciRobinText;
+
     public View() {
-        createContent();
-    }
-
-    public Pane getRoot() { return root; }
-
-    private void createContent() {
         root = new BorderPane();
         gamePane = new Pane();
         root.setCenter(gamePane);
         setupStatusBar(root);
+        setGameOverImageView();
+        setMerciRobinText();
     }
 
+    public Pane getRoot() { return root; }
 
-    public void setupGameComponents(Background background, List<Hero> heroes, List<Coin> coins, Enemy enemy, ImageView gameOverImageView, Text merciRobinText) {
-        gamePane.getChildren().addAll(background.getImageViewBackground_1(), background.getImageViewBackground_2(), gameOverImageView, merciRobinText);
+
+    public void setupGameComponents(Background background, List<Hero> heroes, List<Coin> coins, Enemy enemy) {
+        gamePane.getChildren().addAll(background.getImageViewBackground_1(), background.getImageViewBackground_2(), gameOverImageView, merciRobinText, enemy.getBullet().getImageView());
         coins.forEach(coin -> gamePane.getChildren().add(coin.getImageView()));
         heroes.forEach(hero -> gamePane.getChildren().add(hero.getImageView()));
         gamePane.getChildren().add(enemy.getImageView());
@@ -79,9 +81,8 @@ public class View {
         }
     }
 
-    public void update(int coin, int health, List<Bullet> bullets) {
+    public void update(int coin, int health) {
         updateStatusBar(coin, health);
-        updateBullets(bullets);
     }
 
     public void updateBullets(List<Bullet> bullets) {
@@ -91,5 +92,27 @@ public class View {
                 root.getChildren().add(bullet.getImageView());
             }
         }
+    }
+
+    public void toggleGameOver() {
+        gameOverImageView.setVisible(true);
+        merciRobinText.setVisible(true);
+    }
+
+    public void setGameOverImageView() {
+        this.gameOverImageView = new ImageView("file:src/main/resources/gameOver.png");
+        this.gameOverImageView.setFitWidth(200);
+        this.gameOverImageView.setFitHeight(200);
+        this.gameOverImageView.setX(200);
+        this.gameOverImageView.setY(100);
+        gameOverImageView.setVisible(false);
+    }
+
+    public void setMerciRobinText() {
+        this.merciRobinText = new Text("Merci Robin!");
+        merciRobinText.setX(200);
+        merciRobinText.setY(100);
+        merciRobinText.setFont(Font.font("Brush Script MT", 30));
+        merciRobinText.setVisible(false);
     }
 }

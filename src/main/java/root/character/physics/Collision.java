@@ -5,6 +5,8 @@ import character.Hero;
 import character.item.Coin;
 import character.item.Bullet;
 
+import java.util.List;
+
 public class Collision {
     public static boolean checkCollisionCoin(Coin coin, Enemy enemy) {
         double dx = coin.getMidX() - enemy.getMidX();
@@ -21,20 +23,26 @@ public class Collision {
         return d2 < (hero.getRadius() + enemy.getRadius()) * (hero.getRadius() + enemy.getRadius());
     }
 
+
     public static boolean checkCollisionBullet(Hero hero, Bullet bullet) {
-        double dx = hero.getMidX() - bullet.getMidX();
-        double dy = hero.getMidY() - bullet.getMidY();
-        double d2 = dx * dx + dy * dy;
-        return d2 < (hero.getRadius() + bullet.getRadius()) * (hero.getRadius() + bullet.getRadius());
+        if (bullet.getActive()){
+            double dx = hero.getMidX() - bullet.getMidX();
+            double dy = hero.getMidY() - bullet.getMidY();
+            double d2 = dx * dx + dy * dy;
+            return d2 < (hero.getRadius() + bullet.getRadius()) * (hero.getRadius() + bullet.getRadius());
+        }else {
+            return false;
+        }
     }
 
-    public static Hero checkCollisionBullet(Hero[] heroes, Bullet bullet) {
+
+    public static void checkCollisionsShoot(List<Hero> heroes, Enemy enemy) {
         for (Hero hero : heroes) {
-            if (checkCollisionBullet(hero, bullet)) {
+            if (checkCollisionBullet(hero, enemy.getBullet())) {
                 hero.isActivated = false;
-                return hero;
+                hero.resetHeroPosition();
+                enemy.killReward(hero);
             }
         }
-        return null;
     }
 }

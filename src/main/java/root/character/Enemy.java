@@ -24,9 +24,10 @@ public class Enemy extends Character {
 
     public int jumpingInterval = 0;
 
-    public Bullet lastBullet = null;
+    private Bullet bullet;
 
-    public final List<Bullet> bullets = new ArrayList<>();
+
+
     public long lastBulletTime = 0;
 
 
@@ -39,6 +40,7 @@ public class Enemy extends Character {
         this.imageView = new ImageView(image);
         r = 30;
         setImageView();
+        bullet = new Bullet();
     }
 
     // -------------- Setters --------------
@@ -54,6 +56,18 @@ public class Enemy extends Character {
 
     public void setVy(double vy) {
         this.vy = vy;
+    }
+    public void setBullet() {
+        bullet = new Bullet();
+    }
+
+    public void setBulletPosition(double x, double y) {
+        bullet.getImageView().setX(x);
+        bullet.getImageView().setY(y);
+    }
+
+    public void setBulletActive() {
+        bullet.setActive();
     }
 
 
@@ -83,6 +97,12 @@ public class Enemy extends Character {
     public int getAllCoin() {
         return allCoin;
     }
+
+    public Bullet getBullet() {
+        return bullet;
+    }
+
+
 
     //----------------- Coin -----------------
     public void increasePickupCoin() {
@@ -144,7 +164,24 @@ public class Enemy extends Character {
             allCoin += 7;
         }
     }
+    public void updateBulletPosition(double dt) {
+        if (bullet.getActive()) {
+            bullet.updatePosition(dt);
+        }
+    }
+
+    public void updateBulletCooldown(double dt) {
+        if (bullet.getBulletCooldown() < 1 && bullet.getActive()){
+            bullet.updateBulletCooldown(dt);
+        }else if (bullet.getBulletCooldown() >= 1 && bullet.getActive()){
+            bullet.setDesactive();
+            bullet.setBulletCooldown(0);
+        }
+    }
+
 }
+
+
 
 
 

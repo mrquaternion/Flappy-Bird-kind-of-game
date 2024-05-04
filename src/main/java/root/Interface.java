@@ -83,7 +83,7 @@ public class Interface extends Application {
                 if (!isPaused) {
                     background.scroll(enemy.getPickupCoin());
                     //heroGenerator.updateHeroes(heroes, enemy, deltaTime);
-
+/*
                     if (lastBullet != null) {
                         lastBullet.updatePosition(deltaTime);
                         if (lastBullet.getImageView().getX() > Background.WIDTH) {
@@ -96,7 +96,7 @@ public class Interface extends Application {
                             gamePane.getChildren().remove(lastBullet.getImageView());
                         }
                     }
-
+*/
 
                     // Spawn heroes as needed, every 3 seconds
                     //if (heroGenerator.spawnHeroIfNeeded(heroes, now, lastSpawnTime)) {
@@ -129,7 +129,7 @@ public class Interface extends Application {
             double startX = enemy.getImageView().getX() + enemy.getImageView().getFitWidth(); // DONE
             double startY = enemy.getImageView().getY() + enemy.getImageView().getFitHeight() / 2; // DONE
 
-            lastBullet = new Bullet(startX, startY); // DONE
+            //lastBullet = new Bullet(startX, startY); // DONE
             bullets.add(lastBullet); // DONE
 
             gamePane.getChildren().add(lastBullet.getImageView()); // DONE
