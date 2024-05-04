@@ -24,10 +24,6 @@ public class Main extends Application {
         }
     }
 
-    private void handleClose(Controller controller, WindowEvent event) {
-        controller.stopTimer();  // Méthode pour arrêter l'AnimationTimer dans le contrôleur
-    }
-
     public static void main(String[] args) {
         launch(args);
     }

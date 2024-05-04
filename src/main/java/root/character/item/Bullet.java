@@ -7,11 +7,11 @@ public class Bullet {
     private final Image image;
     private final ImageView imageView;
     private double r;
-    double ratio;
-    boolean isActive = false;
+    private double ratio;
+    private boolean isActive = false;
     private double bulletCooldown = 0;
 
-
+    // -------------- Constructor --------------
     public Bullet() {
         this.image = new Image("file:src/main/resources/chopper.png");
         this.imageView = new ImageView(image);
@@ -23,6 +23,7 @@ public class Bullet {
 
     }
 
+    // -------------- Setters --------------
     public void setImageView() {
         imageView.setFitWidth(image.getWidth() * ratio);
         imageView.setFitHeight(image.getHeight() * ratio);
@@ -30,12 +31,19 @@ public class Bullet {
         imageView.setVisible(false);
     }
 
-    public void updatePosition(double dt) {
-        // frame per second
-        double speed = 3000;
-        imageView.setX(imageView.getX() + speed * dt);
+    public void setActive() {
+        imageView.setVisible(true);
+        isActive = true;
+    }
+    public void setDesactive() {
+        imageView.setVisible(false);
+        isActive = false;
     }
 
+    public void setBulletCooldown(double x){
+        bulletCooldown = x;
+    }
+    // -------------- Getters --------------
     public ImageView getImageView() {
         return imageView;
     }
@@ -52,24 +60,21 @@ public class Bullet {
         return r;
     }
 
-    public void setActive() {
-        imageView.setVisible(true);
-        isActive = true;
-    }
-    public void setDesactive() {
-        imageView.setVisible(false);
-        isActive = false;
-    }
     public boolean getActive() {
         return isActive;
     }
+
+    // -------------- Update --------------
     public void updateBulletCooldown(double dt) {
         bulletCooldown += dt;
     }
 
-    public void setBulletCooldown(double x){
-        bulletCooldown = x;
+    public void updatePosition(double dt) {
+        // frame per second
+        double speed = 3000;
+        imageView.setX(imageView.getX() + speed * dt);
     }
+
     public double getBulletCooldown(){
         return bulletCooldown;
     }

@@ -7,6 +7,8 @@ import character.physics.Collision;
 
 public class HeroGenerator {
     Random rand = new Random();
+
+    // Spawn a hero if the time since the last spawn is greater than 3 seconds
     public boolean spawnHeroIfNeeded(List<Hero> heroes, long now, double lastSpawnTime) {
         if ((now - lastSpawnTime) >= (3 * 1e9)) {
             int index = rand.nextInt(heroes.size());
@@ -21,6 +23,7 @@ public class HeroGenerator {
         return false; // No hero was spawned
     }
 
+    // Update the position of the heroes and check for collisions
     public void updateHeroes(List<Hero> heroes, Enemy enemy, double dt) {
         for (Hero hero : heroes) {
             if (hero.isActivated) {

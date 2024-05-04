@@ -18,6 +18,7 @@ public class Stealth extends Hero {
         this.imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
     }
 
+    // Steal 10 coins from the enemy
     @Override
     public void interaction(Enemy enemy) {
         if (enemy.getAllCoin() >= 10){
@@ -29,17 +30,18 @@ public class Stealth extends Hero {
         }
     }
 
-    @Override
-    public void updatePosition(int nbOfCoins, double dt) {
-        sinCount += dt;
-        imageView.setX(imageView.getX() - ((vx / frameRate) + (nbOfCoins * 10) * dt));
-        imageView.setY(centerY + Math.sin(sinCount*3)*25);
-    }
-
+    // -------------- Position --------------
     @Override
     public void resetHeroPosition(){
         imageView.setX(Background.WIDTH);
         imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
         centerY = imageView.getY();
+    }
+
+    @Override
+    public void updatePosition(int nbOfCoins, double dt) {
+        sinCount += dt;
+        imageView.setX(imageView.getX() - ((vx / frameRate) + (nbOfCoins * 10) * dt));
+        imageView.setY(centerY + Math.sin(sinCount*3)*25);
     }
 }

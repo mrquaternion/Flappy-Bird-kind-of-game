@@ -9,7 +9,6 @@ import character.item.CoinGenerator;
 import character.physics.Background;
 import character.physics.Collision;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 
@@ -49,8 +48,6 @@ public class Model {
     public int getCoinCount() { return enemy.getAllCoin(); }
     public List<Hero> getHeroes() { return heroes; }
     public List<Coin> getCoins() { return coins; }
-    public ImageView getGameOverImageView() { return gameOverImageView; }
-    public Text getMerciRobinText() { return merciRobinText; }
 
 
     // --------------------------------- Setters ---------------------------------
@@ -139,6 +136,7 @@ public class Model {
         background.scroll(enemy.getPickupCoin());
     }
 
+    // --------------------------------- Toggle Methods ---------------------------------
     public void toggleShoot() {
         if (enemy.getBullet().getBulletCooldown() == 0) {
             double startX = enemy.getX() + enemy.getFitWidth();

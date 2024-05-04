@@ -9,15 +9,17 @@ public class Background {
     private final ImageView imageViewBackground_1;
     private final ImageView imageViewBackground_2;
     private double speed;
-    private boolean isScrolling = true;
     static final int SPEED_BOOST = 10;
 
+    // -------------- Constructor --------------
     public Background() {
         Image imageBackground = new Image("file:src/main/resources/bg.png");
         this.imageViewBackground_1 = new ImageView(imageBackground);
         this.imageViewBackground_2 = new ImageView(imageBackground);
         imageViewBackground_2.setLayoutX(640);
     }
+
+    // -------------- Getters --------------
 
     public ImageView getImageViewBackground_1() {
         return imageViewBackground_1;
@@ -27,14 +29,12 @@ public class Background {
         return imageViewBackground_2;
     }
 
+    // -------------- Methods --------------
+
     public void scroll(int numberOfCoin) {
         speed = 2 + ((2 * ((double)SPEED_BOOST * numberOfCoin)) /120);
-
-        if (isScrolling) {
             imageViewBackground_1.setLayoutX(imageViewBackground_1.getLayoutX() - speed);
             imageViewBackground_2.setLayoutX(imageViewBackground_2.getLayoutX() - speed);
-        }
-
         if (imageViewBackground_1.getLayoutX() <= -640.0) {
             imageViewBackground_1.setLayoutX(640);
             imageViewBackground_2.setLayoutX(0);

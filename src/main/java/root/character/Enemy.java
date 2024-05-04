@@ -110,6 +110,16 @@ public class Enemy extends Character {
         this.allCoin += 1;
     }
 
+    public void killReward(Hero hero){
+        if (hero instanceof Melee) {
+            allCoin += 5;
+        } else if(hero instanceof Tank){
+            allCoin +=8;
+        } else {
+            allCoin += 7;
+        }
+    }
+
     // -------------- Physics --------------
     public void isJumping() {
         // L'ennemi ne saute pas alors il bounce
@@ -150,26 +160,7 @@ public class Enemy extends Character {
         }
     }
 
-
-
-
-    public boolean death() { return healthStatus <= 0; }
-
-    public void killReward(Hero hero){
-        if (hero instanceof Melee) {
-            allCoin += 5;
-        } else if(hero instanceof Tank){
-            allCoin +=10;
-        } else {
-            allCoin += 7;
-        }
-    }
-    public void updateBulletPosition(double dt) {
-        if (bullet.getActive()) {
-            bullet.updatePosition(dt);
-        }
-    }
-
+    //-------------- Bullet --------------
     public void updateBulletCooldown(double dt) {
         if (bullet.getBulletCooldown() < 1 && bullet.getActive()){
             bullet.updateBulletCooldown(dt);
@@ -178,6 +169,18 @@ public class Enemy extends Character {
             bullet.setBulletCooldown(0);
         }
     }
+
+    // ------------- Death --------------
+    public boolean death() { return healthStatus <= 0; }
+
+
+
+
+
+
+
+
+
 
 }
 
