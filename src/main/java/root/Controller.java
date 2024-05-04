@@ -1,14 +1,10 @@
 import character.Scores;
-import character.item.Bullet;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.animation.AnimationTimer;
 
-import java.util.List;
-
 public class Controller {
-    private Model model;
-    private View view;
+    private final Model model;
+    private final View view;
 
     public AnimationTimer timer;
 
@@ -41,7 +37,6 @@ public class Controller {
     }
 
     private void setupGameComponents() {
-        System.out.println("Setting up game components");
         view.setupGameComponents(model.getBackground(), model.getHeroes(), model.getCoins(), model.getEnemy());
     }
 

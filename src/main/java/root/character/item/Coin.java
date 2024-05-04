@@ -18,6 +18,7 @@ public class Coin {
         this.image = new Image("file:src/main/resources/coin.png");
         this.imageView = new ImageView(image);
         setImageView();
+        setRadius();
         this.imageView.setX(Background.WIDTH);
         this.imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
     }

@@ -1,9 +1,6 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-
-
 
 public class Main extends Application {
     @Override
@@ -12,20 +9,14 @@ public class Main extends Application {
             Controller controller = new Controller();
             Scene scene = new Scene(controller.getView().getRoot(),640, 440);
 
-            scene.setOnKeyPressed(event -> controller.handleKeyPress(event));
+            scene.setOnKeyPressed(controller::handleKeyPress);
 
             stage.setTitle("Flappy Game");
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
             scene.getRoot().requestFocus();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void handleClose(Controller controller, WindowEvent event) {
-        controller.stopTimer();  // Méthode pour arrêter l'AnimationTimer dans le contrôleur
+        } catch (Exception e) { e.printStackTrace(); }
     }
 
     public static void main(String[] args) {

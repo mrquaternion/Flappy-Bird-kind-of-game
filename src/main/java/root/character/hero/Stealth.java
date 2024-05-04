@@ -25,7 +25,6 @@ public class Stealth extends Hero {
         }
         else{
             enemy.setAllCoin(0);
-            //test
         }
     }
 

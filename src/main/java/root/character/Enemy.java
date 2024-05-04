@@ -7,12 +7,8 @@ import character.physics.Background;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Enemy extends Character {
     ImageView imageView = new ImageView();
-
     private int pickupCoin = 0;
     private int allCoin = 0;
     double vy = 0;
@@ -20,14 +16,9 @@ public class Enemy extends Character {
     public static final double GRAVITY = 500;
     public static final double JUMP_VELOCITY = 300;
     public boolean jumpingStatus = false;
-
     public int jumpingInterval = 0;
+    private final Bullet bullet;
 
-    private Bullet bullet;
-
-
-
-    public long lastBulletTime = 0;
 
     public Image[] frames;
 
@@ -42,7 +33,6 @@ public class Enemy extends Character {
                 new Image("file:src/main/resources/luffy_4.png")
         };
         this.imageView.setImage(frames[0]);
-        System.out.println("lol" + imageView);
         r = 30;
         setImageView();
         bullet = new Bullet();
@@ -56,19 +46,11 @@ public class Enemy extends Character {
     }
 
     public void setCurrentImageView(Image newImage) {
-        //System.out.println(imageView);
         imageView.setImage(newImage);
     }
 
     public void setAllCoin(int allCoin) {
         this.allCoin = allCoin;
-    }
-
-    public void setVy(double vy) {
-        this.vy = vy;
-    }
-    public void setBullet() {
-        bullet = new Bullet();
     }
 
     public void setBulletPosition(double x, double y) {
@@ -161,9 +143,6 @@ public class Enemy extends Character {
         }
     }
 
-
-
-
     public boolean death() { return healthStatus <= 0; }
 
     public void killReward(Hero hero){
@@ -175,11 +154,6 @@ public class Enemy extends Character {
             allCoin += 7;
         }
     }
-    public void updateBulletPosition(double dt) {
-        if (bullet.getActive()) {
-            bullet.updatePosition(dt);
-        }
-    }
 
     public void updateBulletCooldown(double dt) {
         if (bullet.getBulletCooldown() < 1 && bullet.getActive()){
@@ -189,7 +163,6 @@ public class Enemy extends Character {
             bullet.setBulletCooldown(0);
         }
     }
-
 }
 
 

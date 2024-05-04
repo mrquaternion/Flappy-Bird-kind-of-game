@@ -6,9 +6,9 @@ import javafx.scene.image.Image;
 public class Bullet {
     private final Image image;
     private final ImageView imageView;
-    private double r;
+    protected double r;
     double ratio;
-    boolean isActive = false;
+    boolean isActive;
     private double bulletCooldown = 0;
 
 
@@ -48,9 +48,7 @@ public class Bullet {
         return imageView.getY() + imageView.getFitHeight() / 2;
     }
 
-    public double getRadius() {
-        return r;
-    }
+    public double getRadius() { return r; }
 
     public void setActive() {
         imageView.setVisible(true);

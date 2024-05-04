@@ -3,22 +3,17 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import character.item.Bullet;
 import java.util.List;
 import character.physics.Background;
-import javafx.scene.Node;
 import character.Enemy;
 import character.Hero;
 import character.item.Coin;
-
-import java.util.function.Consumer;
 
 public class View {
     private BorderPane root;
@@ -49,7 +44,6 @@ public class View {
         coins.forEach(coin -> gamePane.getChildren().add(coin.getImageView()));
         heroes.forEach(hero -> gamePane.getChildren().add(hero.getImageView()));
         gamePane.getChildren().add(enemy.getImageView());
-        System.out.println(gamePane.getChildren());
     }
 
     public void setupStatusBar(BorderPane root) {
@@ -83,15 +77,6 @@ public class View {
 
     public void update(int coin, int health) {
         updateStatusBar(coin, health);
-    }
-
-    public void updateBullets(List<Bullet> bullets) {
-
-        for (Bullet bullet : bullets) {
-            if (!root.getChildren().contains(bullet.getImageView())) {
-                root.getChildren().add(bullet.getImageView());
-            }
-        }
     }
 
     public void toggleGameOver() {
