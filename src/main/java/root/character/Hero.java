@@ -45,6 +45,8 @@ public abstract class Hero extends Character {
 
     public abstract void updatePosition(int nbOfCoins, double dt);
 
+    // -------------- Methods --------------
+
     @Override
     public void borderTouch() {
         if (imageView.getX() < -imageView.getFitWidth()) {

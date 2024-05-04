@@ -13,7 +13,6 @@ import java.util.List;
 public class Enemy extends Character {
     Image image;
     ImageView imageView;
-
     private int pickupCoin = 0;
     private int allCoin = 0;
     double vy = 0;
@@ -21,16 +20,9 @@ public class Enemy extends Character {
     public static final double GRAVITY = 500;
     public static final double JUMP_VELOCITY = 300;
     public boolean jumpingStatus = false;
-
     public int jumpingInterval = 0;
-
     private Bullet bullet;
-
-
-
     public long lastBulletTime = 0;
-
-
 
     // -------------- Constructor --------------
     public Enemy() {
@@ -41,6 +33,7 @@ public class Enemy extends Character {
         r = 30;
         setImageView();
         bullet = new Bullet();
+
     }
 
     // -------------- Setters --------------

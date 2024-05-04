@@ -20,9 +20,7 @@ public class Bullet {
         ratio = 0.2; // 0.1
         isActive = false;
         setImageView();
-
     }
-
     // -------------- Setters --------------
     public void setImageView() {
         imageView.setFitWidth(image.getWidth() * ratio);
@@ -30,7 +28,6 @@ public class Bullet {
         imageView.setPreserveRatio(true);
         imageView.setVisible(false);
     }
-
     public void setActive() {
         imageView.setVisible(true);
         isActive = true;

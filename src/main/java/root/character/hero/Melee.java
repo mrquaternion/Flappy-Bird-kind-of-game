@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 
 
 public class Melee extends Hero {
+    // -------------- Constructor --------------
     public Melee() {
         this.image = new Image("file:src/main/resources/kaido.png");
         this.imageView = new ImageView(image);
@@ -15,12 +16,15 @@ public class Melee extends Hero {
         this.imageView.setX(Background.WIDTH);
         this.imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
     }
+
+    // -------------- Interaction --------------
     @Override
     public void interaction(Enemy enemy) {
         //hitbox
         enemy.setHealthStatus(0);
     }
 
+    // -------------- Position --------------
     @Override
     public void updatePosition(int nbOfCoins, double dt) {
         imageView.setX(imageView.getX() - ((vx / frameRate) + (nbOfCoins * 10) * dt));

@@ -31,6 +31,7 @@ public class Background {
 
     // -------------- Methods --------------
 
+    // Scroll the background
     public void scroll(int numberOfCoin) {
         speed = 2 + ((2 * ((double)SPEED_BOOST * numberOfCoin)) /120);
             imageViewBackground_1.setLayoutX(imageViewBackground_1.getLayoutX() - speed);

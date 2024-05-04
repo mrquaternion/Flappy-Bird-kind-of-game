@@ -10,9 +10,9 @@ import java.util.Random;
 
 public class CoinGenerator {
     Random rand = new Random();
-
     private double timeToSpawn = 0;
 
+    // Spawn coins and check for collisions
     public void spawn(List<Coin> coins, Enemy enemy, double dt) {
         timeToSpawn += dt;
         for (Coin coin : coins) {
@@ -31,16 +31,13 @@ public class CoinGenerator {
                 coin.isActive = true;
                 timeToSpawn = 0;
             }
-
             coin.setImageView();
         }
     }
 
     // Helper method to reset a coin's position
     private void resetCoinPosition(Coin coin) {
-        //System.out.println("x: " + coin.getImageView().getX() + ", y: "+ coin.getImageView().getY());
-        coin.imageView.setX(640); // Place the coin at the right edge
-        // Randomly place the coin within the vertical bounds of the screen
+        coin.imageView.setX(640);
         coin.imageView.setY(rand.nextDouble() * (Background.HEIGHT - coin.imageView.getFitHeight()));
     }
 }

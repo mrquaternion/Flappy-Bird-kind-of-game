@@ -19,12 +19,14 @@ public class Tank extends Hero {
 
     }
 
+    // -------------- Interaction --------------
     @Override
     public void interaction(Enemy enemy) {
        //hitbox
         enemy.setHealthStatus(enemy.getHealthStatus() - 50);
     }
 
+    // -------------- Position --------------
     @Override
     public void updatePosition(int nbOfCoins, double dt) {
         imageView.setX(imageView.getX() - ((vx / frameRate) + (nbOfCoins * 10) * dt));
@@ -35,6 +37,7 @@ public class Tank extends Hero {
 
         }
     }
+    // -------------- Teleport --------------
     public void teleport() {
         imageView.setX(imageView.getX() + getRandomDisplacement());
         imageView.setY(imageView.getY() + getRandomDisplacement());

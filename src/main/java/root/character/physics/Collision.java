@@ -7,6 +7,7 @@ import character.item.Bullet;
 
 import java.util.List;
 public class Collision {
+
     // Check if the coin and enemy collide
     public static boolean checkCollisionCoin(Coin coin, Enemy enemy) {
         double dx = coin.getMidX() - enemy.getMidX();
@@ -36,8 +37,6 @@ public class Collision {
             return false;
         }
     }
-
-
     public static void checkCollisionsShoot(List<Hero> heroes, Enemy enemy) {
         for (Hero hero : heroes) {
             if (checkCollisionBullet(hero, enemy.getBullet())) {

@@ -138,7 +138,7 @@ public class Model {
 
     // --------------------------------- Toggle Methods ---------------------------------
     public void toggleShoot() {
-        if (enemy.getBullet().getBulletCooldown() == 0) {
+        if (enemy.getBullet().getBulletCooldown() == 0 && enemy.getHealthStatus() > 0) {
             double startX = enemy.getX() + enemy.getFitWidth();
             double startY = enemy.getY() + (enemy.getFitHeight() / 2);
             enemy.setBulletPosition(startX, startY);

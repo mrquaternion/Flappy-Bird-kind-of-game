@@ -9,6 +9,8 @@ public class Stealth extends Hero {
     private double centerY;
     protected double sinCount = 0;
 
+    // -------------- Constructor --------------
+
     public Stealth() {
         this.image = new Image("file:src/main/resources/BlackBeard.png");
         this.imageView = new ImageView(image);
@@ -17,6 +19,7 @@ public class Stealth extends Hero {
         this.imageView.setX(Background.WIDTH);
         this.imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
     }
+
 
     // Steal 10 coins from the enemy
     @Override
@@ -37,6 +40,8 @@ public class Stealth extends Hero {
         imageView.setY(Math.random() * (Background.HEIGHT - imageView.getFitHeight()));
         centerY = imageView.getY();
     }
+
+    // -------------- Update Position --------------
 
     @Override
     public void updatePosition(int nbOfCoins, double dt) {
