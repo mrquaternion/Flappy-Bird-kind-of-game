@@ -44,4 +44,4 @@ New heroes appear every 3 seconds outside the game window.
 - Window dimensions: 640x440 pixels (640x400 for gameplay, 40 for UI).
 - UI displays score and health percentage, with a pause button included.
 
-![Game preview](https://ibb.co/BKvQ48h](https://i.ibb.co/3YVjftx/IMG-1317.jpg)
+![Game preview](https://i.ibb.co/3YVjftx/IMG-1317.jpg)
